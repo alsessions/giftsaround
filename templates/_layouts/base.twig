@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ entry.title ?? siteName }}{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Meta Tags -->
+
+
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-blue-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
+                        <img src="/uploads/business/giftsaround-logo.png" alt="Gifts Around" class="h-36 w-auto">
+                    </a>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="/" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Home</a>
+                    <a href="/business" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Businesses</a>
+
+                    {% if currentUser %}
+                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-blue-200">
+                            <a href="/account" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">My Account</a>
+                            <a href="/logout" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors">Sign Out</a>
+                        </div>
+                    {% else %}
+                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-blue-200">
+                            <a href="/login" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Sign In</a>
+                            <a href="/register" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors">Sign Up</a>
+                        </div>
+                    {% endif %}
+                </nav>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden" x-data="{ open: false }">
+                    <button @click="open = !open" class="text-blue-600 hover:text-blue-700 focus:outline-none focus:text-blue-700">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <!-- Mobile menu -->
+                    <div x-show="open" x-transition class="absolute top-16 right-4 bg-white rounded-lg shadow-lg py-2 w-48 z-50 border border-blue-200">
+                        <a href="/" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Home</a>
+                        <a href="/business" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Businesses</a>
+
+                        {% if currentUser %}
+                            <hr class="my-2 border-blue-100">
+                            <a href="/account" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">My Account</a>
+                            <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50">Sign Out</a>
+                        {% else %}
+                            <hr class="my-2 border-blue-100">
+                            <a href="/login" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Sign In</a>
+                            <a href="/register" class="block px-4 py-2 text-green-600 hover:bg-green-50">Sign Up</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-600 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <p>&copy; {{ "now"|date('Y') }} {{ siteName }}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

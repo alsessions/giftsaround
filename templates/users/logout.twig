@@ -1,0 +1,37 @@
+{# Logout template - this will redirect after logout #}
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Signing Out..." %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-8 mb-16">
+    <div class="bg-white rounded-lg shadow-md p-8 text-center">
+        <div class="mb-6">
+            <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-blue-500 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">Signing You Out</h1>
+            <p class="text-gray-600">Please wait while we securely log you out...</p>
+        </div>
+
+        <div class="text-sm text-gray-500">
+            <p>If you are not redirected automatically, <a href="/" class="text-blue-600 hover:text-blue-500">click here</a>.</p>
+        </div>
+    </div>
+</div>
+
+{# Perform the actual logout #}
+<form method="post" id="logoutForm" style="display: none;">
+    {{ csrfInput() }}
+    {{ actionInput('users/logout') }}
+    {{ redirectInput('/') }}
+</form>
+
+<script>
+    // Automatically submit the logout form
+    document.getElementById('logoutForm').submit();
+</script>
+{% endblock %}
