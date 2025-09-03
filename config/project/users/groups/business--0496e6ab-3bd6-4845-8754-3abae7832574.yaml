@@ -1,0 +1,5 @@
+description: null
+handle: business
+name: Business
+permissions:
+  - 'viewentries:c7d677fc-5281-4cac-9550-ba58ae4ed0c7' # Business

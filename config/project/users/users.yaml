@@ -1,0 +1,8 @@
+allowPublicRegistration: true
+deactivateByDefault: false
+defaultGroup: ''
+photoSubpath: uploads/profile
+photoVolumeUid: 56699230-c9fb-4962-9d9b-36f4224b5a07 # Business
+require2fa: false
+requireEmailVerification: true
+validateOnPublicRegistration: false

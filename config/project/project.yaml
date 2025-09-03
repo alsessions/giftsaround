@@ -1,4 +1,4 @@
-dateModified: 1756528872
+dateModified: 1756939963
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -26,6 +26,7 @@ meta:
     21d5b2e7-055d-41a3-8842-86406bf86748: 'One Special (same each month)' # One Special (same each month)
     90c4ffa5-83bb-4af6-8837-6ad5bf1c323c: 'Business Phone' # Business Phone
     366a00bd-3f69-477a-8c1d-d922ec7aed18: 'Business Listing' # Business Listing
+    0496e6ab-3bd6-4845-8754-3abae7832574: Business # Business
     937faf23-8b1b-469b-9235-401505a750f2: 'Business Address' # Business Address
     998d77d7-e6eb-4b75-842f-ae8280fba567: 'Monthly Special' # Monthly Special
     1681a684-620d-404c-a918-6af20caa8b8b: 'Business Email' # Business Email
@@ -62,12 +63,3 @@ system:
   retryDuration: null
   schemaVersion: 5.8.0.3
   timeZone: America/New_York
-users:
-  allowPublicRegistration: true
-  deactivateByDefault: false
-  defaultGroup: ''
-  photoSubpath: null
-  photoVolumeUid: 56699230-c9fb-4962-9d9b-36f4224b5a07 # Business
-  require2fa: false
-  requireEmailVerification: true
-  validateOnPublicRegistration: false

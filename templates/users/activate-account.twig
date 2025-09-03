@@ -1,0 +1,158 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Account Activation" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8 mb-16">
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+
+        {% if user is defined and user %}
+            {# Successful activation #}
+            <div class="p-8 text-center">
+                <div class="mb-6">
+                    <div class="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-3">Account Activated Successfully!</h1>
+                    <p class="text-lg text-gray-600 mb-2">Welcome to {{ siteName }}, {{ user.firstName ?? user.username }}!</p>
+                    <p class="text-gray-600 mb-6">Your email has been verified and your account is now fully active.</p>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                    <h2 class="text-lg font-semibold text-blue-900 mb-3">What's Next?</h2>
+                    <div class="grid md:grid-cols-2 gap-4 text-left">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <span class="text-blue-600 text-sm font-bold">1</span>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-blue-900 mb-1">Complete Your Profile</h3>
+                                <p class="text-sm text-blue-700">Add more details to help others connect with you</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <span class="text-blue-600 text-sm font-bold">2</span>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-blue-900 mb-1">Explore Businesses</h3>
+                                <p class="text-sm text-blue-700">Discover local businesses in your area</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <span class="text-blue-600 text-sm font-bold">3</span>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-blue-900 mb-1">Join the Community</h3>
+                                <p class="text-sm text-blue-700">Connect with other members and businesses</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-1">
+                                <span class="text-blue-600 text-sm font-bold">4</span>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-blue-900 mb-1">Get Featured</h3>
+                                <p class="text-sm text-blue-700">List your business to reach more customers</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/account" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Go to My Account
+                        </a>
+
+                        <a href="/business" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                            Browse Businesses
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
+                        <a href="/" class="hover:text-gray-800 transition-colors">← Back to Home</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-gray-800 transition-colors">Need Help?</a>
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            {# Activation failed or invalid link #}
+            <div class="p-8 text-center">
+                <div class="mb-6">
+                    <div class="mx-auto w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-3xl font-bold text-gray-900 mb-3">Activation Failed</h1>
+                    <p class="text-lg text-gray-600 mb-6">We were unable to activate your account. This could be due to an expired or invalid activation link.</p>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-8">
+                    <h2 class="text-lg font-semibold text-yellow-800 mb-3">What can you do?</h2>
+                    <ul class="text-left text-yellow-700 space-y-2">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-yellow-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Check that you're using the complete activation link from your email</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-yellow-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Request a new activation email if the link has expired</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-yellow-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span>Contact support if you continue to experience issues</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="/register" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 002 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                            Request New Verification Email
+                        </a>
+
+                        <a href="/login" class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+                            </svg>
+                            Try Signing In
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-gray-200">
+                    <div class="flex items-center justify-center space-x-6 text-sm text-gray-500">
+                        <a href="/" class="hover:text-gray-800 transition-colors">← Back to Home</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-gray-800 transition-colors">Contact Support</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
