@@ -1,0 +1,28 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 9d21a74f-c6b5-434c-8ed2-c75251a61c26 # Business
+handle: businessListing
+maxAuthors: 1
+name: 'Business Listing'
+previewTargets:
+  -
+    __assoc__:
+      -
+        - label
+        - 'Primary entry page'
+      -
+        - urlFormat
+        - '{url}'
+      -
+        - refresh
+        - '1'
+propagationMethod: all
+siteSettings:
+  c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around
+    enabledByDefault: true
+    hasUrls: true
+    template: business/index.twig
+    uriFormat: business
+type: single

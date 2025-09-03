@@ -1,0 +1,14 @@
+columnSuffix: null
+handle: businessPhone
+instructions: null
+name: 'Business Phone'
+searchable: false
+settings:
+  fullGraphqlData: true
+  maxLength: 255
+  showLabelField: false
+  types:
+    - tel
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Link

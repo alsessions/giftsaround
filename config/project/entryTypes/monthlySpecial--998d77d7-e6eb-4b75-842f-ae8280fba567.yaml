@@ -1,0 +1,87 @@
+color: null
+description: null
+fieldLayouts:
+  f4ae60e4-3042-44f1-a5c9-de232d6376fa:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2025-08-29T03:09:43+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            includeInCards: false
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            providesThumbs: false
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: 76fcb0b5-620e-4508-8975-ff69f718b211
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-08-29T03:15:47+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 21d5b2e7-055d-41a3-8842-86406bf86748 # One Special (same each month)
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: dce02115-1f00-4201-b877-527c57df8c3f
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-08-29T03:15:47+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: a955ad2a-a4f5-4a2d-ad4a-d844e4d15140 # Multiple Specials
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1631a573-2528-4ea7-9b03-26da53cde2de
+            userCondition: null
+            warning: null
+            width: 100
+        name: Content
+        uid: e9dd146c-92c1-4819-845e-e9a371e1f1ba
+        userCondition: null
+handle: monthlySpecial
+hasTitleField: true
+icon: null
+name: 'Monthly Special'
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site

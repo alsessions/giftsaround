@@ -1,0 +1,10 @@
+columnSuffix: null
+handle: businessEmail
+instructions: null
+name: 'Business Email'
+searchable: false
+settings:
+  placeholder: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Email

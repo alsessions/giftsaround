@@ -1,0 +1,9 @@
+baseUrl: $PRIMARY_SITE_URL
+enabled: true
+handle: default
+hasUrls: true
+language: en
+name: 'Gifts Around'
+primary: true
+siteGroup: fce21e2d-42e7-4672-8d05-682879197a37 # Nick Test
+sortOrder: 1

@@ -1,0 +1,144 @@
+columnSuffix: null
+handle: multipleSpecials
+instructions: null
+name: 'Multiple Specials'
+searchable: false
+settings:
+  addRowLabel: 'Add a row'
+  columns:
+    __assoc__:
+      -
+        - col14
+        -
+          __assoc__:
+            -
+              - heading
+              - Month
+            -
+              - handle
+              - month
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+      -
+        - col15
+        -
+          __assoc__:
+            -
+              - heading
+              - Special
+            -
+              - handle
+              - special
+            -
+              - width
+              - ''
+            -
+              - type
+              - singleline
+  defaults:
+    -
+      __assoc__:
+        -
+          - col14
+          - January
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - February
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - March
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - April
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - May
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - June
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - July
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - August
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - September
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - October
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - November
+        -
+          - col15
+          - ''
+    -
+      __assoc__:
+        -
+          - col14
+          - December
+        -
+          - col15
+          - ''
+  maxRows: null
+  minRows: null
+  staticRows: true
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Table
