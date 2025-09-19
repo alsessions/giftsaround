@@ -1,14 +1,14 @@
 columnSuffix: null
-handle: multipleSpecials
+handle: monthlySpecials
 instructions: null
-name: 'Multiple Specials'
+name: 'Monthly Specials'
 searchable: false
 settings:
   addRowLabel: 'Add a row'
   columns:
     __assoc__:
       -
-        - col14
+        - col1
         -
           __assoc__:
             -
@@ -24,7 +24,7 @@ settings:
               - type
               - singleline
       -
-        - col15
+        - col2
         -
           __assoc__:
             -
@@ -43,98 +43,98 @@ settings:
     -
       __assoc__:
         -
-          - col14
+          - col1
           - January
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - February
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - March
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - April
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - May
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - June
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - July
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - August
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - September
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - October
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - November
         -
-          - col15
+          - col2
           - ''
     -
       __assoc__:
         -
-          - col14
+          - col1
           - December
         -
-          - col15
+          - col2
           - ''
   maxRows: null
   minRows: null

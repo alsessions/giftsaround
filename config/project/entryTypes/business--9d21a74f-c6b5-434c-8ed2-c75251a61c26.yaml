@@ -140,10 +140,61 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2025-09-19T15:29:34+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 21d5b2e7-055d-41a3-8842-86406bf86748 # One Special (same each month)
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: a34addb2-7670-45bd-a29a-58fce408bc6e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-09-19T15:56:50+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: d4bb8a19-094e-48c4-b6ca-37154e3fc329 # Monthly Specials
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6668dc84-fd32-4991-af58-5e21b4a37465
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2025-09-19T15:52:09+00:00'
+            editCondition: null
+            elementCondition: null
+            fieldUid: 2380efb4-0a40-440f-9ddf-b81d64af40d0
+            handle: null
+            includeInCards: false
+            instructions: null
+            label: null
+            providesThumbs: false
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 977c178a-31aa-4787-9a81-b8bc8212293a
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-08-29T03:15:52+00:00'
             editCondition: null
             elementCondition: null
-            fieldUid: 1bbcf789-77a3-45b6-b5c3-3e7b2f518bcb # Business Specials
+            fieldUid: 1bbcf789-77a3-45b6-b5c3-3e7b2f518bcb
             handle: null
             includeInCards: false
             instructions: null
