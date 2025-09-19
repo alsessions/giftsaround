@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: monthlySpecials
-instructions: null
+instructions: 'Enter monthly specials.'
 name: 'Monthly Specials'
 searchable: false
 settings:

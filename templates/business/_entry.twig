@@ -133,14 +133,31 @@
                         </svg>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-1">Member Only Specials!</h3>
-                            <p class="text-gray-700">{{ entry.oneSpecial }}</p>
+                            <div class="flex items-center justify-between">
+                                <p class="text-gray-700">{{ entry.oneSpecial }}</p>
+                                {% if currentUser %}
+                                    <a href="" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4">
+                                        Redeem
+                                    </a>
+                                {% else %}
+                                    <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
+                                        Sign Up to Redeem
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endif %}
 
             <!-- Monthly Specials -->
-            {% if entry.monthlySpecials|length %}
+            {% set validMonthlySpecials = [] %}
+            {% for row in entry.monthlySpecials %}
+                {% if row.month|length and row.special|length %}
+                    {% set validMonthlySpecials = validMonthlySpecials|merge([row]) %}
+                {% endif %}
+            {% endfor %}
+            {% if validMonthlySpecials|length %}
                 <div class="mt-6 mb-20 pt-6 border-t border-gray-200" x-data="{ expanded: false }">
                     <button @click="expanded = !expanded" class="flex items-center text-left group">
                         <svg class="w-6 h-6 text-red-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,19 +170,30 @@
                     </button>
                     <div x-show="expanded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="mt-4 overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                            {% if entry.monthlySpecials[0] %}
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Special</th>
-                                    </tr>
-                                </thead>
-                            {% endif %}
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Special</th>
+                                </tr>
+                            </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                {% for row in entry.monthlySpecials %}
+                                {% for row in validMonthlySpecials %}
                                     <tr class="{% if loop.index is odd %}bg-white{% else %}bg-gray-50{% endif %}">
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ row.month }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ row.special }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <div class="flex items-center justify-between">
+                                                <span>{{ row.special }}</span>
+                                                {% if currentUser %}
+                                                    <a href="" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4">
+                                                        Redeem
+                                                    </a>
+                                                {% else %}
+                                                    <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
+                                                        Sign Up
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                        </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

@@ -1,6 +1,6 @@
 columnSuffix: null
 handle: oneSpecial
-instructions: null
+instructions: 'Enter one special to repeat monthly.'
 name: 'One Special (same each month)'
 searchable: false
 settings:
