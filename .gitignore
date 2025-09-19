@@ -31,7 +31,8 @@ Thumbs.db
 /config/license.key
 
 
-# Assets & uploads (adjust paths as needed)
+# Assets & uploads
+/web/uploads/
 
 
 # Build artifacts
