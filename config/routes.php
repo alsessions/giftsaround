@@ -23,4 +23,10 @@ return [
     'account' => ['template' => 'users/account'],
     'account/profile' => ['template' => 'users/profile'],
     'register/success' => ['template' => 'users/register-success'],
+
+    // Redeem history route
+    'account/redeem-history' => 'redeem/default/history',
+
+    // Test page
+    'test-redeem' => ['template' => 'test-redeem'],
 ];

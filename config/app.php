@@ -24,4 +24,10 @@ use craft\helpers\App;
 
 return [
     'id' => App::env('CRAFT_APP_ID') ?: 'CraftCMS',
+    'modules' => [
+        'redeem' => [
+            'class' => \modules\redeem\RedeemModule::class,
+        ],
+    ],
+    'bootstrap' => ['redeem'],
 ];

@@ -1,0 +1,248 @@
+{% extends "_layouts/base.twig" %}
+
+{% block title %}Test Redeem Module - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">Redeem Module Test</h1>
+
+        <!-- Session Flash Messages -->
+        {% if craft.app.session.hasFlash('notice') %}
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-green-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div class="text-green-800">{{ craft.app.session.getFlash('notice') }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if craft.app.session.hasFlash('error') %}
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <div class="flex">
+                    <svg class="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.257 7.293a1 1 0 011.414 0L10 7.586l.293-.293a1 1 0 111.414 1.414L11.414 9l.293.293a1 1 0 01-1.414 1.414L10 10.414l-.293.293a1 1 0 01-1.414-1.414L8.586 9l-.293-.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div class="text-red-800">{{ craft.app.session.getFlash('error') }}</div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Module Status -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Module Status</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                {% set redeemModule = craft.app.modules.redeem %}
+                {% if redeemModule %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-green-800 font-medium">Redeem module is loaded</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Module class: {{ className(redeemModule) }}</p>
+                {% else %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-red-800 font-medium">Redeem module is NOT loaded</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Database Test -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Database Test</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                {% set db = craft.app.db %}
+                {% set tableExists = db.tableExists('redeem_tokens') %}
+
+                {% if tableExists %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-green-800 font-medium">redeem_tokens table exists</span>
+                    </div>
+
+                    {% set tokenCount = db.createCommand('SELECT COUNT(*) FROM {{%redeem_tokens}}').queryScalar() %}
+                    <p class="text-sm text-gray-600 mt-2">Total tokens: {{ tokenCount }}</p>
+                {% else %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-red-800 font-medium">redeem_tokens table does NOT exist</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- User Status -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">User Status</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                {% if currentUser %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-green-800 font-medium">User is logged in</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">User: {{ currentUser.email }} (ID: {{ currentUser.id }})</p>
+                {% else %}
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 text-amber-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span class="text-amber-800 font-medium">No user logged in</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">
+                        <a href="/login" class="text-blue-600 hover:text-blue-800">Login</a> or
+                        <a href="/register" class="text-blue-600 hover:text-blue-800">Register</a> to test redeem functionality
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Test URLs -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Test URLs</h2>
+            <div class="space-y-2">
+                <div class="flex items-center">
+                    <a href="/business" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        View Businesses
+                    </a>
+                    <span class="ml-3 text-gray-600">Navigate to business pages to test redeem functionality</span>
+                </div>
+
+                {% if currentUser %}
+                    <div class="flex items-center">
+                        <a href="/account/redeem-history" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            Redeem History
+                        </a>
+                        <span class="ml-3 text-gray-600">View your redemption history</span>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sample Form Test (if logged in) -->
+        {% if currentUser %}
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">Sample Redeem Form</h2>
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <p class="text-blue-800 mb-4">This form tests the redeem token generation (requires a valid business ID):</p>
+
+                    {% set firstBusiness = craft.entries.section('business').one() %}
+                    {% if firstBusiness %}
+                        <form method="post" class="space-y-4">
+                            {{ csrfInput() }}
+                            {{ actionInput('redeem/default/generate-redeem-token') }}
+                            <input type="hidden" name="businessId" value="{{ firstBusiness.id }}">
+                            <input type="hidden" name="redeemType" value="oneSpecial">
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Test Business:</label>
+                                <p class="text-gray-600">{{ firstBusiness.title }} (ID: {{ firstBusiness.id }})</p>
+                                {% if firstBusiness.oneSpecial %}
+                                    <p class="text-sm text-gray-500">Special: {{ firstBusiness.oneSpecial }}</p>
+                                {% endif %}
+                            </div>
+
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                                Test Generate Redeem Token
+                            </button>
+                        </form>
+
+                        <!-- Live Database Check -->
+                        <div class="mt-6 pt-6 border-t border-blue-200">
+                            <h3 class="text-md font-semibold text-blue-900 mb-3">Live Database Status</h3>
+                            {% set existingTokens = craft.app.db.createCommand('SELECT * FROM {{%redeem_tokens}} WHERE userId = ' ~ currentUser.id ~ ' ORDER BY dateCreated DESC LIMIT 5').queryAll() %}
+
+                            <div class="bg-blue-50 p-4 rounded-lg text-sm space-y-2">
+                                <div><strong>Your Active Tokens:</strong> {{ existingTokens|length }}</div>
+                                {% for token in existingTokens %}
+                                    <div class="bg-white p-2 rounded border">
+                                        <strong>{{ token.token|slice(0, 16) }}...</strong> -
+                                        {{ token.redeemType }} -
+                                        Expires: {{ token.expiresAt }} -
+                                        {% if token.usedAt %}Used{% else %}Active{% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Quick Link to Business Page -->
+                        <div class="mt-6 pt-6 border-t border-blue-200">
+                            <a href="{{ firstBusiness.url }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                                View {{ firstBusiness.title }} Page
+                            </a>
+                        </div>
+
+                        <!-- Direct Action Test -->
+                        <div class="mt-6 pt-6 border-t border-blue-200">
+                            <h3 class="text-md font-semibold text-blue-900 mb-3">Direct Action Test</h3>
+                            <form method="post" class="bg-yellow-50 p-4 rounded-lg">
+                                {{ csrfInput() }}
+                                {{ actionInput('redeem/default/generate-redeem-token') }}
+                                {{ redirectInput('test-redeem') }}
+                                <input type="hidden" name="businessId" value="{{ firstBusiness.id }}">
+                                <input type="hidden" name="redeemType" value="oneSpecial">
+                                <div class="space-y-2 mb-4">
+                                    <div><strong>Business ID:</strong> {{ firstBusiness.id }}</div>
+                                    <div><strong>User ID:</strong> {{ currentUser.id }}</div>
+                                    <div><strong>Action URL:</strong> {{ craft.app.view.renderObjectTemplate(actionInput('redeem/default/generate-redeem-token')) }}</div>
+                                    <div class="text-xs bg-white p-2 rounded"><strong>Generated Action Input:</strong><br>{{ actionInput('redeem/default/generate-redeem-token')|raw }}</div>
+                                    <div class="text-xs bg-white p-2 rounded"><strong>Action URL Helper:</strong><br>{{ craft.app.urlManager.createUrl('actions/redeem/default/generate-redeem-token') }}</div>
+                                </div>
+                                <button type="submit" class="inline-flex items-center px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors">
+                                    Test Direct Action
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="text-amber-800">
+                            No businesses found. Create a business entry first.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Debug Info -->
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Debug Information</h2>
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <strong>Craft Version:</strong> {{ craft.app.version }}
+                    </div>
+                    <div>
+                        <strong>Environment:</strong> {{ craft.app.env }}
+                    </div>
+                    <div>
+                        <strong>Debug Mode:</strong> {{ craft.app.config.general.devMode ? 'On' : 'Off' }}
+                    </div>
+                    <div>
+                        <strong>Template Mode:</strong> {{ craft.app.view.templateMode }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t pt-6">
+            <a href="/" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

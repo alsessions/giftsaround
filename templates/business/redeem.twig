@@ -1,0 +1,216 @@
+{% extends "_layouts/base.twig" %}
+
+{% block title %}
+    {% if entry %}
+        Redeem Special - {{ entry.title }} - {{ parent() }}
+    {% else %}
+        Redemption Error - {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if redeemToken and entry and not error %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Redeem Header -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+        <!-- Business Header Section -->
+        <div class="bg-gradient-to-r from-green-50 to-blue-50 p-6 md:p-8 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{{ entry.title }}</h1>
+                    <p class="text-gray-600">Redeem Your Special Offer</p>
+                </div>
+                <div class="flex-shrink-0">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Offer Details -->
+        <div class="p-6 md:p-8">
+            {% if redeemType == 'oneSpecial' and entry.oneSpecial|length %}
+                <!-- One-Time Special -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-grow">
+                            <h2 class="text-xl font-bold text-green-900 mb-2">Special Offer</h2>
+                            <p class="text-green-800 text-lg">{{ entry.oneSpecial }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            {% elseif redeemType == 'monthlySpecial' and monthlySpecialData %}
+                <!-- Monthly Special -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="ml-4 flex-grow">
+                            <h2 class="text-xl font-bold text-blue-900 mb-2">{{ monthlySpecialData.month }} Special</h2>
+                            <p class="text-blue-800 text-lg">{{ monthlySpecialData.special }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Redemption Instructions -->
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-semibold text-amber-900 mb-3">How to Redeem</h3>
+                <div class="space-y-3 text-amber-800">
+                    <div class="flex items-start">
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">1</span>
+                        <span>Present this page to the business staff</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">2</span>
+                        <span>Show your unique redemption code below</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">3</span>
+                        <span>Enjoy your special offer!</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Unique Redemption Code -->
+            <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-6 mb-8 text-center">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Redemption Code</h3>
+                <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
+                    <div class="text-2xl font-mono font-bold text-gray-900 tracking-wider">
+                        {{ redeemToken|upper }}
+                    </div>
+                </div>
+                <div class="text-sm text-red-600 font-medium">
+                    ⚠️ This code can only be used once and expires in 24 hours
+                </div>
+                <div class="text-sm text-gray-500 mt-2">
+                    Valid for: {{ currentUser.firstName ~ ' ' ~ currentUser.lastName }} ({{ currentUser.email }})
+                </div>
+                {% if tokenRecord is defined and tokenRecord.usedAt %}
+                    <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <div class="text-red-800 font-medium">
+                            ✓ This code has already been redeemed on {{ tokenRecord.usedAt|date('F j, Y \\a\\t g:i A') }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Business Contact Information -->
+            <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Business Details</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Address -->
+                    {% set businessAddress = entry.businessAddress.one() %}
+                    {% if businessAddress %}
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Address</h4>
+                                <p class="text-gray-600">{{ businessAddress | address }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Phone -->
+                    {% if attribute(entry, 'businessPhone')|length %}
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            <div>
+                                <h4 class="font-medium text-gray-900">Phone</h4>
+                                <a href="tel:{{ attribute(entry, 'businessPhone')|replace({' ': '', '(': '', ')': '', '-': ''}) }}"
+                                   class="text-blue-600 hover:text-blue-800 transition-colors">
+                                    {{ attribute(entry, 'businessPhone') }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Important Notice -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
+                <div class="flex items-start">
+                    <svg class="w-6 h-6 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L4.168 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="text-lg font-semibold text-red-900 mb-2">Important Notice</h3>
+                        <ul class="text-red-800 space-y-1">
+                            <li>• This redemption code is for single use only</li>
+                            <li>• The offer expires 24 hours after generation</li>
+                            <li>• Cannot be combined with other offers</li>
+                            <li>• Subject to business terms and conditions</li>
+                            <li>• Must be used at the business location shown above</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="{{ entry.url }}"
+                   class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Back to {{ entry.title }}
+                </a>
+
+                <a href="/business"
+                   class="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    Browse All Businesses
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if error is defined or not redeemToken %}
+    <!-- Error State -->
+    <div class="max-w-2xl mx-auto mt-8">
+        <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+            <svg class="mx-auto w-12 h-12 text-red-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h2 class="text-xl font-bold text-red-900 mb-2">
+                {% if error is defined %}{{ error }}{% else %}Invalid or Expired Redemption Link{% endif %}
+            </h2>
+            <p class="text-red-800 mb-4">
+                {% if error is defined %}
+                    Please try generating a new redemption link from the business page.
+                {% else %}
+                    This redemption link is either invalid, has expired, or has already been used.
+                {% endif %}
+            </p>
+            <a href="/business" class="inline-flex items-center px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">
+                Browse Businesses
+            </a>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

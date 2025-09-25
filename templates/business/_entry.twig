@@ -136,9 +136,16 @@
                             <div class="flex items-center justify-between">
                                 <p class="text-gray-700">{{ entry.oneSpecial }}</p>
                                 {% if currentUser %}
-                                    <a href="" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4">
-                                        Redeem
-                                    </a>
+                                    <form method="post" class="inline-block ml-4" data-redeem-form>
+                                        {{ csrfInput() }}
+                                        {{ actionInput('redeem/default/generate-redeem-token') }}
+                                        {{ redirectInput(entry.url) }}
+                                        <input type="hidden" name="businessId" value="{{ entry.id }}">
+                                        <input type="hidden" name="redeemType" value="oneSpecial">
+                                        <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                            Redeem
+                                        </button>
+                                    </form>
                                 {% else %}
                                     <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
                                         Sign Up to Redeem
@@ -184,9 +191,18 @@
                                             <div class="flex items-center justify-between">
                                                 <span>{{ row.special }}</span>
                                                 {% if currentUser %}
-                                                    <a href="" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors ml-4">
-                                                        Redeem
-                                                    </a>
+                                                    <form method="post" class="inline-block ml-4" data-redeem-form>
+                                                        {{ csrfInput() }}
+                                                        {{ actionInput('redeem/default/generate-redeem-token') }}
+                                                        {{ redirectInput(entry.url) }}
+                                                        <input type="hidden" name="businessId" value="{{ entry.id }}">
+                                                        <input type="hidden" name="redeemType" value="monthlySpecial">
+                                                        <input type="hidden" name="monthIndex" value="{{ loop.index0 }}">
+                                                        <input type="hidden" name="monthData" value="{{ row.month ~ '|' ~ row.special }}">
+                                                        <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                                            Redeem
+                                                        </button>
+                                                    </form>
                                                 {% else %}
                                                     <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
                                                         Sign Up
@@ -260,4 +276,29 @@ img {
     object-fit: cover;
 }
 </style>
+
+<script>
+// Enhance redeem form submissions
+document.addEventListener('DOMContentLoaded', function() {
+    const redeemForms = document.querySelectorAll('form[data-redeem-form]');
+
+    redeemForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const button = form.querySelector('button[type="submit"]');
+
+            // Disable button to prevent double submission
+            if (button) {
+                button.disabled = true;
+                button.innerHTML = '<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Generating...';
+
+                // Re-enable button after 5 seconds in case of error
+                setTimeout(() => {
+                    button.disabled = false;
+                    button.innerHTML = 'Redeem';
+                }, 5000);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}
