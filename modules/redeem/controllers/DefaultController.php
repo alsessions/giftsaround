@@ -290,24 +290,22 @@ class DefaultController extends Controller
         $this->requireLogin();
 
         // Get tokens using direct database query
+        $userId = Craft::$app->getUser()->getId();
         $tokensData = Craft::$app->db->createCommand(
             'SELECT * FROM {{%redeem_tokens}} WHERE userId = :userId ORDER BY dateCreated DESC'
-        )->bindParam(':userId', Craft::$app->getUser()->getId())->queryAll();
+        )->bindParam(':userId', $userId)->queryAll();
 
         // Convert to objects and add business data
         $tokens = [];
         foreach ($tokensData as $tokenData) {
             $token = (object) $tokenData;
             $token->business = Entry::find()->id($tokenData['businessId'])->one();
-            $token->isExpired = function() use ($tokenData) {
-                return strtotime($tokenData['expiresAt']) <= time();
-            };
-            $token->isUsed = function() use ($tokenData) {
-                return $tokenData['usedAt'] !== null;
-            };
-            $token->isValid = function() use ($token) {
-                return !$token->isExpired() && !$token->isUsed();
-            };
+
+            // Add simple properties instead of functions
+            $token->isExpired = strtotime($tokenData['expiresAt']) <= time();
+            $token->isUsed = $tokenData['usedAt'] !== null;
+            $token->isValid = !$token->isExpired && !$token->isUsed;
+
             $tokens[] = $token;
         }
 
