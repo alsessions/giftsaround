@@ -2,8 +2,8 @@
 
 # Environment & Configuration
 /.env
-/.env.*
-!/.env.example
+
+
 
 # Dependencies
 /vendor/

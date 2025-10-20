@@ -1,4 +1,4 @@
-# Redeem System Testing Guide
+### Redeem System Testing Guide
 
 ## 🚀 Quick Start Testing
 
