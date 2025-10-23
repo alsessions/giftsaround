@@ -1,0 +1,22 @@
+{% extends "_layouts/base.twig" %}
+
+{% set contact = entry ?? craft.entries().type('contact').one() %}
+
+{% block title %}{{ contact.title ?? 'Contact' }} - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">{{ contact.title ?? 'Contact' }}</h1>
+
+        <div class="border-2 border-dashed border-blue-200 rounded-lg p-6 text-gray-600">
+            <div class="prose md:prose-md">
+            {{ entry.body }}
+            </div>
+
+            {{ freeform.form("siteContact").render() }}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

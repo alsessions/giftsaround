@@ -39,6 +39,7 @@ Thumbs.db
 /web/dist/
 /web/mix-manifest.json
 /build/
+/src
 
 # Logs
 *.log

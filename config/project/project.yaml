@@ -1,4 +1,4 @@
-dateModified: 1758300801
+dateModified: 1761247540
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -21,6 +21,9 @@ fs:
     url: '@web/uploads'
 meta:
   __names__:
+    2e7eeff7-13b1-4896-881c-eb60635f0b8a: Body # Body
+    5d23cabc-5a26-4e37-bca5-7f04116b4e8b: Simple # Simple
+    6d3e1917-0432-4bae-96fe-6e467b048fb3: 'Contact ' # Contact 
     9d21a74f-c6b5-434c-8ed2-c75251a61c26: Business # Business
     21d5b2e7-055d-41a3-8842-86406bf86748: 'One Special (same each month)' # One Special (same each month)
     90c4ffa5-83bb-4af6-8837-6ad5bf1c323c: 'Business Phone' # Business Phone
@@ -35,14 +38,23 @@ meta:
     c06bf154-ba2d-40f9-9acc-9b0eb650ed25: 'Gifts Around' # Gifts Around
     c7d677fc-5281-4cac-9550-ba58ae4ed0c7: Business # Business
     d4bb8a19-094e-48c4-b6ca-37154e3fc329: 'Monthly Specials' # Monthly Specials
+    d12e90df-8855-47fa-8457-060d783e8a1d: 'Site Contact' # Site Contact
     f9b21139-b37c-4768-95ce-6a52e55e6352: Users # Users
     fc73028f-e956-417d-a9cb-27cf6b5d2777: Category # Category
     fce21e2d-42e7-4672-8d05-682879197a37: 'Nick Test' # Nick Test
 plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.0.0.0
   cp-clearcache:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+  freeform:
+    edition: express
+    enabled: true
+    schemaVersion: 5.7.0
   google-maps:
     edition: standard
     enabled: true

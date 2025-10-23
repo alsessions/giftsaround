@@ -2,10 +2,12 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "craftcms/ckeditor": "^4.10.1",
     "craftcms/cms": "^5.0.0",
     "doublesecretagency/craft-googlemaps": "^5.1.6",
     "ether/simplemap": "^5.0.4",
     "mmikkel/cp-clearcache": "^2.0.1",
+    "solspace/craft-freeform": "^5.12.4",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {

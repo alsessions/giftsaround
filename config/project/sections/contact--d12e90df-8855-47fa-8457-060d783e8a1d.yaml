@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 6d3e1917-0432-4bae-96fe-6e467b048fb3 # Contact 
+handle: contact
+maxAuthors: 1
+name: 'Site Contact'
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around
+    enabledByDefault: true
+    hasUrls: true
+    template: contact.twig
+    uriFormat: contact
+type: single
