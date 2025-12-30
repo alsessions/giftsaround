@@ -1,4 +1,4 @@
-dateModified: 1761247540
+dateModified: 1766100602
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -54,7 +54,7 @@ plugins:
   freeform:
     edition: express
     enabled: true
-    schemaVersion: 5.7.0
+    schemaVersion: 5.14.0
   google-maps:
     edition: standard
     enabled: true

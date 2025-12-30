@@ -4,19 +4,19 @@
 
 {% block content %}
 <div class="max-w-md mx-auto mt-8 mb-16">
-    <div class="bg-white rounded-lg shadow-md p-8">
+    <div class="bg-gray-900 rounded-lg shadow-md p-8">
         <div class="text-center mb-8">
-            <div class="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="mx-auto w-16 h-16 bg-blue-900/50 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
             </div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Verify your email address</h1>
-            <p class="text-gray-600">We've sent a verification link to your email address. Please click the link to activate your account.</p>
+            <h1 class="text-3xl font-bold text-gray-100 mb-2">Verify your email address</h1>
+            <p class="text-gray-400">We've sent a verification link to your email address. Please click the link to activate your account.</p>
         </div>
 
         {% if errors is defined %}
-            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+            <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-6">
                 <div class="flex">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -24,8 +24,8 @@
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-sm font-medium text-red-800">Please correct the following errors:</h3>
-                        <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+                        <h3 class="text-sm font-medium text-red-300">Please correct the following errors:</h3>
+                        <ul class="mt-2 text-sm text-red-400 list-disc list-inside">
                             {% for error in errors %}
                                 <li>{{ error }}</li>
                             {% endfor %}
@@ -39,7 +39,7 @@
             {{ csrfInput() }}
             {{ actionInput('users/send-activation-email') }}
 
-            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+            <div class="bg-blue-900/20 border border-blue-800 rounded-lg p-4 mb-6">
                 <div class="flex items-start">
                     <div class="flex-shrink-0">
                         <svg class="h-5 w-5 text-blue-400 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -47,7 +47,7 @@
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <p class="text-sm text-blue-800">
+                        <p class="text-sm text-blue-300">
                             <strong>Check your email:</strong> We've sent a verification link to your email address. If you don't see it in your inbox, check your spam folder.
                         </p>
                     </div>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium mb-4">
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium mb-4">
                     <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
                     </svg>
@@ -64,23 +64,23 @@
             </div>
         </form>
 
-        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
-            <h3 class="text-sm font-medium text-gray-900 mb-2">Having trouble?</h3>
-            <ul class="text-sm text-gray-600 space-y-1">
+        <div class="bg-gray-800 border border-gray-700 rounded-lg p-4 mb-6">
+            <h3 class="text-sm font-medium text-gray-100 mb-2">Having trouble?</h3>
+            <ul class="text-sm text-gray-400 space-y-1">
                 <li class="flex items-center">
-                    <svg class="w-4 h-4 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                     </svg>
                     Check your spam or junk folder
                 </li>
                 <li class="flex items-center">
-                    <svg class="w-4 h-4 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                     </svg>
                     Make sure you entered the correct email address
                 </li>
                 <li class="flex items-center">
-                    <svg class="w-4 h-4 text-gray-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg class="w-4 h-4 text-gray-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                     </svg>
                     Wait a few minutes before requesting a new email
@@ -89,10 +89,10 @@
         </div>
 
         <div class="mt-6 text-center">
-            <p class="text-gray-600 mb-4">
-                Need help? <a href="#" class="text-blue-600 hover:text-blue-700 font-medium">Contact Support</a>
+            <p class="text-gray-400 mb-4">
+                Need help? <a href="#" class="text-blue-400 hover:text-blue-300 font-medium">Contact Support</a>
             </p>
-            <a href="/" class="text-gray-600 hover:text-gray-800 transition-colors">
+            <a href="/" class="text-gray-400 hover:text-gray-300 transition-colors">
                 ← Back to Home
             </a>
         </div>

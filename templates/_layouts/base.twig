@@ -20,39 +20,81 @@
 
     {% block head %}{% endblock %}
 </head>
-<body class="bg-gray-50 text-gray-900 antialiased">
+<body class="bg-gray-950 text-gray-100 antialiased">
     <!-- Header -->
-    <header class="bg-white shadow-sm border-b border-blue-200">
+    <header class="bg-gray-900 shadow-sm border-b border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
+            <div class="flex justify-between items-center py-3 md:py-4">
                 <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-3 hover:opacity-90 transition-opacity">
-                        <img src="/uploads/business/giftsaround-logo.png" alt="Gifts Around" class="h-36 w-auto">
+                    <a href="/" class="flex items-center group">
+                        <img src="/uploads/business/giftsaround-logo.png" alt="Gifts Around" class="h-12 md:h-16 w-auto transition-transform duration-200 group-hover:scale-105">
                     </a>
                 </div>
 
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Home</a>
-                    <a href="/business" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Businesses</a>
-                    <a href="/contact" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Contact</a>
+                    <a href="/" class="text-blue-400 hover:text-blue-300 px-3 py-2 text-base font-medium transition-colors">Home</a>
+
+                    <!-- Businesses Dropdown -->
+                    <div class="relative" x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false">
+                        <button @click="open = !open" class="text-blue-400 hover:text-blue-300 px-3 py-2 text-base font-semibold transition-colors flex items-center">
+                            Businesses
+                            <svg class="ml-1 w-4 h-4" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <div x-show="open"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95"
+                             x-transition:enter-end="opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100"
+                             x-transition:leave-end="opacity-0 scale-95"
+                             class="absolute left-0 mt-2 w-56 rounded-lg shadow-xl bg-gray-800 ring-1 ring-black ring-opacity-5 border border-gray-700 z-50"
+                             @click.away="open = false">
+                            <div class="py-3">
+                                <a href="/business" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    All Businesses
+                                </a>
+                                <hr class="my-2 border-gray-700">
+                                <a href="/category/food-beverage" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    Food & Beverage
+                                </a>
+                                <a href="/category/retail" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    Retail
+                                </a>
+                                <a href="/category/entertainment" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    Entertainment
+                                </a>
+                                <a href="/category/health-beauty" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    Health & Beauty
+                                </a>
+                                <a href="/category/services" class="block px-5 py-2.5 text-base font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400 transition-colors whitespace-nowrap">
+                                    Services
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="/contact" class="text-blue-400 hover:text-blue-300 px-3 py-2 text-base font-medium transition-colors">Contact</a>
 
                     {% if currentUser %}
-                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-blue-200">
-                            <a href="/account" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">My Account</a>
+                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-700">
+                            <a href="/account" class="text-blue-400 hover:text-blue-300 px-3 py-2 text-base font-medium transition-colors">My Account</a>
                             <a href="/logout" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors">Sign Out</a>
                         </div>
                     {% else %}
-                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-blue-200">
-                            <a href="/login" class="text-blue-600 hover:text-blue-700 px-3 py-2 text-sm font-medium transition-colors">Sign In</a>
+                        <div class="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-700">
+                            <a href="/login" class="text-blue-400 hover:text-blue-300 px-3 py-2 text-sm font-medium transition-colors">Sign In</a>
                             <a href="/register" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 transition-colors">Sign Up</a>
                         </div>
                     {% endif %}
                 </nav>
 
                 <!-- Mobile menu button -->
-                <div class="md:hidden" x-data="{ open: false }">
-                    <button @click="open = !open" class="text-blue-600 hover:text-blue-700 focus:outline-none focus:text-blue-700">
+                <div class="md:hidden" x-data="{ open: false }" @click.away="open = false">
+                    <button @click="open = !open" class="text-blue-400 hover:text-blue-300 focus:outline-none focus:text-blue-300">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -60,19 +102,37 @@
                     </button>
 
                     <!-- Mobile menu -->
-                    <div x-show="open" x-transition class="absolute top-16 right-4 bg-white rounded-lg shadow-lg py-2 w-48 z-50 border border-blue-200">
-                        <a href="/" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Home</a>
-                        <a href="/business" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Businesses</a>
-                        <a href="/contact" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Contact</a>
+                    <div x-show="open" x-transition class="absolute top-14 right-4 bg-gray-800 rounded-lg shadow-xl py-2 w-56 z-50 border border-gray-700">
+                        <a href="/" class="block px-4 py-2 text-sm font-semibold text-blue-400 hover:bg-gray-700">Home</a>
+
+                        <!-- Mobile Businesses Dropdown -->
+                        <div>
+                            <button @click.stop="$refs.mobileBusinessMenu.classList.toggle('hidden')" class="w-full text-left px-4 py-2 text-sm font-semibold text-blue-400 hover:bg-gray-700 flex items-center justify-between">
+                                Businesses
+                                <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            <div x-ref="mobileBusinessMenu" class="bg-gradient-to-b from-gray-900 to-gray-800 hidden">
+                                <a href="/business" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">All Businesses</a>
+                                <a href="/category/food-beverage" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">Food & Beverage</a>
+                                <a href="/category/retail" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">Retail</a>
+                                <a href="/category/entertainment" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">Entertainment</a>
+                                <a href="/category/health-beauty" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">Health & Beauty</a>
+                                <a href="/category/services" @click="open = false" class="block px-6 py-1.5 text-sm font-semibold text-gray-300 hover:bg-gray-700 hover:text-blue-400">Services</a>
+                            </div>
+                        </div>
+
+                        <a href="/contact" @click="open = false" class="block px-4 py-2 text-sm font-semibold text-blue-400 hover:bg-gray-700">Contact</a>
 
                         {% if currentUser %}
-                            <hr class="my-2 border-blue-100">
-                            <a href="/account" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">My Account</a>
-                            <a href="/logout" class="block px-4 py-2 text-red-600 hover:bg-red-50">Sign Out</a>
+                            <hr class="my-1.5 border-gray-700">
+                            <a href="/account" @click="open = false" class="block px-4 py-2 text-sm font-semibold text-blue-400 hover:bg-gray-700">My Account</a>
+                            <a href="/logout" @click="open = false" class="block px-4 py-2 text-sm font-semibold text-red-400 hover:bg-red-900/20">Sign Out</a>
                         {% else %}
-                            <hr class="my-2 border-blue-100">
-                            <a href="/login" class="block px-4 py-2 text-blue-600 hover:bg-blue-50">Sign In</a>
-                            <a href="/register" class="block px-4 py-2 text-green-600 hover:bg-green-50">Sign Up</a>
+                            <hr class="my-1.5 border-gray-700">
+                            <a href="/login" @click="open = false" class="block px-4 py-2 text-sm font-semibold text-blue-400 hover:bg-gray-700">Sign In</a>
+                            <a href="/register" @click="open = false" class="block px-4 py-2 text-sm font-semibold text-green-400 hover:bg-green-900/20">Sign Up</a>
                         {% endif %}
                     </div>
                 </div>
@@ -86,7 +146,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-blue-600 text-white">
+    <footer class="bg-gray-900 text-gray-300 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="text-center">
                 <p>&copy; {{ "now"|date('Y') }} {{ siteName }}. All rights reserved.</p>

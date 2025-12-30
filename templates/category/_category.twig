@@ -6,13 +6,13 @@
 {% if not category %}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="mx-auto h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-gray-900">Category Not Found</h3>
+            <h3 class="mt-4 text-lg font-medium text-gray-100">Category Not Found</h3>
             <p class="mt-2 text-gray-500">The category you're looking for doesn't exist.</p>
             <div class="mt-6">
-                <a href="/" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                <a href="/" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-400 bg-blue-900/20 hover:bg-blue-900/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950 transition-colors">
                     Back to Home
                     <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
@@ -25,7 +25,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Category Header -->
     <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ category.title }}</h1>
+        <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ category.title }}</h1>
     </div>
 
     {% set businesses = craft.entries.section('business').relatedTo(category).all() %}
@@ -33,7 +33,7 @@
     <!-- Business Count -->
     {% if businesses|length > 0 %}
         <div class="mb-8">
-            <p class="text-gray-600">
+            <p class="text-gray-400">
                 {{ businesses|length }} {{ businesses|length == 1 ? 'business' : 'businesses' }} in {{ category.title }}
             </p>
         </div>
@@ -42,7 +42,7 @@
     <!-- Business Grid -->
     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {% for business in businesses %}
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col h-full">
+            <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-shadow duration-300 flex flex-col h-full">
                 <!-- Business Image -->
                 <div class="relative h-48 bg-gray-200">
                     {% if business.businessImages|length > 0 %}
@@ -71,10 +71,10 @@
 
                 <!-- Business Info -->
                 <div class="p-6 flex flex-col flex-grow">
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">{{ business.title }}</h3>
+                    <h3 class="text-xl font-bold text-gray-100 mb-3">{{ business.title }}</h3>
 
                     <!-- Contact Details -->
-                    <div class="space-y-2 text-sm text-gray-600 mb-4">
+                    <div class="space-y-2 text-sm text-gray-400 mb-4">
                         <!-- Address -->
                         {% set businessAddress = business.businessAddress.one() %}
                         {% if businessAddress %}
@@ -90,22 +90,22 @@
                         <!-- Phone -->
                         {% if business.businessPhone %}
                             <div class="flex items-center">
-                                <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
                                 </svg>
                                 <a href="tel:{{ business.businessPhone|replace({' ': '', '-': '', '(': '', ')': ''}) }}"
-                                   class="hover:text-blue-600 transition-colors">{{ business.businessPhone }}</a>
+                                   class="hover:text-blue-400 transition-colors">{{ business.businessPhone }}</a>
                             </div>
                         {% endif %}
 
                         <!-- Email -->
                         {% if business.businessEmail %}
                             <div class="flex items-center">
-                                <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
                                 <a href="mailto:{{ business.businessEmail }}"
-                                   class="hover:text-blue-600 transition-colors">{{ business.businessEmail }}</a>
+                                   class="hover:text-blue-400 transition-colors">{{ business.businessEmail }}</a>
                             </div>
                         {% endif %}
 
@@ -113,12 +113,12 @@
                         {% set businessCategories = business.category.all() %}
                         {% if businessCategories|length > 0 %}
                             <div class="flex items-center">
-                                <svg class="w-4 h-4 text-gray-400 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                                 </svg>
                                 <div class="flex flex-wrap gap-1">
                                     {% for category in businessCategories %}
-                                        <a href="/category/{{ category.slug }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors">
+                                        <a href="/category/{{ category.slug }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 transition-colors">
                                             {{ category.title }}
                                         </a>
                                         {% if not loop.last %}<span class="text-gray-400 mx-1">,</span>{% endif %}
@@ -132,7 +132,7 @@
 
                     <!-- View Details Button -->
                     <a href="{{ business.url }}"
-                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors mt-auto">
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors mt-auto">
                         View Details
                         <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -146,13 +146,13 @@
     <!-- Empty State -->
     {% if businesses|length == 0 %}
         <div class="text-center py-12">
-            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="mx-auto h-12 w-12 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
             </svg>
-            <h3 class="mt-4 text-lg font-medium text-gray-900">No businesses found</h3>
+            <h3 class="mt-4 text-lg font-medium text-gray-100">No businesses found</h3>
             <p class="mt-2 text-gray-500">There are currently no businesses in the {{ category.title }} category.</p>
             <div class="mt-6">
-                <a href="/business" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+                <a href="/business" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-blue-400 bg-blue-900/20 hover:bg-blue-900/30 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-950 transition-colors">
                     Browse All Businesses
                     <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -163,8 +163,8 @@
     {% endif %}
 
     <!-- Back to Categories -->
-    <div class="text-center mt-12 pt-8 border-t border-gray-200">
-        <a href="/" class="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium transition-colors">
+    <div class="text-center mt-12 pt-8 border-t border-gray-800">
+        <a href="/" class="inline-flex items-center text-gray-400 hover:text-gray-300 font-medium transition-colors">
             <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
             </svg>
