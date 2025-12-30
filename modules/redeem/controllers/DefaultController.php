@@ -9,6 +9,10 @@ use craft\web\Controller;
 use modules\redeem\records\RedeemTokenRecord;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use Endroid\QrCode\Builder\Builder;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\Writer\PngWriter;
 
 /**
  * Default controller for redeem functionality
@@ -18,7 +22,7 @@ class DefaultController extends Controller
     /**
      * @var array
      */
-    protected array|bool|int $allowAnonymous = ['test'];
+    protected array|bool|int $allowAnonymous = ['test', 'qr-code', 'validate', 'test-qr'];
 
     /**
      * Simple test action to verify module routing
@@ -102,7 +106,8 @@ class DefaultController extends Controller
             // Generate token directly with database insert to avoid ActiveRecord issues
             $token = Craft::$app->getSecurity()->generateRandomString(32);
             $now = date('Y-m-d H:i:s');
-            $expiresAt = date('Y-m-d H:i:s', time() + (24 * 60 * 60));
+            // Set expiration far in future - tokens only expire when used, not by time
+            $expiresAt = date('Y-m-d H:i:s', time() + (365 * 24 * 60 * 60 * 10)); // 10 years
 
             $result = Craft::$app->db->createCommand()
                 ->insert('{{%redeem_tokens}}', [
@@ -182,29 +187,14 @@ class DefaultController extends Controller
             ]);
         }
 
-        // Check if token belongs to current user
-        if ($tokenData['userId'] != Craft::$app->getUser()->getId()) {
+        // Check if token is used (anyone can view/use it)
+        if ($tokenData['usedAt']) {
             return $this->renderTemplate('business/redeem', [
                 'entry' => null,
                 'redeemToken' => null,
                 'redeemType' => null,
                 'monthlySpecialData' => null,
-                'error' => 'Unauthorized access to redemption token'
-            ]);
-        }
-
-        // Check if token is expired or used
-        if ($tokenData['expiresAt'] <= date('Y-m-d H:i:s') || $tokenData['usedAt']) {
-            $errorMessage = $tokenData['expiresAt'] <= date('Y-m-d H:i:s')
-                ? 'This redemption link has expired'
-                : 'This redemption link has already been used';
-
-            return $this->renderTemplate('business/redeem', [
-                'entry' => null,
-                'redeemToken' => null,
-                'redeemType' => null,
-                'monthlySpecialData' => null,
-                'error' => $errorMessage
+                'error' => 'This redemption code has already been used'
             ]);
         }
 
@@ -302,15 +292,163 @@ class DefaultController extends Controller
             $token->business = Entry::find()->id($tokenData['businessId'])->one();
 
             // Add simple properties instead of functions
-            $token->isExpired = strtotime($tokenData['expiresAt']) <= time();
+            $token->isExpired = false; // Tokens don't expire by time, only when used
             $token->isUsed = $tokenData['usedAt'] !== null;
-            $token->isValid = !$token->isExpired && !$token->isUsed;
+            $token->isValid = !$token->isUsed;
 
             $tokens[] = $token;
         }
 
         return $this->renderTemplate('business/redeem-history', [
             'tokens' => $tokens
+        ]);
+    }
+
+    /**
+     * Test QR code generation
+     *
+     * @return Response
+     */
+    public function actionTestQr(): Response
+    {
+        try {
+            // Simple test QR code
+            $result = Builder::create()
+                ->writer(new PngWriter())
+                ->data('https://example.com/test')
+                ->encoding(new Encoding('UTF-8'))
+                ->errorCorrectionLevel(ErrorCorrectionLevel::High)
+                ->size(300)
+                ->margin(10)
+                ->build();
+
+            $response = Craft::$app->getResponse();
+            $response->format = Response::FORMAT_RAW;
+            $response->headers->set('Content-Type', 'image/png');
+            $response->data = $result->getString();
+            return $response;
+        } catch (\Exception $e) {
+            return $this->asJson([
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+    }
+
+    /**
+     * Generate QR code for a redemption token
+     *
+     * @return Response
+     */
+    public function actionQrCode(): Response
+    {
+        $request = Craft::$app->getRequest();
+        $token = $request->getParam('token');
+
+        if (!$token) {
+            throw new NotFoundHttpException('Token parameter required');
+        }
+
+        // Verify token exists
+        $tokenData = Craft::$app->db->createCommand(
+            'SELECT * FROM {{%redeem_tokens}} WHERE token = :token'
+        )->bindParam(':token', $token)->queryOne();
+
+        if (!$tokenData) {
+            throw new NotFoundHttpException('Invalid token');
+        }
+
+        // Generate validation URL that includes the token
+        $validationUrl = Craft::$app->getSites()->getCurrentSite()->getBaseUrl() . 'redeem/validate?token=' . $token;
+
+        try {
+            // Generate QR code
+            $result = Builder::create()
+                ->writer(new PngWriter())
+                ->data($validationUrl)
+                ->encoding(new Encoding('UTF-8'))
+                ->errorCorrectionLevel(ErrorCorrectionLevel::High)
+                ->size(300)
+                ->margin(10)
+                ->build();
+
+            // Return QR code as PNG image
+            $response = Craft::$app->getResponse();
+            $response->format = Response::FORMAT_RAW;
+            $response->headers->set('Content-Type', 'image/png');
+            $response->data = $result->getString();
+            return $response;
+        } catch (\Exception $e) {
+            Craft::error('QR Code generation failed: ' . $e->getMessage(), __METHOD__);
+            throw new NotFoundHttpException('QR code generation failed: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Validate and mark a QR code as used (automatically marks as redeemed on first access)
+     *
+     * @return Response
+     */
+    public function actionValidate(): Response
+    {
+        $request = Craft::$app->getRequest();
+        $token = $request->getParam('token');
+
+        if (!$token) {
+            return $this->renderTemplate('business/redeem-validate', [
+                'success' => false,
+                'error' => 'No token provided',
+                'token' => null
+            ]);
+        }
+
+        // Find the token
+        $tokenData = Craft::$app->db->createCommand(
+            'SELECT * FROM {{%redeem_tokens}} WHERE token = :token'
+        )->bindParam(':token', $token)->queryOne();
+
+        if (!$tokenData) {
+            return $this->renderTemplate('business/redeem-validate', [
+                'success' => false,
+                'error' => 'Invalid redemption code',
+                'token' => null
+            ]);
+        }
+
+        // Get business and user info
+        $business = Entry::find()->id($tokenData['businessId'])->one();
+        $user = Craft::$app->getUsers()->getUserById($tokenData['userId']);
+
+        // Check if already used
+        if ($tokenData['usedAt']) {
+            return $this->renderTemplate('business/redeem-validate', [
+                'success' => false,
+                'error' => 'This code has already been redeemed',
+                'token' => (object) $tokenData,
+                'business' => $business,
+                'user' => $user,
+                'alreadyUsed' => true
+            ]);
+        }
+
+        // Mark as used immediately (first scan = redemption)
+        $now = date('Y-m-d H:i:s');
+        Craft::$app->db->createCommand()
+            ->update(
+                '{{%redeem_tokens}}',
+                ['usedAt' => $now, 'dateUpdated' => $now],
+                ['token' => $token, 'usedAt' => null] // Only update if not already used
+            )
+            ->execute();
+
+        // Show success page
+        return $this->renderTemplate('business/redeem-validate', [
+            'success' => true,
+            'error' => null,
+            'token' => (object) array_merge($tokenData, ['usedAt' => $now]),
+            'business' => $business,
+            'user' => $user,
+            'justRedeemed' => true
         ]);
     }
 }

@@ -70,42 +70,70 @@
             {% endif %}
 
             <!-- Redemption Instructions -->
-            <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
-                <h3 class="text-lg font-semibold text-amber-900 mb-3">How to Redeem</h3>
-                <div class="space-y-3 text-amber-800">
+            <div class="bg-gradient-to-br from-blue-50 to-green-50 border-2 border-blue-200 rounded-lg p-6 mb-8">
+                <div class="flex items-start mb-4">
+                    <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">How to Redeem Your Offer</h3>
+                        <p class="text-gray-700 text-sm">Show your QR code below to the business staff at {{ entry.title }}. Once scanned, your offer will be instantly redeemed!</p>
+                    </div>
+                </div>
+
+                <div class="bg-white bg-opacity-60 rounded-lg p-4 space-y-3">
                     <div class="flex items-start">
-                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">1</span>
-                        <span>Present this page to the business staff</span>
+                        <span class="inline-flex items-center justify-center w-7 h-7 bg-blue-600 rounded-full text-white text-sm font-bold mr-3 mt-0.5 flex-shrink-0">1</span>
+                        <div class="flex-grow">
+                            <p class="text-gray-900 font-medium">Visit {{ entry.title }}</p>
+                            <p class="text-gray-600 text-sm">Must be redeemed at the business location</p>
+                        </div>
                     </div>
                     <div class="flex items-start">
-                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">2</span>
-                        <span>Show your unique redemption code below</span>
+                        <span class="inline-flex items-center justify-center w-7 h-7 bg-blue-600 rounded-full text-white text-sm font-bold mr-3 mt-0.5 flex-shrink-0">2</span>
+                        <div class="flex-grow">
+                            <p class="text-gray-900 font-medium">Show your QR code to staff</p>
+                            <p class="text-gray-600 text-sm">Let them see the offer - no scanning needed yet</p>
+                        </div>
                     </div>
                     <div class="flex items-start">
-                        <span class="inline-flex items-center justify-center w-6 h-6 bg-amber-100 rounded-full text-amber-600 text-sm font-bold mr-3 mt-0.5">3</span>
-                        <span>Enjoy your special offer!</span>
+                        <span class="inline-flex items-center justify-center w-7 h-7 bg-blue-600 rounded-full text-white text-sm font-bold mr-3 mt-0.5 flex-shrink-0">3</span>
+                        <div class="flex-grow">
+                            <p class="text-gray-900 font-medium">Scan the QR code at checkout</p>
+                            <p class="text-gray-600 text-sm">Cannot be combined with other offers - expires once scanned</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                    <div class="flex items-start">
+                        <svg class="w-5 h-5 text-amber-600 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                        </svg>
+                        <p class="text-amber-900 text-sm font-medium">Remember: Once scanned, the QR code is instantly redeemed and cannot be used again.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Unique Redemption Code -->
+            <!-- QR Code Redemption -->
             <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-6 mb-8 text-center">
-                <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Redemption Code</h3>
-                <div class="bg-white border border-gray-200 rounded-lg p-4 mb-4">
-                    <div class="text-2xl font-mono font-bold text-gray-900 tracking-wider">
-                        {{ redeemToken|upper }}
-                    </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Your Redemption QR Code</h3>
+                <div class="bg-white border border-gray-200 rounded-lg p-6 mb-4 inline-block">
+                    <img src="/redeem/qr-code?token={{ redeemToken }}" alt="Redemption QR Code" class="w-64 h-64 mx-auto">
                 </div>
-                <div class="text-sm text-red-600 font-medium">
-                    ⚠️ This code can only be used once and expires in 24 hours
+                <div class="text-sm text-red-600 font-medium mb-2">
+                    ⚠️ This QR code can only be scanned once
                 </div>
-                <div class="text-sm text-gray-500 mt-2">
+                <div class="text-sm text-gray-500 mb-3">
                     Valid for: {{ currentUser.firstName ~ ' ' ~ currentUser.lastName }} ({{ currentUser.email }})
+                </div>
+                <div class="text-xs text-gray-400 font-mono bg-gray-100 px-3 py-2 rounded inline-block">
+                    Code: {{ redeemToken|slice(0, 8)|upper }}...{{ redeemToken|slice(-8)|upper }}
                 </div>
                 {% if tokenRecord is defined and tokenRecord.usedAt %}
                     <div class="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
                         <div class="text-red-800 font-medium">
-                            ✓ This code has already been redeemed on {{ tokenRecord.usedAt|date('F j, Y \\a\\t g:i A') }}
+                            ✓ This QR code has already been scanned on {{ tokenRecord.usedAt|date('F j, Y \\a\\t g:i A') }}
                         </div>
                     </div>
                 {% endif %}
@@ -119,13 +147,17 @@
                     {% set businessAddress = entry.businessAddress.one() %}
                     {% if businessAddress %}
                         <div class="flex items-start space-x-3">
-                            <svg class="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-6 h-6 text-gray-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                             <div>
-                                <h4 class="font-medium text-gray-900">Address</h4>
-                                <p class="text-gray-600">{{ businessAddress | address }}</p>
+                                <h4 class="font-semibold text-gray-900 mb-1">Address</h4>
+                                <p class="text-gray-700">{{ businessAddress.addressLine1 }}</p>
+                                {% if businessAddress.addressLine2 %}
+                                    <p class="text-gray-700">{{ businessAddress.addressLine2 }}</p>
+                                {% endif %}
+                                <p class="text-gray-700">{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}</p>
                             </div>
                         </div>
                     {% endif %}
@@ -148,24 +180,7 @@
                 </div>
             </div>
 
-            <!-- Important Notice -->
-            <div class="bg-red-50 border border-red-200 rounded-lg p-6 mb-8">
-                <div class="flex items-start">
-                    <svg class="w-6 h-6 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.864-.833-2.634 0L4.168 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                    </svg>
-                    <div>
-                        <h3 class="text-lg font-semibold text-red-900 mb-2">Important Notice</h3>
-                        <ul class="text-red-800 space-y-1">
-                            <li>• This redemption code is for single use only</li>
-                            <li>• The offer expires 24 hours after generation</li>
-                            <li>• Cannot be combined with other offers</li>
-                            <li>• Subject to business terms and conditions</li>
-                            <li>• Must be used at the business location shown above</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center">

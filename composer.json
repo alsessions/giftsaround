@@ -5,6 +5,7 @@
     "craftcms/ckeditor": "^4.10.1",
     "craftcms/cms": "^5.0.0",
     "doublesecretagency/craft-googlemaps": "^5.1.6",
+    "endroid/qr-code": "^5.0",
     "ether/simplemap": "^5.0.4",
     "mmikkel/cp-clearcache": "^2.0.1",
     "solspace/craft-freeform": "^5.12.4",

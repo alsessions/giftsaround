@@ -27,6 +27,12 @@ return [
     // Redeem history route
     'account/redeem-history' => 'redeem/default/history',
 
-    // Test page
+    // QR Code routes
+    'redeem/qr-code' => 'redeem/default/qr-code',
+    'redeem/validate' => 'redeem/default/validate',
+    'redeem/test-qr' => 'redeem/default/test-qr',
+
+    // Test pages
     'test-redeem' => ['template' => 'test-redeem'],
+    'test-qr' => ['template' => 'test-qr'],
 ];

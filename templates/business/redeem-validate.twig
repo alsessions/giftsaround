@@ -1,0 +1,163 @@
+{% extends "_layouts/base.twig" %}
+
+{% block title %}
+    {% if success %}
+        Redemption Successful - {{ parent() }}
+    {% else %}
+        Validate Redemption - {{ parent() }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    {% if success == true %}
+        <!-- Success State - Code Successfully Redeemed -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-green-600 p-8 text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
+                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">QR Code Redeemed!</h1>
+                <p class="text-green-100 text-lg">This offer has been successfully redeemed</p>
+            </div>
+
+            <div class="p-8">
+                <!-- Customer Information -->
+                {% if user %}
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-sm font-medium text-gray-600">Name</label>
+                                <p class="text-gray-900 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium text-gray-600">Email</label>
+                                <p class="text-gray-900">{{ user.email }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Business Information -->
+                {% if business %}
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-blue-900 mb-4">Business</h2>
+                        <p class="text-blue-800 font-medium text-lg">{{ business.title }}</p>
+                    </div>
+                {% endif %}
+
+                <!-- Redemption Details -->
+                {% if token %}
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Redemption Details</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Offer Type:</span>
+                                <span class="font-medium text-gray-900">
+                                    {% if token.redeemType == 'oneSpecial' %}
+                                        One-Time Special
+                                    {% elseif token.redeemType == 'monthlySpecial' %}
+                                        Monthly Special
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Redeemed At:</span>
+                                <span class="font-medium text-gray-900">{{ token.usedAt|date('F j, Y g:i A') }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Code:</span>
+                                <span class="font-mono text-xs text-gray-600">{{ token.token|slice(0, 12)|upper }}...</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+                    <a href="/business" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        Back to Businesses
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    {% elseif success == false %}
+        <!-- Error State -->
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="bg-red-600 p-8 text-center">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
+                    <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">Already Redeemed</h1>
+                <p class="text-red-100 text-lg">{{ error }}</p>
+            </div>
+
+            <div class="p-8">
+                {% if token and (alreadyUsed or expired) %}
+                    <!-- Show details for already used or expired codes -->
+
+                    <!-- Customer Information -->
+                    {% if user %}
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-sm font-medium text-gray-600">Name</label>
+                                    <p class="text-gray-900 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-gray-600">Email</label>
+                                    <p class="text-gray-900">{{ user.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Business Information -->
+                    {% if business %}
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Business</h2>
+                            <p class="text-gray-900 font-medium text-lg">{{ business.title }}</p>
+                        </div>
+                    {% endif %}
+
+                    <!-- Code Details -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Code Details</h2>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Redeemed On:</span>
+                                <span class="font-medium text-gray-900">{{ token.usedAt|date('F j, Y g:i A') }}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Code:</span>
+                                <span class="font-mono text-xs text-gray-600">{{ token.token|slice(0, 12)|upper }}...</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/business" class="inline-flex items-center justify-center px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        Back to Businesses
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</div>
+{% endblock %}
