@@ -2,7 +2,7 @@
 
 # Environment & Configuration
 /.env
-
+/deploy.sh
 
 
 # Dependencies
