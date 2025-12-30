@@ -8,16 +8,9 @@ maxAuthors: 1
 name: 'Business Listing'
 previewTargets:
   -
-    __assoc__:
-      -
-        - label
-        - 'Primary entry page'
-      -
-        - urlFormat
-        - '{url}'
-      -
-        - refresh
-        - '1'
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
 propagationMethod: all
 siteSettings:
   c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around

@@ -1,4 +1,4 @@
-dateModified: 1766100602
+dateModified: 1767131935
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -19,6 +19,10 @@ fs:
       path: '@webroot/uploads'
     type: craft\fs\Local
     url: '@web/uploads'
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
 meta:
   __names__:
     2e7eeff7-13b1-4896-881c-eb60635f0b8a: Body # Body
@@ -54,7 +58,7 @@ plugins:
   freeform:
     edition: express
     enabled: true
-    schemaVersion: 5.14.0
+    schemaVersion: 5.14.1
   google-maps:
     edition: standard
     enabled: true
