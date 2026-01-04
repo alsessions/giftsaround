@@ -127,17 +127,20 @@
                                                 {% endif %}
                                             {% endif %}
 
-                                            <!-- QR Code Preview -->
-                                            <div class="mt-4 pt-4 border-t border-gray-200" x-data="{ showQr: false }">
-                                                <button @click="showQr = !showQr" type="button" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
+                                            <!-- Redemption Code Preview -->
+                                            <div class="mt-4 pt-4 border-t border-gray-200" x-data="{ showCode: false }">
+                                                <button @click="showCode = !showCode" type="button" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">
                                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                                                     </svg>
-                                                    <span x-text="showQr ? 'Hide QR Code' : 'Show QR Code'"></span>
+                                                    <span x-text="showCode ? 'Hide Code' : 'Show Code'"></span>
                                                 </button>
-                                                <div x-show="showQr" x-transition class="mt-4 bg-white border border-gray-200 rounded-lg p-4 text-center">
-                                                    <img src="/redeem/qr-code?token={{ token.token }}" alt="QR Code" class="w-48 h-48 mx-auto">
-                                                    <p class="text-xs text-gray-500 mt-2 font-mono">{{ token.token|slice(0, 8)|upper }}...{{ token.token|slice(-8)|upper }}</p>
+                                                <div x-show="showCode" x-transition class="mt-4 bg-gradient-to-br from-green-50 to-blue-50 border border-gray-200 rounded-lg p-4 text-center">
+                                                    <a href="/redeem/validate?token={{ token.token }}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all px-6 py-3">
+                                                        <div class="text-xs uppercase tracking-wider mb-1 text-green-100">Click to Redeem</div>
+                                                        <div class="text-base font-mono tracking-wide">{{ token.token|slice(0, 16)|upper }}...</div>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
