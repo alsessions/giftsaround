@@ -82,6 +82,8 @@ class RedeemModule extends \yii\base\Module
             UrlManager::EVENT_REGISTER_SITE_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
                 $event->rules['business/redeem/<token:([a-zA-Z0-9]{32})>'] = 'redeem/default/show-redemption';
+                $event->rules['admin/redemptions'] = 'redeem/default/admin-redemptions';
+                $event->rules['redeem/default/clear-user-history'] = 'redeem/default/clear-user-history';
             }
         );
     }

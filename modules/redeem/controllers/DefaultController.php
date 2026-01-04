@@ -451,4 +451,72 @@ class DefaultController extends Controller
             'justRedeemed' => true
         ]);
     }
+
+    /**
+     * Admin page to manage user redemptions
+     *
+     * @return Response
+     */
+    public function actionAdminRedemptions(): Response
+    {
+        $this->requireAdmin();
+
+        // Get all users with redemption counts
+        $users = Craft::$app->getUsers()->getAllUsers();
+        $userData = [];
+
+        foreach ($users as $user) {
+            $totalTokens = Craft::$app->db->createCommand(
+                'SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId'
+            )->bindValue(':userId', $user->id)->queryScalar();
+
+            $usedTokens = Craft::$app->db->createCommand(
+                'SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId AND usedAt IS NOT NULL'
+            )->bindValue(':userId', $user->id)->queryScalar();
+
+            $activeTokens = Craft::$app->db->createCommand(
+                'SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId AND usedAt IS NULL'
+            )->bindValue(':userId', $user->id)->queryScalar();
+
+            if ($totalTokens > 0) {
+                $userData[] = [
+                    'user' => $user,
+                    'total' => $totalTokens,
+                    'used' => $usedTokens,
+                    'active' => $activeTokens
+                ];
+            }
+        }
+
+        return $this->renderTemplate('admin/redemptions', [
+            'userData' => $userData
+        ]);
+    }
+
+    /**
+     * Clear redemption history for a specific user
+     *
+     * @return Response
+     */
+    public function actionClearUserHistory(): Response
+    {
+        $this->requireAdmin();
+        $this->requirePostRequest();
+
+        $userId = Craft::$app->getRequest()->getRequiredBodyParam('userId');
+        $user = Craft::$app->getUsers()->getUserById($userId);
+
+        if (!$user) {
+            Craft::$app->getSession()->setError('User not found');
+            return $this->redirect('/admin/redemptions');
+        }
+
+        // Delete all redemption tokens for this user
+        $deleted = Craft::$app->db->createCommand()
+            ->delete('{{%redeem_tokens}}', ['userId' => $userId])
+            ->execute();
+
+        Craft::$app->getSession()->setNotice("Cleared {$deleted} redemption(s) for {$user->getName()}");
+        return $this->redirect('/admin/redemptions');
+    }
 }
