@@ -14,17 +14,9 @@ echo "Deleting composer.lock file and vendor directory..."
 rm -rf composer.lock
 rm -rf vendor
 
-# Stash any local changes before pulling
-echo "Stashing any local changes..."
-git stash
-
 # Pull the latest code from the configured 'origin' remote on the specified branch.
 echo "Pulling latest code from Git branch '$BRANCH'..."
 git pull origin "$BRANCH"
-
-# Reapply stashed changes if any
-echo "Reapplying stashed changes..."
-git stash pop || echo "No stashed changes to reapply"
 
 # Install or update Composer dependencies.
 # The "--no-dev" flag ensures only production dependencies are installed.
