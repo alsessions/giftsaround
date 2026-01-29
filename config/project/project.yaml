@@ -1,4 +1,4 @@
-dateModified: 1769631489
+dateModified: 1769643999
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -29,7 +29,9 @@ meta:
     5d23cabc-5a26-4e37-bca5-7f04116b4e8b: Simple # Simple
     6d3e1917-0432-4bae-96fe-6e467b048fb3: 'Contact ' # Contact 
     9d21a74f-c6b5-434c-8ed2-c75251a61c26: Business # Business
+    19b7dc0c-1f0e-4d68-928d-0866f3bf5c99: 'Business Description' # Business Description
     21d5b2e7-055d-41a3-8842-86406bf86748: 'One Special (same each month)' # One Special (same each month)
+    057bffe8-145d-4cf8-a820-52b631b73266: 'Optimized Image' # Optimized Image
     90c4ffa5-83bb-4af6-8837-6ad5bf1c323c: 'Business Phone' # Business Phone
     366a00bd-3f69-477a-8c1d-d922ec7aed18: 'Business Listing' # Business Listing
     0496e6ab-3bd6-4845-8754-3abae7832574: Business # Business
@@ -60,22 +62,11 @@ plugins:
     enabled: true
     licenseKey: HL9340USSEDAJJUL2UUQS78V
     schemaVersion: 5.14.1
-  google-maps:
+  image-optimize:
     edition: standard
     enabled: true
-    licenseKey: MUWOVOC3IV3R42EB0V9YMBTI
-    schemaVersion: 4.6.0
-    settings:
-      browserKey: AIzaSyAchsNJLwZZgezhcNislYfzAY27i9o2T2I
-      enableJsLogging: true
-      fieldControlSize: 27
-      geolocationService: null
-      ipstackApiAccessKey: null
-      maxmindLicenseKey: null
-      maxmindService: null
-      maxmindUserId: null
-      minifyJsFiles: false
-      serverKey: AIzaSyA6NNxXQS7HoEWQwYNTN6CV1OkBUNV2yDM
+    licenseKey: 1DO3AZKMYYVB6G4HYKTF92W7
+    schemaVersion: 1.0.0
 system:
   edition: pro
   live: true

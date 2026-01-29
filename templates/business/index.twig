@@ -12,7 +12,7 @@
         </p>
     </div>
 
-    {% set businesses = craft.entries.section('business').all() %}
+    {% paginate craft.entries.section('business').limit(15) as pageInfo, businesses %}
 
 
 
@@ -22,21 +22,8 @@
             <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-shadow duration-300 flex flex-col h-full">
                 <!-- Business Image -->
                 <div class="relative h-48 bg-gray-200">
-                    {% if business.businessImages|length > 0 %}
-                        {% set firstImage = business.businessImages[0] %}
-                        <img src="{{ firstImage.url }}"
-                             alt="{{ firstImage.title ?: business.title }}"
-                             class="w-full h-full object-cover">
-
-                        <!-- Image Count Badge -->
-                        {% if business.businessImages|length > 1 %}
-                            <div class="absolute top-3 right-3 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded-full">
-                                <svg class="inline w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span>{{ business.businessImages|length }}</span>
-                            </div>
-                        {% endif %}
+                    {% if business.businessImages.one() %}
+                        <img src="{{ business.businessImages.one().url }}" alt="{{ business.businessImages.one().title ?: business.title }}" class="w-full h-full object-cover">
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,6 +77,25 @@
             </div>
         {% endfor %}
     </div>
+
+    <!-- Pagination -->
+    {% if pageInfo.totalPages > 1 %}
+        <nav class="flex items-center justify-between max-w-xs mx-auto mt-12 lg:max-w-[240px]">
+            {% if pageInfo.prevUrl %}
+                <a href="{{ pageInfo.prevUrl }}" class="px-3 py-1.5 text-sm bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors">← Prev</a>
+            {% else %}
+                <span class="px-3 py-1.5 text-sm text-gray-600 invisible">← Prev</span>
+            {% endif %}
+
+            <span class="text-sm text-gray-500">{{ pageInfo.currentPage }}/{{ pageInfo.totalPages }}</span>
+
+            {% if pageInfo.nextUrl %}
+                <a href="{{ pageInfo.nextUrl }}" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">Next →</a>
+            {% else %}
+                <span class="px-3 py-1.5 text-sm text-gray-600 invisible">Next →</span>
+            {% endif %}
+        </nav>
+    {% endif %}
 
     <!-- Empty State -->
     {% if businesses|length == 0 %}

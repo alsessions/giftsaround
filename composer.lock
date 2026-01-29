@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6034e603a5e795abd5172da4b0e4de96",
+    "content-hash": "e7f299aa2ff4a82e569a45ebc501ea67",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1584,75 +1584,6 @@
             "time": "2026-01-02T16:01:13+00:00"
         },
         {
-            "name": "doublesecretagency/craft-googlemaps",
-            "version": "5.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/doublesecretagency/craft-googlemaps.git",
-                "reference": "6ddc6bb302e0eef0ffb6c9477996161674a6b587"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/doublesecretagency/craft-googlemaps/zipball/6ddc6bb302e0eef0ffb6c9477996161674a6b587",
-                "reference": "6ddc6bb302e0eef0ffb6c9477996161674a6b587",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.0.0"
-            },
-            "replace": {
-                "doublesecretagency/craft-smartmap": "3.*"
-            },
-            "require-dev": {
-                "craftcms/wp-import": "dev-main"
-            },
-            "type": "craft-plugin",
-            "extra": {
-                "name": "Google Maps",
-                "class": "doublesecretagency\\googlemaps\\GoogleMapsPlugin",
-                "handle": "google-maps"
-            },
-            "autoload": {
-                "psr-4": {
-                    "doublesecretagency\\smartmap\\": "legacy/",
-                    "doublesecretagency\\googlemaps\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "authors": [
-                {
-                    "name": "Double Secret Agency",
-                    "homepage": "https://plugins.doublesecretagency.com"
-                }
-            ],
-            "description": "Maps in minutes. Powered by the Google Maps API.",
-            "keywords": [
-                "Craft",
-                "address",
-                "cms",
-                "craft-plugin",
-                "craftcms",
-                "geocoding",
-                "geolocation",
-                "google-maps",
-                "google-maps-api",
-                "locations",
-                "map",
-                "proximity-search",
-                "smart-map",
-                "smartmap"
-            ],
-            "support": {
-                "docs": "https://plugins.doublesecretagency.com/google-maps",
-                "issues": "https://github.com/doublesecretagency/craft-googlemaps/issues",
-                "source": "https://github.com/doublesecretagency/craft-googlemaps/tree/5.1.6"
-            },
-            "time": "2025-04-04T22:25:02+00:00"
-        },
-        {
             "name": "egulias/email-validator",
             "version": "4.0.4",
             "source": {
@@ -1972,67 +1903,6 @@
             "time": "2025-08-12T10:13:48+00:00"
         },
         {
-            "name": "ether/simplemap",
-            "version": "5.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ethercreative/simplemap.git",
-                "reference": "45da58e7fb472989efcdf2f2471ca41aa761e7df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ethercreative/simplemap/zipball/45da58e7fb472989efcdf2f2471ca41aa761e7df",
-                "reference": "45da58e7fb472989efcdf2f2471ca41aa761e7df",
-                "shasum": ""
-            },
-            "require": {
-                "craftcms/cms": "^5.0.0",
-                "ext-json": "*",
-                "ext-openssl": "*",
-                "ext-zlib": "*",
-                "geoip2/geoip2": "~2.0",
-                "guzzlehttp/guzzle": "^6.3.3|^7.2.0",
-                "mapkit/jwt": "^1.1.2",
-                "php": "^8.2",
-                "what3words/w3w-php-wrapper": "3.*"
-            },
-            "require-dev": {
-                "craftcms/wp-import": "dev-main"
-            },
-            "type": "craft-plugin",
-            "extra": {
-                "name": "Maps",
-                "class": "ether\\simplemap\\SimpleMap",
-                "handle": "simplemap",
-                "developer": "Ether Creative",
-                "developerUrl": "https://ethercreative.co.uk",
-                "schemaVersion": "3.4.2"
-            },
-            "autoload": {
-                "psr-4": {
-                    "ether\\simplemap\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "proprietary"
-            ],
-            "description": "A beautifully simple Map field type for Craft CMS",
-            "support": {
-                "docs": "https://docs.ethercreative.co.uk/maps",
-                "email": "help@ethercreative.co.uk",
-                "issues": "https://github.com/ethercreative/simplemap/issues",
-                "source": "https://github.com/ethercreative/simplemap"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/tam",
-                    "type": "github"
-                }
-            ],
-            "time": "2024-11-11T12:11:23+00:00"
-        },
-        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.19.0",
             "source": {
@@ -2155,64 +2025,6 @@
                 "source": "https://github.com/FakerPHP/Faker/tree/v1.24.1"
             },
             "time": "2024-11-21T13:46:39+00:00"
-        },
-        {
-            "name": "geoip2/geoip2",
-            "version": "v2.13.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maxmind/GeoIP2-php.git",
-                "reference": "6a41d8fbd6b90052bc34dff3b4252d0f88067b23"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/GeoIP2-php/zipball/6a41d8fbd6b90052bc34dff3b4252d0f88067b23",
-                "reference": "6a41d8fbd6b90052bc34dff3b4252d0f88067b23",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "maxmind-db/reader": "~1.8",
-                "maxmind/web-service-common": "~0.8",
-                "php": ">=7.2"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": "^8.0 || ^9.0",
-                "squizlabs/php_codesniffer": "3.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "GeoIp2\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Gregory J. Oschwald",
-                    "email": "goschwald@maxmind.com",
-                    "homepage": "https://www.maxmind.com/"
-                }
-            ],
-            "description": "MaxMind GeoIP2 PHP API",
-            "homepage": "https://github.com/maxmind/GeoIP2-php",
-            "keywords": [
-                "IP",
-                "geoip",
-                "geoip2",
-                "geolocation",
-                "maxmind"
-            ],
-            "support": {
-                "issues": "https://github.com/maxmind/GeoIP2-php/issues",
-                "source": "https://github.com/maxmind/GeoIP2-php/tree/v2.13.0"
-            },
-            "time": "2022-08-05T20:32:58+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -2937,6 +2749,103 @@
             "time": "2025-09-08T19:05:53+00:00"
         },
         {
+            "name": "imgix/imgix-php",
+            "version": "3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imgix/imgix-php.git",
+                "reference": "ddb7e427b601bc3534f108180c81292d5b29bc39"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imgix/imgix-php/zipball/ddb7e427b601bc3534f108180c81292d5b29bc39",
+                "reference": "ddb7e427b601bc3534f108180c81292d5b29bc39",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imgix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "description": "A PHP client library for generating URLs with imgix.",
+            "keywords": [
+                "imgix"
+            ],
+            "support": {
+                "issues": "https://github.com/imgix/imgix-php/issues",
+                "source": "https://github.com/imgix/imgix-php/tree/3.3.1"
+            },
+            "time": "2021-03-25T15:10:34+00:00"
+        },
+        {
+            "name": "ksubileau/color-thief-php",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksubileau/color-thief-php.git",
+                "reference": "fc2acefacbd037f68cf61bcc62b30ac1bb16ed59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksubileau/color-thief-php/zipball/fc2acefacbd037f68cf61bcc62b30ac1bb16ed59",
+                "reference": "fc2acefacbd037f68cf61bcc62b30ac1bb16ed59",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.13",
+                "phpunit/phpunit": "~4.8|~5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD image adapter.",
+                "ext-gmagick": "to use the Gmagick image adapter.",
+                "ext-imagick": "to use the Imagick image adapter."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ColorThief\\": "lib/ColorThief"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "CC-BY-2.5"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Subileau",
+                    "homepage": "http://www.kevinsubileau.fr"
+                }
+            ],
+            "description": "Grabs the dominant color or a representative color palette from an image.",
+            "homepage": "http://www.kevinsubileau.fr/projets/color-thief-php",
+            "keywords": [
+                "color",
+                "dominant",
+                "palette",
+                "php",
+                "thief"
+            ],
+            "support": {
+                "issues": "https://github.com/ksubileau/color-thief-php/issues",
+                "source": "https://github.com/ksubileau/color-thief-php/tree/master"
+            },
+            "time": "2018-10-27T18:57:38+00:00"
+        },
+        {
             "name": "lcobucci/clock",
             "version": "3.3.1",
             "source": {
@@ -3350,43 +3259,6 @@
             "time": "2025-01-27T12:07:53+00:00"
         },
         {
-            "name": "mapkit/jwt",
-            "version": "v1.1.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/leanmotherfuckers/mapkit-jwt.git",
-                "reference": "19e502a991dbcb4becbcb51775b29aae624f551d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/leanmotherfuckers/mapkit-jwt/zipball/19e502a991dbcb4becbcb51775b29aae624f551d",
-                "reference": "19e502a991dbcb4becbcb51775b29aae624f551d",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mapkit\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Schoffelen",
-                    "email": "thomas@includable.com"
-                }
-            ],
-            "description": "Simple class to create MapKit and MusicKit JWT tokens.",
-            "support": {
-                "issues": "https://github.com/leanmotherfuckers/mapkit-jwt/issues",
-                "source": "https://github.com/leanmotherfuckers/mapkit-jwt/tree/v1.1.3"
-            },
-            "time": "2019-06-10T05:32:35+00:00"
-        },
-        {
             "name": "markbaker/complex",
             "version": "3.0.2",
             "source": {
@@ -3559,121 +3431,6 @@
                 "source": "https://github.com/Masterminds/html5-php/tree/2.10.0"
             },
             "time": "2025-07-25T09:04:22+00:00"
-        },
-        {
-            "name": "maxmind-db/reader",
-            "version": "v1.13.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maxmind/MaxMind-DB-Reader-php.git",
-                "reference": "2194f58d0f024ce923e685cdf92af3daf9951908"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/MaxMind-DB-Reader-php/zipball/2194f58d0f024ce923e685cdf92af3daf9951908",
-                "reference": "2194f58d0f024ce923e685cdf92af3daf9951908",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "conflict": {
-                "ext-maxminddb": "<1.11.1 || >=2.0.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": ">=8.0.0,<10.0.0",
-                "squizlabs/php_codesniffer": "4.*"
-            },
-            "suggest": {
-                "ext-bcmath": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
-                "ext-gmp": "bcmath or gmp is required for decoding larger integers with the pure PHP decoder",
-                "ext-maxminddb": "A C-based database decoder that provides significantly faster lookups",
-                "maxmind-db/reader-ext": "C extension for significantly faster IP lookups (install via PIE: pie install maxmind-db/reader-ext)"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MaxMind\\Db\\": "src/MaxMind/Db"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Gregory J. Oschwald",
-                    "email": "goschwald@maxmind.com",
-                    "homepage": "https://www.maxmind.com/"
-                }
-            ],
-            "description": "MaxMind DB Reader API",
-            "homepage": "https://github.com/maxmind/MaxMind-DB-Reader-php",
-            "keywords": [
-                "database",
-                "geoip",
-                "geoip2",
-                "geolocation",
-                "maxmind"
-            ],
-            "support": {
-                "issues": "https://github.com/maxmind/MaxMind-DB-Reader-php/issues",
-                "source": "https://github.com/maxmind/MaxMind-DB-Reader-php/tree/v1.13.1"
-            },
-            "time": "2025-11-21T22:24:26+00:00"
-        },
-        {
-            "name": "maxmind/web-service-common",
-            "version": "v0.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/maxmind/web-service-common-php.git",
-                "reference": "c309236b5a5555b96cf560089ec3cead12d845d2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/maxmind/web-service-common-php/zipball/c309236b5a5555b96cf560089ec3cead12d845d2",
-                "reference": "c309236b5a5555b96cf560089ec3cead12d845d2",
-                "shasum": ""
-            },
-            "require": {
-                "composer/ca-bundle": "^1.0.3",
-                "ext-curl": "*",
-                "ext-json": "*",
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "3.*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": "^10.0",
-                "squizlabs/php_codesniffer": "4.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "MaxMind\\Exception\\": "src/Exception",
-                    "MaxMind\\WebService\\": "src/WebService"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Gregory Oschwald",
-                    "email": "goschwald@maxmind.com"
-                }
-            ],
-            "description": "Internal MaxMind Web Service API",
-            "homepage": "https://github.com/maxmind/web-service-common-php",
-            "support": {
-                "issues": "https://github.com/maxmind/web-service-common-php/issues",
-                "source": "https://github.com/maxmind/web-service-common-php/tree/v0.11.1"
-            },
-            "time": "2026-01-13T17:56:03+00:00"
         },
         {
             "name": "mikehaertl/php-shellcommand",
@@ -4250,6 +4007,320 @@
                 }
             ],
             "time": "2025-12-17T22:43:40+00:00"
+        },
+        {
+            "name": "nystudio107/craft-imageoptimize",
+            "version": "5.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nystudio107/craft-imageoptimize.git",
+                "reference": "ae9f1473a763c062a83bb7afce133672b9653c95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-imageoptimize/zipball/ae9f1473a763c062a83bb7afce133672b9653c95",
+                "reference": "ae9f1473a763c062a83bb7afce133672b9653c95",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0",
+                "ksubileau/color-thief-php": "^1.3",
+                "mikehaertl/php-shellcommand": "~1.2",
+                "nystudio107/craft-imageoptimize-imgix": "^5.0.0",
+                "nystudio107/craft-imageoptimize-sharp": "^5.0.0",
+                "nystudio107/craft-imageoptimize-thumbor": "^5.0.0",
+                "nystudio107/craft-plugin-vite": "^5.0.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "craftcms/rector": "dev-main",
+                "nystudio107/craft-minify": "^5.0.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "ImageOptimize",
+                "class": "nystudio107\\imageoptimize\\ImageOptimize",
+                "handle": "image-optimize"
+            },
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\imageoptimize\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Automatically create & optimize responsive image transforms, using either native Craft transforms or a service like imgix, with zero template changes.",
+            "keywords": [
+                "Craft",
+                "cms",
+                "craft-plugin",
+                "craftcms",
+                "image",
+                "image-variants",
+                "imgix",
+                "optimize",
+                "optimize-images"
+            ],
+            "support": {
+                "docs": "https://nystudio107.com/docs/image-optimize/",
+                "issues": "https://nystudio107.com/plugins/imageoptimize/support",
+                "source": "https://github.com/nystudio107/craft-imageoptimize"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/khalwat",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-13T20:28:33+00:00"
+        },
+        {
+            "name": "nystudio107/craft-imageoptimize-imgix",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nystudio107/craft-imageoptimize-imgix.git",
+                "reference": "0d2795b4601c5fa91bdb5c22ed7d15cb6cbf12b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-imageoptimize-imgix/zipball/0d2795b4601c5fa91bdb5c22ed7d15cb6cbf12b6",
+                "reference": "0d2795b4601c5fa91bdb5c22ed7d15cb6cbf12b6",
+                "shasum": ""
+            },
+            "require": {
+                "imgix/imgix-php": "^3.0.0",
+                "nystudio107/craft-imageoptimize": "^5.0.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "craftcms/rector": "dev-main"
+            },
+            "type": "image-transform",
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\imageoptimizeimgix\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Provides an Imgix image transform type for the ImageOptimize plugin.",
+            "keywords": [
+                "craftcms",
+                "image-optimize",
+                "image-transform",
+                "imgix"
+            ],
+            "support": {
+                "docs": "https://github.com/nystudio107/craft-imageoptimize-imgix/",
+                "issues": "https://github.com/nystudio107/craft-imageoptimize-imgix/issues",
+                "source": "https://github.com/nystudio107/craft-imageoptimize-imgix/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/khalwat",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-15T19:32:50+00:00"
+        },
+        {
+            "name": "nystudio107/craft-imageoptimize-sharp",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nystudio107/craft-imageoptimize-sharp.git",
+                "reference": "ee2f6d44493e7a9ac8196eedd1dadb09975ddc66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-imageoptimize-sharp/zipball/ee2f6d44493e7a9ac8196eedd1dadb09975ddc66",
+                "reference": "ee2f6d44493e7a9ac8196eedd1dadb09975ddc66",
+                "shasum": ""
+            },
+            "require": {
+                "nystudio107/craft-imageoptimize": "^5.0.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "craftcms/aws-s3": "^2.1.0",
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "craftcms/rector": "dev-main"
+            },
+            "type": "image-transform",
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\imageoptimizesharp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Provides an Sharp image transform type for the ImageOptimize plugin.",
+            "keywords": [
+                "craftcms",
+                "image-optimize",
+                "image-transform",
+                "sharp"
+            ],
+            "support": {
+                "docs": "https://github.com/nystudio107/craft-imageoptimize-sharp/",
+                "issues": "https://github.com/nystudio107/craft-imageoptimize-sharp/issues",
+                "source": "https://github.com/nystudio107/craft-imageoptimize-sharp/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/khalwat",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-15T19:32:04+00:00"
+        },
+        {
+            "name": "nystudio107/craft-imageoptimize-thumbor",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nystudio107/craft-imageoptimize-thumbor.git",
+                "reference": "a960d8b3d9873ae88049b5ef74a1f8b661903ec9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-imageoptimize-thumbor/zipball/a960d8b3d9873ae88049b5ef74a1f8b661903ec9",
+                "reference": "a960d8b3d9873ae88049b5ef74a1f8b661903ec9",
+                "shasum": ""
+            },
+            "require": {
+                "nystudio107/craft-imageoptimize": "^5.0.0",
+                "php": "^8.2",
+                "webfactory/phumbor": "^1.2"
+            },
+            "require-dev": {
+                "craftcms/aws-s3": "^2.1.0",
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "craftcms/rector": "dev-main"
+            },
+            "type": "image-transform",
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\imageoptimizethumbor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Provides an Thumbor image transform type for the ImageOptimize plugin.",
+            "keywords": [
+                "craftcms",
+                "image-optimize",
+                "image-transform",
+                "thumbor"
+            ],
+            "support": {
+                "docs": "https://github.com/nystudio107/craft-imageoptimize-thumbor/",
+                "issues": "https://github.com/nystudio107/craft-imageoptimize-thumbor/issues",
+                "source": "https://github.com/nystudio107/craft-imageoptimize-thumbor/tree/5.0.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/khalwat",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-15T19:31:12+00:00"
+        },
+        {
+            "name": "nystudio107/craft-plugin-vite",
+            "version": "5.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nystudio107/craft-plugin-vite.git",
+                "reference": "023ea9013f03ac8b15c9b800c66943ce4d02cf48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nystudio107/craft-plugin-vite/zipball/023ea9013f03ac8b15c9b800c66943ce4d02cf48",
+                "reference": "023ea9013f03ac8b15c9b800c66943ce4d02cf48",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0"
+            },
+            "require-dev": {
+                "craftcms/ecs": "dev-main",
+                "craftcms/phpstan": "dev-main",
+                "craftcms/rector": "dev-main"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nystudio107\\pluginvite\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "nystudio107",
+                    "homepage": "https://nystudio107.com"
+                }
+            ],
+            "description": "Plugin Vite is the conduit between Craft CMS plugins and Vite, with manifest.json & HMR support",
+            "keywords": [
+                "craftcms",
+                "plugin",
+                "vite"
+            ],
+            "support": {
+                "docs": "https://github.com/nystudio107/craft-plugin-vite/blob/v5/README.md",
+                "issues": "https://github.com/nystudio107/craft-plugin-vite/issues",
+                "source": "https://github.com/nystudio107/craft-plugin-vite/tree/5.0.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/khalwat",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-08-14T02:02:01+00:00"
         },
         {
             "name": "oscarotero/html-parser",
@@ -9698,6 +9769,59 @@
             "time": "2025-01-04T09:47:58+00:00"
         },
         {
+            "name": "webfactory/phumbor",
+            "version": "1.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webfactory/phumbor.git",
+                "reference": "b91be204f7f1aff82ac1b8d89321cdcdb16ba6ed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webfactory/phumbor/zipball/b91be204f7f1aff82ac1b8d89321cdcdb16ba6ed",
+                "reference": "b91be204f7f1aff82ac1b8d89321cdcdb16ba6ed",
+                "shasum": ""
+            },
+            "replace": {
+                "99designs/phumbor": "*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Thumbor": "lib"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stuart Campbell",
+                    "email": "stuart.campbell@99designs.com"
+                },
+                {
+                    "name": "webfactory GmbH",
+                    "email": "info@webfactory.de"
+                }
+            ],
+            "description": "A minimal Thumbor library for PHP",
+            "homepage": "https://github.com/webfactory/phumbor",
+            "keywords": [
+                "Thumbnails",
+                "php",
+                "thumbor",
+                "webfactory"
+            ],
+            "support": {
+                "source": "https://github.com/webfactory/phumbor/tree/1.3.0"
+            },
+            "time": "2020-12-12T16:12:01+00:00"
+        },
+        {
             "name": "webmozart/assert",
             "version": "2.1.2",
             "source": {
@@ -9823,61 +9947,6 @@
                 }
             ],
             "time": "2023-07-05T14:23:37+00:00"
-        },
-        {
-            "name": "what3words/w3w-php-wrapper",
-            "version": "v3.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/what3words/w3w-php-wrapper.git",
-                "reference": "7dbedf620c554ca6898503a4e52e63aa967e67a7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/what3words/w3w-php-wrapper/zipball/7dbedf620c554ca6898503a4e52e63aa967e67a7",
-                "reference": "7dbedf620c554ca6898503a4e52e63aa967e67a7",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^8.5"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": "Thanks from all of us at index.home.raft for using what3words"
-            },
-            "autoload": {
-                "psr-4": {
-                    "What3words\\Geocoder\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "what3words",
-                    "email": "support@what3words.com",
-                    "homepage": "http://developer.what3words.com"
-                }
-            ],
-            "description": "A PHP library to use the what3words RESTful API",
-            "homepage": "https://github.com/what3words/w3w-php-wrapper",
-            "keywords": [
-                "3 word address",
-                "geocoding",
-                "what3words"
-            ],
-            "support": {
-                "docs": "https://developer.what3words.com",
-                "email": "support@what3words.com",
-                "issues": "https://github.com/what3words/w3w-php-wrapper/issues",
-                "source": "https://github.com/what3words/w3w-php-wrapper"
-            },
-            "time": "2025-11-27T10:46:04+00:00"
         },
         {
             "name": "yiisoft/yii2",

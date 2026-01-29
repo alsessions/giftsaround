@@ -35,9 +35,26 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-01-28T21:45:40+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 057bffe8-145d-4cf8-a820-52b631b73266 # Optimized Image
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 1ac61058-7ecf-4e0a-9e11-15e5877844e3
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: d9c173c2-b7cf-442b-b899-51d82ad30990
         userCondition: null
+    thumbFieldKey: null
 fs: uploads
 handle: business
 name: Business

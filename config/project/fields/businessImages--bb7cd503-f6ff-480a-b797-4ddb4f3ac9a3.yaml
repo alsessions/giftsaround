@@ -13,7 +13,7 @@ settings:
   defaultUploadLocationSource: 'volume:56699230-c9fb-4962-9d9b-36f4224b5a07' # Business
   defaultUploadLocationSubpath: business
   maintainHierarchy: false
-  maxRelations: null
+  maxRelations: 1
   minRelations: null
   previewMode: full
   restrictFiles: false
@@ -22,7 +22,6 @@ settings:
   restrictedLocationSource: 'volume:56699230-c9fb-4962-9d9b-36f4224b5a07' # Business
   restrictedLocationSubpath: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: true
   showUnpermittedFiles: false

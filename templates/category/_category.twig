@@ -26,6 +26,23 @@
     <!-- Category Header -->
     <div class="text-center mb-12">
         <h1 class="text-4xl font-bold text-gray-100 mb-4">{{ category.title }}</h1>
+
+        <!-- All Categories -->
+        {% set allCategories = craft.categories.group('category').all() %}
+        {% if allCategories|length > 0 %}
+            <div class="flex flex-wrap justify-center gap-2 mt-6">
+                {% for cat in allCategories %}
+                    {% if cat.id != category.id %}
+                        <a href="/category/{{ cat.slug }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                            </svg>
+                            {{ cat.title }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
     {% set businesses = craft.entries.section('business').relatedTo(category).all() %}

@@ -3,9 +3,9 @@
 {% block title %}{{ entry.title }} - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="max-w-7xl mx-auto min-h-screen">
     <!-- Business Header -->
-    <div class="bg-white rounded-lg shadow-lg overflow-hidden mb-8">
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
         <!-- Hero Image Section -->
         {% if entry.businessImages|length %}
             <div class="h-64 md:h-96 relative bg-gray-200">
@@ -46,7 +46,7 @@
                         </svg>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-1">Address</h3>
-                            <p class="text-gray-700">{{ businessAddress.addressLine1 }}</p>
+                            <p class="text-gray-700 font-medium">{{ businessAddress.addressLine1 }}</p>
                             {% if businessAddress.addressLine2 %}
                                 <p class="text-gray-700">{{ businessAddress.addressLine2 }}</p>
                             {% endif %}
@@ -63,8 +63,10 @@
                         </svg>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-1">Phone</h3>
-                            <a href="tel:{{ attribute(entry, 'businessPhone')|replace({' ': '', '(': '', ')': '', '-': ''}) }}"
-                               class="text-blue-600 hover:text-blue-800 transition-colors">
+                            <a href="tel:{{ attribute(entry, 'businessPhone') }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                </svg>
                                 {{ attribute(entry, 'businessPhone') }}
                             </a>
                         </div>
@@ -81,10 +83,9 @@
                         </svg>
                         <div>
                             <h3 class="font-semibold text-gray-900 mb-1">Website</h3>
-                            <a href="{{ attribute(entry, 'businessWebsite') }}" target="_blank" rel="noopener noreferrer"
-                               class="text-blue-600 hover:text-blue-800 transition-colors inline-flex items-center">
-                                {{ attribute(entry, 'businessWebsite')|replace({'https://': '', 'http://': '', 'www.': ''}) }}
-                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <a href="{{ attribute(entry, 'businessWebsite') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                                Visit Site
+                                <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                 </svg>
                             </a>
@@ -103,7 +104,10 @@
                             <h3 class="font-semibold text-gray-900 mb-1">Category</h3>
                             <div class="flex flex-wrap gap-2">
                                 {% for category in businessCategories %}
-                                    <a href="/category/{{ category.slug }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full hover:bg-blue-200 transition-colors">
+                                    <a href="/category/{{ category.slug }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                        </svg>
                                         {{ category.title }}
                                     </a>
                                 {% endfor %}
@@ -154,90 +158,111 @@
                     {% set validMonthlySpecials = validMonthlySpecials|merge([row]) %}
                 {% endif %}
             {% endfor %}
-            {% if validMonthlySpecials|length %}
-                <div class="mt-6 mb-20 pt-6 border-t border-gray-200" x-data="{ expanded: true }">
-                    <button @click="expanded = !expanded" class="flex items-center text-left group">
-                        <svg class="w-6 h-6 text-red-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
-                        </svg>
-                        <h3 class="font-semibold text-gray-900">Member Only Specials</h3>
-                        <svg class="w-5 h-5 text-gray-500 transition-transform duration-200 ml-2" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div x-show="expanded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="mt-4 overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Special</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                {% for row in validMonthlySpecials %}
-                                    <tr class="{% if loop.index is odd %}bg-white{% else %}bg-gray-50{% endif %}">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ row.month }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <div class="flex items-center justify-between">
-                                                <span>{{ row.special }}</span>
-                                                {% if currentUser %}
-                                                    <form method="post" class="inline-block ml-4" data-redeem-form>
-                                                        {{ csrfInput() }}
-                                                        {{ actionInput('redeem/default/generate-redeem-token') }}
-                                                        {{ redirectInput(entry.url) }}
-                                                        <input type="hidden" name="businessId" value="{{ entry.id }}">
-                                                        <input type="hidden" name="redeemType" value="monthlySpecial">
-                                                        <input type="hidden" name="monthIndex" value="{{ loop.index0 }}">
-                                                        <input type="hidden" name="monthData" value="{{ row.month ~ '|' ~ row.special }}">
-                                                        <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                                                            Redeem
-                                                        </button>
-                                                    </form>
-                                                {% else %}
-                                                    <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
-                                                        Sign Up
-                                                    </a>
-                                                {% endif %}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
 
-    <!-- Image Gallery -->
-    {% if entry.businessImages|length > 1 %}
-        <div class="bg-white rounded-lg shadow-lg p-6 md:p-8 mb-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6">Gallery</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {% for image in entry.businessImages %}
-                    <div class="aspect-square overflow-hidden rounded-lg bg-gray-200">
-                        <img src="{{ image.url }}"
-                             alt="{{ image.title ?: entry.title ~ ' - Image ' ~ loop.index }}"
-                             class="gallery-image hover:opacity-90 transition-opacity"
-                             width="300"
-                             height="300"
-                             loading="lazy"
-                             style="aspect-ratio: 1/1;">
-                    </div>
+            {% if validMonthlySpecials|length %}
+                {% set allSame = true %}
+                {% set firstSpecial = validMonthlySpecials[0].special %}
+                {% for row in validMonthlySpecials %}
+                    {% if row.special != firstSpecial %}
+                        {% set allSame = false %}
+                    {% endif %}
                 {% endfor %}
+
+                {% if allSame %}
+                    <div class="mt-6 pt-6 border-t border-gray-200">
+                        <div class="flex items-start space-x-3">
+                            <svg class="w-6 h-6 text-red-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                            </svg>
+                            <div>
+                                <h3 class="font-semibold text-gray-900 mb-1">Member Only Monthly Special</h3>
+                                <div class="flex items-center justify-between">
+                                    <p class="text-gray-700">{{ firstSpecial }}</p>
+                                    {% if currentUser %}
+                                        <form method="post" class="inline-block ml-4" data-redeem-form>
+                                            {{ csrfInput() }}
+                                            {{ actionInput('redeem/default/generate-redeem-token') }}
+                                            {{ redirectInput(entry.url) }}
+                                            <input type="hidden" name="businessId" value="{{ entry.id }}">
+                                            <input type="hidden" name="redeemType" value="monthlySpecial">
+                                            <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                                Redeem Monthly
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
+                                            Sign Up to Redeem
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="mt-6 mb-20 pt-6 border-t border-gray-200" x-data="{ expanded: true }">
+                        <button @click="expanded = !expanded" class="flex items-center text-left group">
+                            <svg class="w-6 h-6 text-red-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                            </svg>
+                            <h3 class="font-semibold text-gray-900">Member Only Specials</h3>
+                            <svg class="w-5 h-5 text-gray-500 transition-transform duration-200 ml-2" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="expanded" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100" x-transition:leave-end="opacity-0 transform scale-95" class="mt-4 overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Month</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Special</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for row in validMonthlySpecials %}
+                                        <tr class="{% if loop.index is odd %}bg-white{% else %}bg-gray-50{% endif %}">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ row.month }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                                <div class="flex items-center justify-between">
+                                                    <span>{{ row.special }}</span>
+                                                    {% if currentUser %}
+                                                        <form method="post" class="inline-block ml-4" data-redeem-form>
+                                                            {{ csrfInput() }}
+                                                            {{ actionInput('redeem/default/generate-redeem-token') }}
+                                                            {{ redirectInput(entry.url) }}
+                                                            <input type="hidden" name="businessId" value="{{ entry.id }}">
+                                                            <input type="hidden" name="redeemType" value="monthlySpecial">
+                                                            <input type="hidden" name="monthIndex" value="{{ loop.index0 }}">
+                                                            <input type="hidden" name="monthData" value="{{ row.month ~ '|' ~ row.special }}">
+                                                            <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                                                Redeem
+                                                            </button>
+                                                        </form>
+                                                    {% else %}
+                                                        <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
+                                                            Sign Up
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <!-- Back to Businesses List -->
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <a href="/business" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Back to All Businesses
+                </a>
             </div>
         </div>
-    {% endif %}
-
-    <!-- Back to Businesses List -->
-    <div class="mt-8">
-        <a href="/business" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-            Back to All Businesses
-        </a>
     </div>
 </div>
 
@@ -259,12 +284,7 @@ img {
     }
 }
 
-/* Gallery grid consistent sizing */
-.gallery-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+
 </style>
 
 <script>
