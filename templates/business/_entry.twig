@@ -118,6 +118,15 @@
 
             </div>
 
+            <!-- Business Description -->
+            {% if entry.businessDescription|length %}
+                <div class="mt-6 pt-6 border-t border-gray-200">
+                    <div class="prose max-w-none text-gray-700">
+                        {{ entry.businessDescription|raw }}
+                    </div>
+                </div>
+            {% endif %}
+
             <!-- Special Offer -->
             {% if entry.oneSpecial|length %}
                 <div class="mt-6 pt-6 border-t border-gray-200">

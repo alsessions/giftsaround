@@ -1,3 +1,4 @@
+allowLineBreaksInTitles: false
 color: null
 description: null
 fieldLayouts:
@@ -36,9 +37,26 @@ fieldLayouts:
             warning: null
             width: 100
           -
+            dateAdded: '2026-01-29T02:09:25+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 19b7dc0c-1f0e-4d68-928d-0866f3bf5c99 # Business Description
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6b87a644-ab46-45de-9e55-2847271836a9
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2025-08-30T01:38:51+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: abca8568-b497-484e-b4d3-5fe77d0d18dd # Category
             handle: null
             instructions: null
@@ -54,6 +72,7 @@ fieldLayouts:
             dateAdded: '2025-08-29T01:35:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 1681a684-620d-404c-a918-6af20caa8b8b # Business Email
             handle: null
             instructions: null
@@ -69,6 +88,7 @@ fieldLayouts:
             dateAdded: '2025-08-29T01:35:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 937faf23-8b1b-469b-9235-401505a750f2 # Business Address
             handle: null
             instructions: null
@@ -84,6 +104,7 @@ fieldLayouts:
             dateAdded: '2025-08-29T01:35:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: bb7cd503-f6ff-480a-b797-4ddb4f3ac9a3 # Business Images
             handle: null
             instructions: null
@@ -99,6 +120,7 @@ fieldLayouts:
             dateAdded: '2025-08-29T01:35:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 90c4ffa5-83bb-4af6-8837-6ad5bf1c323c # Business Phone
             handle: null
             instructions: null
@@ -114,6 +136,7 @@ fieldLayouts:
             dateAdded: '2025-08-29T01:35:31+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: b441d323-0b33-4f14-95c6-153d91a1674d # Business Website
             handle: null
             instructions: null
@@ -129,6 +152,7 @@ fieldLayouts:
             dateAdded: '2025-09-19T15:29:34+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: 21d5b2e7-055d-41a3-8842-86406bf86748 # One Special (same each month)
             handle: null
             instructions: null
@@ -144,6 +168,7 @@ fieldLayouts:
             dateAdded: '2025-09-19T15:56:50+00:00'
             editCondition: null
             elementCondition: null
+            elementEditCondition: null
             fieldUid: d4bb8a19-094e-48c4-b6ca-37154e3fc329 # Monthly Specials
             handle: null
             instructions: null
@@ -155,39 +180,10 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
-          -
-            dateAdded: '2025-09-19T15:52:09+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 2380efb4-0a40-440f-9ddf-b81d64af40d0
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 977c178a-31aa-4787-9a81-b8bc8212293a
-            userCondition: null
-            warning: null
-            width: 100
-          -
-            dateAdded: '2025-08-29T03:15:52+00:00'
-            editCondition: null
-            elementCondition: null
-            fieldUid: 1bbcf789-77a3-45b6-b5c3-3e7b2f518bcb
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 081ff5c0-c59f-4323-abaf-289ab43b6295
-            userCondition: null
-            warning: null
-            width: 100
         name: Content
         uid: d46d188c-2f64-44c8-8aaa-c0ef97964401
         userCondition: null
+    thumbFieldKey: null
 handle: business
 hasTitleField: true
 icon: null
@@ -199,3 +195,4 @@ slugTranslationMethod: site
 titleFormat: null
 titleTranslationKeyFormat: null
 titleTranslationMethod: site
+uiLabelFormat: '{title}'
