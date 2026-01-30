@@ -1,0 +1,53 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Payment Failed" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8 mb-16">
+    <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
+        <div class="mb-6">
+            <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Failed</h1>
+            <p class="text-xl text-gray-300">We couldn't process your payment</p>
+        </div>
+
+        {% set submissionId = craft.app.request.getParam('submission') %}
+        {% if submissionId %}
+            {% set payments = freeform.payments(submissionId) %}
+            {% if payments and payments.errorMessage %}
+                <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-6">
+                    <p class="text-red-300">{{ payments.errorMessage }}</p>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">
+            <p class="text-gray-300 mb-4">Your account was not created because payment could not be processed. Please check your payment information and try again.</p>
+            <p class="text-gray-400 text-sm">If the problem persists, contact your bank or try a different payment method.</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+                Try Again
+            </a>
+            <a href="/" class="inline-flex items-center justify-center px-6 py-3 bg-gray-700 text-gray-200 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                Back to Home
+            </a>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-gray-800">
+            <p class="text-gray-500 text-sm">Need help? <a href="/contact" class="text-blue-400 hover:text-blue-300">Contact support</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
