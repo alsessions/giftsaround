@@ -50,3 +50,10 @@ Thumbs.db
 # Backup files
 *.bak
 *.backup
+
+# Database backups
+*.sql
+*.sql.gz
+*.sql.zip
+*.dump
+*.db.backup
