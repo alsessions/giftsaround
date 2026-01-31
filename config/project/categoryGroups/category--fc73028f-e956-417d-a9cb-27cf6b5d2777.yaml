@@ -34,9 +34,26 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
+          -
+            dateAdded: '2026-01-31T02:49:46+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 2e7eeff7-13b1-4896-881c-eb60635f0b8a # Body
+            handle: null
+            instructions: null
+            label: Description
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: e112c616-1478-4cca-a795-e37aeeb5f34f
+            userCondition: null
+            warning: null
+            width: 100
         name: Content
         uid: ec1ec6d1-a6c6-4ae7-ab14-13c81d77c640
         userCondition: null
+    thumbFieldKey: null
 handle: category
 name: Category
 siteSettings:
