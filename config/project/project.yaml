@@ -1,4 +1,4 @@
-dateModified: 1769827786
+dateModified: 1770244313
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -61,7 +61,7 @@ plugins:
     edition: pro
     enabled: true
     licenseKey: HL9340USSEDAJJUL2UUQS78V
-    schemaVersion: 5.14.1
+    schemaVersion: 5.14.2
   image-optimize:
     edition: standard
     enabled: true
