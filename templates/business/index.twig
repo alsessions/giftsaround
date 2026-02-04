@@ -6,10 +6,10 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Page Header -->
     <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold text-green-400 mb-4">Local Businesses</h1>
-        <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+        <h1 class="text-4xl font-bold text-gray-100 mb-4">Local Businesses</h1>
+        <div class="text-gray-400 text-lg max-w-3xl mx-auto min-h-[1.75rem]">
             Discover amazing local businesses in your community
-        </p>
+        </div>
     </div>
 
     {% paginate craft.entries.section('business').limit(15) as pageInfo, businesses %}
@@ -63,11 +63,31 @@
                         {% endif %}
 
 
+
+                        <!-- Category -->
+                        {% set businessCategories = business.category.all() %}
+                        {% if businessCategories|length > 0 %}
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                </svg>
+                                <div class="flex flex-wrap gap-1">
+                                    {% for category in businessCategories %}
+                                        <a href="/category/{{ category.slug }}" class="inline-flex items-center px-2 py-1 text-xs font-medium bg-gray-800 text-gray-300 rounded-md hover:bg-gray-700 transition-colors">
+                                            {{ category.title }}
+                                        </a>
+                                        {% if not loop.last %}<span class="text-gray-400 mx-1">,</span>{% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
+
+
 
                     <!-- View Details Button -->
                     <a href="{{ business.url }}"
-                       class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors mt-auto">
+                       class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors mt-auto">
                         View Details
                         <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -109,12 +129,5 @@
     {% endif %}
 </div>
 
-<style>
-.line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-</style>
+
 {% endblock %}
