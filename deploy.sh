@@ -27,10 +27,13 @@ composer install --no-interaction --no-progress --no-dev
 echo "Applying database migrations and project config..."
 php craft up --interactive=0
 
-
+# Manually clear runtime cache directories to avoid "Directory not empty" errors
+echo "Manually clearing runtime cache directories..."
+rm -rf storage/runtime/cache/*
+rm -rf storage/runtime/compiled_templates/*
 
 # Clear Craft's caches to ensure all changes take effect immediately.
 echo "Clearing Craft caches..."
-php craft clear-caches/all
+php craft clear-caches/all || true
 
 echo "--- Deployment finished successfully ---"
