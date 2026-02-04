@@ -1,14 +1,19 @@
 {% extends "_layouts/base.twig" %}
 {% block title %}Manage Redemptions - Admin{% endblock %}
 {% block content %}
-{% requireAdmin %}
+{% requireLogin %}
+
+{# Check if user is admin #}
+{% if not currentUser.admin %}
+    {% redirect 'account' %}
+{% endif %}
 
 {# Handle form submission for clearing history #}
 {% set justCleared = false %}
 {% if craft.app.request.isPost and craft.app.request.getBodyParam('clear-user-id') %}
     {% set userId = craft.app.request.getBodyParam('clear-user-id') %}
     {% set user = craft.users.id(userId).one() %}
-    
+
     {% if user %}
         {% set deleted = craft.app.db.createCommand()
             .delete('{{%redeem_tokens}}', {'userId': userId})
@@ -24,11 +29,11 @@
 
 {% for user in users %}
     {% set totalTokens = craft.app.db.createCommand('SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId').bindValue(':userId', user.id).queryScalar() %}
-    
+
     {% if totalTokens > 0 %}
         {% set usedTokens = craft.app.db.createCommand('SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId AND usedAt IS NOT NULL').bindValue(':userId', user.id).queryScalar() %}
         {% set activeTokens = craft.app.db.createCommand('SELECT COUNT(*) FROM {{%redeem_tokens}} WHERE userId = :userId AND usedAt IS NULL').bindValue(':userId', user.id).queryScalar() %}
-        
+
         {% set userData = userData|merge([{
             'user': user,
             'total': totalTokens,
