@@ -11,7 +11,6 @@ settings:
   maxRelations: null
   minRelations: null
   selectionLabel: null
-  showCardsInGrid: false
   showSearchInput: true
   showSiteMenu: false
   source: 'group:fc73028f-e956-417d-a9cb-27cf6b5d2777' # Category
