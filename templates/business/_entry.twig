@@ -127,6 +127,27 @@
 
             <!-- Special Offer -->
                 {% if entry.oneSpecial|length %}
+                    {# Check if oneSpecial has been redeemed this month #}
+                    {% set currentMonth = 'now'|date('n') - 1 %}
+                    {% set oneSpecialRedeemed = false %}
+                    {% if currentUser %}
+                        {% set oneSpecialToken = craft.app.db.createCommand("
+                            SELECT usedAt
+                            FROM {{%redeem_tokens}}
+                            WHERE userId = :userId
+                            AND businessId = :businessId
+                            AND redeemType = 'oneSpecial'
+                            AND monthIndex = :currentMonth
+                            AND usedAt IS NOT NULL
+                            LIMIT 1
+                        ")
+                        .bindValue(':userId', currentUser.id)
+                        .bindValue(':businessId', entry.id)
+                        .bindValue(':currentMonth', currentMonth)
+                        .queryOne() %}
+                        {% set oneSpecialRedeemed = oneSpecialToken ? true : false %}
+                    {% endif %}
+
                     <div class="mt-6 pt-6 border-t border-gray-200">
                         <div class="flex items-start space-x-3">
                             <svg class="w-6 h-6 text-red-600 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,16 +158,23 @@
                                 <div class="flex items-center justify-between">
                                     <p class="text-gray-700">{{ entry.oneSpecial }}</p>
                                     {% if currentUser %}
-                                        <form method="post" class="inline-block ml-4" data-redeem-form>
-                                            {{ csrfInput() }}
-                                            {{ actionInput('redeem/default/generate-redeem-token') }}
-                                            {{ redirectInput(entry.url) }}
-                                            <input type="hidden" name="businessId" value="{{ entry.id }}">
-                                            <input type="hidden" name="redeemType" value="oneSpecial">
-                                            <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
-                                                Redeem
+                                        {% if oneSpecialRedeemed %}
+                                            <button disabled class="inline-flex items-center px-3 py-1 text-sm font-medium bg-gray-400 text-white rounded-md cursor-not-allowed opacity-50 ml-4" title="Already redeemed this month">
+                                                Redeemed
                                             </button>
-                                        </form>
+                                        {% else %}
+                                            <form method="post" class="inline-block ml-4" data-redeem-form>
+                                                {{ csrfInput() }}
+                                                {{ actionInput('redeem/default/generate-redeem-token') }}
+                                                {{ redirectInput(entry.url) }}
+                                                <input type="hidden" name="businessId" value="{{ entry.id }}">
+                                                <input type="hidden" name="redeemType" value="oneSpecial">
+                                                <input type="hidden" name="monthIndex" value="{{ currentMonth }}">
+                                                <button type="submit" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                                    Redeem
+                                                </button>
+                                            </form>
+                                        {% endif %}
                                     {% else %}
                                         <a href="/register" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors ml-4">
                                             Sign Up to Redeem
