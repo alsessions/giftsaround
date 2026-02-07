@@ -4,11 +4,12 @@
     "watch": "npx tailwindcss -i ./src/css/tailwind.css -o ./web/css/styles.css --jit --content './templates/**/*.twig' -w",
     "build": "npx tailwindcss -i ./src/css/tailwind.css -o ./web/css/styles.css --jit --content './templates/**/*.twig' -m"
   },
-  "dependencies": {},
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.4.0",
     "@tailwindcss/typography": "^0.5.0",
+    "prettier": "^3.8.1",
+    "prettier-plugin-twig-melody": "^0.4.6",
     "tailwindcss": "^3.0.7"
   }
 }
