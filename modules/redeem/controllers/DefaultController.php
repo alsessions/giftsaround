@@ -103,6 +103,30 @@ class DefaultController extends Controller
                 return $this->redirectToPostedUrl();
             }
 
+            // Check for existing redeemed monthly special
+            if ($redeemType === 'monthlySpecial' && $monthIndex !== null) {
+                $existingRedeemed = Craft::$app->db->createCommand(
+                    'SELECT id, usedAt FROM {{%redeem_tokens}}
+                    WHERE userId = :userId
+                    AND businessId = :businessId
+                    AND redeemType = :redeemType
+                    AND monthIndex = :monthIndex
+                    AND usedAt IS NOT NULL
+                    LIMIT 1'
+                )
+                ->bindValue(':userId', $userId)
+                ->bindValue(':businessId', $businessId)
+                ->bindValue(':redeemType', $redeemType)
+                ->bindValue(':monthIndex', $monthIndex)
+                ->queryOne();
+
+                if ($existingRedeemed) {
+                    $monthName = $monthData ? explode('|', $monthData)[0] : 'this month';
+                    Craft::$app->getSession()->setError("You have already redeemed the {$monthName} special for this business.");
+                    return $this->redirectToPostedUrl();
+                }
+            }
+
             // Generate token directly with database insert to avoid ActiveRecord issues
             $token = Craft::$app->getSecurity()->generateRandomString(32);
             $now = date('Y-m-d H:i:s');
