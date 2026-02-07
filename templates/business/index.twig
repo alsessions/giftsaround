@@ -21,9 +21,14 @@
         {% for business in businesses %}
             <div class="bg-gray-900 border border-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:shadow-blue-500/10 transition-shadow duration-300 flex flex-col h-full">
                 <!-- Business Image -->
-                <div class="relative h-48 bg-gray-200">
+                <a href="{{ business.url }}" class="relative h-48 bg-gray-200 block">
                     {% if business.businessImages.one() %}
-                        <img src="{{ business.businessImages.one().url }}" alt="{{ business.businessImages.one().title ?: business.title }}" class="w-full h-full object-cover">
+                        {% set businessImage = business.businessImages.one() %}
+                        <picture>
+                            <source srcset="{{ businessImage.optimizedImage.srcWebp() }}" type="image/webp">
+                            <source srcset="{{ businessImage.optimizedImage.src() }}" type="image/jpeg">
+                            <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
+                        </picture>
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,7 +36,7 @@
                             </svg>
                         </div>
                     {% endif %}
-                </div>
+                </a>
 
                 <!-- Business Info -->
                 <div class="p-6 flex flex-col flex-grow">
