@@ -1,4 +1,4 @@
-dateModified: 1770250698
+dateModified: 1770511417
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -67,6 +67,51 @@ plugins:
     enabled: true
     licenseKey: 1DO3AZKMYYVB6G4HYKTF92W7
     schemaVersion: 1.0.0
+    settings:
+      allowUpScaledImageVariants: false
+      assetVolumeSubFolders: true
+      autoSharpenScaledImages: true
+      capSilhouetteSvgSize: true
+      createColorPalette: false
+      createPlaceholderSilhouettes: false
+      imageTransformTypeSettings:
+        __assoc__:
+          -
+            - nystudio107\imageoptimizeimgix\imagetransforms\ImgixImageTransform
+            -
+              __assoc__:
+                -
+                  - domain
+                  - ''
+                -
+                  - apiKey
+                  - ''
+                -
+                  - securityToken
+                  - ''
+                -
+                  - unsharpMask
+                  - '20'
+          -
+            - nystudio107\imageoptimizesharp\imagetransforms\SharpImageTransform
+            -
+              __assoc__:
+                -
+                  - baseUrl
+                  - ''
+          -
+            - nystudio107\imageoptimizethumbor\imagetransforms\ThumborImageTransform
+            -
+              __assoc__:
+                -
+                  - baseUrl
+                  - ''
+                -
+                  - securityKey
+                  - ''
+      lowerQualityRetinaImageVariants: true
+      sharpenScaledImagePercentage: 50
+      transformClass: nystudio107\imageoptimize\imagetransforms\CraftImageTransform
 system:
   edition: pro
   live: true

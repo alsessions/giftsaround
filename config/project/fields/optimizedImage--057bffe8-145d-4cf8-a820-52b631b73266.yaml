@@ -7,6 +7,11 @@ settings:
   displayDominantColorPalette: false
   displayLazyLoadPlaceholderImages: true
   displayOptimizedImageVariants: true
+  fieldVolumeSettings:
+    __assoc__:
+      -
+        - business
+        - '*'
   variants:
     -
       __assoc__:
@@ -15,7 +20,7 @@ settings:
           - '576'
         -
           - useAspectRatio
-          - '1'
+          - ''
         -
           - aspectRatioX
           - '4'

@@ -24,11 +24,15 @@
                 <a href="{{ business.url }}" class="relative h-48 bg-gray-200 block">
                     {% if business.businessImages.one() %}
                         {% set businessImage = business.businessImages.one() %}
+                        {% if businessImage.optimizedImage is defined and businessImage.optimizedImage %}
                         <picture>
                             <source srcset="{{ businessImage.optimizedImage.srcWebp() }}" type="image/webp">
                             <source srcset="{{ businessImage.optimizedImage.src() }}" type="image/jpeg">
                             <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
                         </picture>
+                        {% else %}
+                        <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
+                        {% endif %}
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
