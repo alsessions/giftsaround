@@ -29,10 +29,7 @@ php craft up --interactive=0
 
 # Clear Craft's caches to ensure all changes take effect immediately.
 echo "Clearing Craft caches..."
-# First, manually remove compiled templates directory to avoid "Directory not empty" errors
-echo "Removing compiled templates..."
-rm -rf storage/runtime/compiled_templates/*
-# Now flush all caches
-php craft cache/flush-all
+
+php craft cache/clear-all
 
 echo "--- Deployment finished successfully ---"
