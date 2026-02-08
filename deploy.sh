@@ -30,6 +30,6 @@ php craft up --interactive=0
 # Clear Craft's caches to ensure all changes take effect immediately.
 echo "Clearing Craft caches..."
 
-php craft cache/clear-all
+php craft clear-caches/all
 
 echo "--- Deployment finished successfully ---"
