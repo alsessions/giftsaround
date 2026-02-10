@@ -10,15 +10,15 @@
         {% if entry.businessImages|length %}
             <div class="h-64 md:h-96 relative bg-gray-200">
                 {% set firstImage = entry.businessImages[0] %}
-                {% if firstImage.optimizedImage is defined and firstImage.optimizedImage %}
+                {# {% if firstImage.optimizedImage is defined and firstImage.optimizedImage %}
                 <picture>
                     <source srcset="{{ firstImage.optimizedImage.srcWebp() }}" type="image/webp">
                     <source srcset="{{ firstImage.optimizedImage.src() }}" type="image/jpeg">
                     <img src="{{ firstImage.url }}" alt="{{ firstImage.title ?: entry.title }}" class="w-full h-full object-cover business-hero-image" width="800" height="384" loading="eager" style="aspect-ratio: 800/384;">
                 </picture>
-                {% else %}
+                {% else %} #}
                 <img src="{{ firstImage.url }}" alt="{{ firstImage.title ?: entry.title }}" class="w-full h-full object-cover business-hero-image" width="800" height="384" loading="eager" style="aspect-ratio: 800/384;">
-                {% endif %}
+                {# {% endif %} #}
             </div>
         {% else %}
             <!-- Placeholder if no images -->
