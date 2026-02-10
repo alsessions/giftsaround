@@ -222,16 +222,18 @@
                         WHERE userId = :userId
                         AND businessId = :businessId
                         AND redeemType = 'monthlySpecial'
-                        AND usedAt IS NOT NULL
                     ")
                     .bindValue(':userId', currentUser.id)
                     .bindValue(':businessId', entry.id)
                     .queryAll() %}
 
                     {% for token in userRedeemedTokens %}
-                        {% set redeemedMonths = redeemedMonths|merge({(token.monthIndex): token.usedAt}) %}
+                        {% set key = 'month_' ~ token.monthIndex %}
+                        {% set redeemedMonths = redeemedMonths|merge({(key): token.usedAt}) %}
                     {% endfor %}
                 {% endif %}
+
+
 
                 {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
 
@@ -263,7 +265,7 @@
                                     {% else %}
                                         {% set displaySpecial = monthData ? monthData.special : firstSpecial %}
                                     {% endif %}
-                                    {% set isRedeemed = redeemedMonths[monthIndex] is defined %}
+                                    {% set isRedeemed = redeemedMonths['month_' ~ monthIndex] is defined %}
                                     {% set isFutureMonth = monthIndex > currentMonthIndex %}
                                     {% set isPastMonth = monthIndex < currentMonthIndex %}
                                     <tr class="{% if loop.index is odd %}bg-white{% else %}bg-gray-50{% endif %} {% if isRedeemed or isFutureMonth %}opacity-60{% endif %}">
@@ -282,7 +284,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
                                             {% if currentUser %}
                                                 {% if isRedeemed %}
-                                                    <button disabled class="inline-flex items-center px-3 py-1 text-sm font-medium bg-gray-400 text-white rounded-md cursor-not-allowed opacity-50" title="Already redeemed on {{ redeemedMonths[monthIndex]|date('M j, Y') }}">
+                                                    <button disabled class="inline-flex items-center px-3 py-1 text-sm font-medium bg-gray-400 text-white rounded-md cursor-not-allowed opacity-50" title="Already redeemed on {{ redeemedMonths['month_' ~ monthIndex]|date('M j, Y') }}">
                                                         Redeemed
                                                     </button>
                                                 {% elseif isFutureMonth %}
