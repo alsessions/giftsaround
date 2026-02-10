@@ -28,10 +28,10 @@
         <div class="p-6 md:p-8">
             <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{{ entry.title }}</h1>
 
-            <!-- Category -->
-            {% set businessCategories = entry.category.all() %}
-            {% if businessCategories|length > 0 %}
-                <div class="flex flex-wrap gap-2 mb-6">
+            <!-- Category & Contact Buttons -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                {% set businessCategories = entry.category.all() %}
+                {% if businessCategories|length > 0 %}
                     {% for category in businessCategories %}
                         <a href="/category/{{ category.slug }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,8 +40,26 @@
                             {{ category.title }}
                         </a>
                     {% endfor %}
-                </div>
-            {% endif %}
+                {% endif %}
+
+                {% if attribute(entry, 'businessPhone')|length %}
+                    <a href="tel:{{ attribute(entry, 'businessPhone') }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                        {{ attribute(entry, 'businessPhone') }}
+                    </a>
+                {% endif %}
+
+                {% if attribute(entry, 'businessWebsite')|length %}
+                    <a href="{{ attribute(entry, 'businessWebsite') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                        Visit Site
+                        <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
 
             <!-- Contact Information Grid -->
             <div class="grid md:grid-cols-2 gap-6">
@@ -66,30 +84,6 @@
                                 <p class="text-gray-900 font-semibold">{{ businessAddress.addressLine2 }}</p>
                             {% endif %}
                             <p class="text-gray-900 font-semibold">{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}</p>
-                        </div>
-                    {% endif %}
-
-                    <!-- Phone -->
-                    {% if attribute(entry, 'businessPhone')|length %}
-                        <div>
-                            <a href="tel:{{ attribute(entry, 'businessPhone') }}" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                                <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-                                </svg>
-                                {{ attribute(entry, 'businessPhone') }}
-                            </a>
-                        </div>
-                    {% endif %}
-
-                    <!-- Website -->
-                    {% if attribute(entry, 'businessWebsite')|length %}
-                        <div>
-                            <a href="{{ attribute(entry, 'businessWebsite') }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                                Visit Site
-                                <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                </svg>
-                            </a>
                         </div>
                     {% endif %}
                 </div>
