@@ -289,14 +289,60 @@
                 </div>
             {% endif %}
 
-            <!-- Back to Businesses List -->
+            <!-- Pagination -->
+            {% set currentCategory = entry.category.one() %}
+            {% set prevEntry = null %}
+            {% set nextEntry = null %}
+
+            {% if currentCategory %}
+                {% set prevEntry = craft.entries()
+                    .section('business')
+                    .relatedTo(currentCategory)
+                    .id('< ' ~ entry.id)
+                    .orderBy('id desc')
+                    .one() %}
+
+                {% set nextEntry = craft.entries()
+                    .section('business')
+                    .relatedTo(currentCategory)
+                    .id('> ' ~ entry.id)
+                    .orderBy('id asc')
+                    .one() %}
+            {% endif %}
+
             <div class="mt-8 pt-6 border-t border-gray-200">
-                <a href="/business" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                    Back to All Businesses
-                </a>
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        {% if prevEntry %}
+                            <a href="{{ prevEntry.url }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                                <span class="hidden sm:inline">Previous: </span>{{ prevEntry.title }}
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex-shrink-0 mx-4">
+                        <a href="/business" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                            All Businesses
+                        </a>
+                    </div>
+
+                    <div class="flex-1 text-right">
+                        {% if nextEntry %}
+                            <a href="{{ nextEntry.url }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                                <span class="hidden sm:inline">Next: </span>{{ nextEntry.title }}
+                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
