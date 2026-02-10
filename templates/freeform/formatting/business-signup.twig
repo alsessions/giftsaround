@@ -1,0 +1,179 @@
+{# Freeform Business Signup Formatting Template #}
+
+{% if form.hasErrors %}
+	<div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+		<div class="flex">
+			<div class="flex-shrink-0">
+				<svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+					<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+				</svg>
+			</div>
+			<div class="ml-3">
+				<h3 class="text-sm font-medium text-red-800">Please correct the following errors:</h3>
+				<ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+					{% for error in form.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endif %}
+
+<form method="post" {{ form.attributes|raw }} x-data="{ passwordVisible: false, confirmVisible: false }">
+	{{ csrfInput() }}
+
+	<div class="space-y-6">
+		{% for row in form %}
+			{% set isNameRow = false %}
+			{% set nameFields = [] %}
+			{% for field in row %}
+				{% if field.handle in ['firstName', 'lastName'] %}
+					{% set isNameRow = true %}
+					{% set nameFields = nameFields|merge([field]) %}
+				{% endif %}
+			{% endfor %}
+
+			{% if isNameRow %}
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+					{% for field in nameFields %}
+						<div>
+							<label for="{{ field.idAttribute }}" class="block text-sm font-medium text-gray-700 mb-2">
+								{{ field.label }}{% if field.required %} *{% endif %}
+							</label>
+							<input type="text" id="{{ field.idAttribute }}" name="{{ field.handle }}" value="{{ field.value }}" {{ field.required ? 'required' : '' }} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 {% if field.errors %}border-red-500{% endif %}">
+							{% if field.errors %}
+								<div class="text-red-600 text-sm mt-1">
+									{% for error in field.errors %}
+										{{ error }}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			{% else %}
+				{% for field in row %}
+					{% set isPassword = field.type == 'password' %}
+					{% set isCheckbox = field.type == 'checkbox' %}
+					{% set isTextarea = field.type == 'textarea' %}
+					{% set isSelect = field.type == 'select' %}
+
+					{% if isCheckbox %}
+						<div class="flex items-start">
+							<div class="flex items-center h-5">
+								<input type="checkbox" id="{{ field.idAttribute }}" name="{{ field.handle }}" value="1" {{ field.required ? 'required' : '' }} class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
+							</div>
+							<div class="ml-3 text-sm">
+								<label for="{{ field.idAttribute }}" class="text-gray-700">
+									{{ field.label|raw }}
+								</label>
+								{% if field.errors %}
+									<div class="text-red-600 text-xs mt-1">
+										{% for error in field.errors %}
+											{{ error }}
+										{% endfor %}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+
+					{% elseif isPassword %}
+						<div>
+							<label for="{{ field.idAttribute }}" class="block text-sm font-medium text-gray-700 mb-2">
+								{{ field.label }}{% if field.required %} *{% endif %}
+							</label>
+							<div class="relative">
+								{% set passwordVar = field.handle == 'password' ? 'passwordVisible' : 'confirmVisible' %}
+								<input :type="{{ passwordVar }} ? 'text' : 'password'" id="{{ field.idAttribute }}" name="{{ field.handle }}" {{ field.required ? 'required' : '' }} {% if field.handle == 'password' %}minlength="8"{% endif %} class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 {% if field.errors %}border-red-500{% endif %}">
+								<button type="button" @click="{{ passwordVar }} = !{{ passwordVar }}" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+									<svg x-show="!{{ passwordVar }}" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+									</svg>
+									<svg x-show="{{ passwordVar }}" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21" />
+									</svg>
+								</button>
+							</div>
+							{% if field.handle == 'password' %}
+								<p class="text-sm text-gray-500 mt-1">Must be at least 8 characters</p>
+							{% endif %}
+							{% if field.errors %}
+								<div class="text-red-600 text-sm mt-1">
+									{% for error in field.errors %}
+										{{ error }}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+
+					{% elseif isTextarea %}
+						<div>
+							<label for="{{ field.idAttribute }}" class="block text-sm font-medium text-gray-700 mb-2">
+								{{ field.label }}{% if field.required %} *{% endif %}
+							</label>
+							<textarea id="{{ field.idAttribute }}" name="{{ field.handle }}" rows="3" {{ field.required ? 'required' : '' }} placeholder="{{ field.placeholder ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 {% if field.errors %}border-red-500{% endif %}">{{ field.value }}</textarea>
+							{% if field.instructions %}
+								<p class="text-sm text-gray-500 mt-1">{{ field.instructions }}</p>
+							{% endif %}
+							{% if field.errors %}
+								<div class="text-red-600 text-sm mt-1">
+									{% for error in field.errors %}
+										{{ error }}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+
+					{% elseif isSelect %}
+						<div>
+							<label for="{{ field.idAttribute }}" class="block text-sm font-medium text-gray-700 mb-2">
+								{{ field.label }}{% if field.required %} *{% endif %}
+							</label>
+							<select id="{{ field.idAttribute }}" name="{{ field.handle }}" {{ field.required ? 'required' : '' }} class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 {% if field.errors %}border-red-500{% endif %}">
+								<option value="">Select a {{ field.label|lower }}</option>
+								{% for option in field.options %}
+									<option value="{{ option.value }}" {{ option.value == field.value ? 'selected' : '' }}>
+										{{ option.label }}
+									</option>
+								{% endfor %}
+							</select>
+							{% if field.errors %}
+								<div class="text-red-600 text-sm mt-1">
+									{% for error in field.errors %}
+										{{ error }}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+
+					{% else %}
+						<div>
+							<label for="{{ field.idAttribute }}" class="block text-sm font-medium text-gray-700 mb-2">
+								{{ field.label }}{% if field.required %} *{% endif %}
+							</label>
+							<input type="{{ field.type }}" id="{{ field.idAttribute }}" name="{{ field.handle }}" value="{{ field.value }}" {{ field.required ? 'required' : '' }} placeholder="{{ field.placeholder ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 {% if field.errors %}border-red-500{% endif %}">
+							{% if field.instructions %}
+								<p class="text-sm text-gray-500 mt-1">{{ field.instructions }}</p>
+							{% endif %}
+							{% if field.errors %}
+								<div class="text-red-600 text-sm mt-1">
+									{% for error in field.errors %}
+										{{ error }}
+									{% endfor %}
+								</div>
+							{% endif %}
+						</div>
+					{% endif %}
+				{% endfor %}
+			{% endif %}
+		{% endfor %}
+
+		<div>
+			<button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium text-lg">
+				Join FREE - Create Business Account
+			</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,258 @@
+cardThumbAlignment: end
+tabs:
+  -
+    elementCondition: null
+    elements:
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-02-10T20:24:41+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\UsernameField
+        uid: ad3efa5d-4431-4fe3-9e4f-84a6368c900c
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        attribute: fullName
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-02-10T20:24:41+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: true
+        required: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\FullNameField
+        uid: 72750647-186d-49da-9ad1-eb5cfb8f6d47
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:24:41+00:00'
+        elementCondition: null
+        id: null
+        instructions: null
+        label: null
+        orientation: null
+        requirable: false
+        tip: null
+        type: craft\fieldlayoutelements\users\PhotoField
+        uid: 420ff72a-ba64-403c-8ba0-9117f4ff0e1c
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        autocapitalize: true
+        autocomplete: false
+        autocorrect: true
+        class: null
+        dateAdded: '2026-02-10T20:24:41+00:00'
+        disabled: false
+        elementCondition: null
+        id: null
+        inputType: null
+        instructions: null
+        label: null
+        max: null
+        min: null
+        name: null
+        orientation: null
+        placeholder: null
+        readonly: false
+        requirable: false
+        size: null
+        step: null
+        tip: null
+        title: null
+        type: craft\fieldlayoutelements\users\EmailField
+        uid: d44fca55-2273-470e-928f-39728321ccc8
+        userCondition: null
+        width: 100
+    name: Content
+    uid: da4f3c5a-c553-44c8-8c58-93da8e6fb7a1
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 937faf23-8b1b-469b-9235-401505a750f2 # Business Address
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: c256bce7-85d3-4168-ba56-4ea4defb391d
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 1681a684-620d-404c-a918-6af20caa8b8b # Business Email
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: f3110f6c-0b06-4428-a11c-40dad461dfd6
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: bb7cd503-f6ff-480a-b797-4ddb4f3ac9a3 # Business Images
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 713c1aaf-e611-4a3f-a566-785aa5af9cea
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 056d3ae0-c36e-4de8-b868-c920778e8b63 # Business Name
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: d0341a39-1bc2-487f-96eb-48a74e9e0f31
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 90c4ffa5-83bb-4af6-8837-6ad5bf1c323c # Business Phone
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: c5fa6683-49d5-4eb9-b7a3-37c38ea4b1e9
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: b441d323-0b33-4f14-95c6-153d91a1674d # Business Website
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: f1b7a4d3-a288-4e08-a4f4-3f1ff57999ee
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: abca8568-b497-484e-b4d3-5fe77d0d18dd # Category
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 66594876-351c-408a-886d-46bf4af47c6c
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 21d5b2e7-055d-41a3-8842-86406bf86748 # One Special (same each month)
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 57319603-ba0b-4adf-ac5d-cf0b3844e1bf
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: d4bb8a19-094e-48c4-b6ca-37154e3fc329 # Monthly Specials
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: db8b2ef8-8731-40d2-b708-7f2c88a91a3e
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Business Fields'
+    uid: 5f00ad56-ec03-4f1f-a4ab-b87b930c0324
+    userCondition: null
+thumbFieldKey: null

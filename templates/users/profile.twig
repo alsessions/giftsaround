@@ -61,7 +61,7 @@
                            id="firstName"
                            name="firstName"
                            value="{{ currentUser.firstName ?? '' }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                 </div>
 
                 <!-- Last Name -->
@@ -71,7 +71,7 @@
                            id="lastName"
                            name="lastName"
                            value="{{ currentUser.lastName ?? '' }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                 </div>
 
                 <!-- Email -->
@@ -82,7 +82,7 @@
                            name="email"
                            value="{{ currentUser.email ?? '' }}"
                            required
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                 </div>
 
                 <!-- Username (Read-only) -->
@@ -149,7 +149,7 @@
                                    id="currentPassword"
                                    name="currentPassword"
                                    required
-                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                             <button type="button"
                                     @click="currentVisible = !currentVisible"
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -173,7 +173,7 @@
                                    name="newPassword"
                                    required
                                    minlength="8"
-                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                             <button type="button"
                                     @click="newVisible = !newVisible"
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -197,7 +197,7 @@
                                    id="confirmPassword"
                                    name="confirmPassword"
                                    required
-                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                   class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
                             <button type="button"
                                     @click="confirmVisible = !confirmVisible"
                                     class="absolute inset-y-0 right-0 pr-3 flex items-center">
