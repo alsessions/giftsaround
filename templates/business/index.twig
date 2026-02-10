@@ -24,11 +24,11 @@
                 <a href="{{ business.url }}" class="relative h-48 bg-gray-200 block">
                     {% if business.businessImages.one() %}
                         {% set businessImage = business.businessImages.one() %}
-                        {% if businessImage.optimizedImage %}
+                        {# {% if businessImage.optimizedImage %}
                             {{ businessImage.optimizedImage.pictureTag().imgAttrs({'alt': businessImage.title ?: business.title, 'class': 'w-full h-full object-cover'}).render() }}
-                        {% else %}
+                        {% else %} #}
                             <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
-                        {% endif %}
+                        {# {% endif %} #}
                     {% else %}
                         <div class="w-full h-full flex items-center justify-center">
                             <svg class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
