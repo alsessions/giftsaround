@@ -62,16 +62,16 @@
         },
         {
             "name": "brick/math",
-            "version": "0.14.7",
+            "version": "0.14.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/math.git",
-                "reference": "07ff363b16ef8aca9692bba3be9e73fe63f34e50"
+                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/math/zipball/07ff363b16ef8aca9692bba3be9e73fe63f34e50",
-                "reference": "07ff363b16ef8aca9692bba3be9e73fe63f34e50",
+                "url": "https://api.github.com/repos/brick/math/zipball/63422359a44b7f06cae63c3b429b59e8efcc0629",
+                "reference": "63422359a44b7f06cae63c3b429b59e8efcc0629",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/math/issues",
-                "source": "https://github.com/brick/math/tree/0.14.7"
+                "source": "https://github.com/brick/math/tree/0.14.8"
             },
             "funding": [
                 {
@@ -118,7 +118,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-02-07T10:57:35+00:00"
+            "time": "2026-02-10T14:33:43+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
@@ -681,16 +681,16 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.9.6",
+            "version": "5.9.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftcms/cms.git",
-                "reference": "558372701d7870da4a3cda88592a21d962de0cb1"
+                "reference": "c4e8e75fb785017dcad6a653513f8569b190b4c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/558372701d7870da4a3cda88592a21d962de0cb1",
-                "reference": "558372701d7870da4a3cda88592a21d962de0cb1",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/c4e8e75fb785017dcad6a653513f8569b190b4c9",
+                "reference": "c4e8e75fb785017dcad6a653513f8569b190b4c9",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +807,7 @@
                 "rss": "https://github.com/craftcms/cms/releases.atom",
                 "source": "https://github.com/craftcms/cms"
             },
-            "time": "2026-02-03T16:48:37+00:00"
+            "time": "2026-02-10T16:01:58+00:00"
         },
         {
             "name": "craftcms/html-field",
@@ -5796,16 +5796,16 @@
         },
         {
             "name": "solspace/craft-freeform",
-            "version": "5.14.11",
+            "version": "5.14.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solspace/craft-freeform.git",
-                "reference": "09e98d657ef08c71c60c2d887a93104a5f85a2ef"
+                "reference": "2603532792a242a35cb33a2d660779c8e7b4fd13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/09e98d657ef08c71c60c2d887a93104a5f85a2ef",
-                "reference": "09e98d657ef08c71c60c2d887a93104a5f85a2ef",
+                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/2603532792a242a35cb33a2d660779c8e7b4fd13",
+                "reference": "2603532792a242a35cb33a2d660779c8e7b4fd13",
                 "shasum": ""
             },
             "require": {
@@ -5863,9 +5863,9 @@
             "description": "The most flexible and user-friendly form building plugin!",
             "support": {
                 "issues": "https://github.com/solspace/craft-freeform/issues",
-                "source": "https://github.com/solspace/craft-freeform/tree/v5.14.11"
+                "source": "https://github.com/solspace/craft-freeform/tree/v5.14.13"
             },
-            "time": "2026-02-05T20:38:11+00:00"
+            "time": "2026-02-10T13:43:28+00:00"
         },
         {
             "name": "spomky-labs/cbor-php",
@@ -10501,16 +10501,16 @@
         },
         {
             "name": "nette/php-generator",
-            "version": "v4.2.0",
+            "version": "v4.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "4707546a1f11badd72f5d82af4f8a6bc64bd56ac"
+                "reference": "52aff4d9b12f20ca9f3e31a559b646d2fd21dd61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/4707546a1f11badd72f5d82af4f8a6bc64bd56ac",
-                "reference": "4707546a1f11badd72f5d82af4f8a6bc64bd56ac",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/52aff4d9b12f20ca9f3e31a559b646d2fd21dd61",
+                "reference": "52aff4d9b12f20ca9f3e31a559b646d2fd21dd61",
                 "shasum": ""
             },
             "require": {
@@ -10519,9 +10519,9 @@
             },
             "require-dev": {
                 "jetbrains/phpstorm-attributes": "^1.2",
-                "nette/tester": "^2.4",
+                "nette/tester": "^2.6",
                 "nikic/php-parser": "^5.0",
-                "phpstan/phpstan-nette": "^2.0@stable",
+                "phpstan/phpstan": "^2.0@stable",
                 "tracy/tracy": "^2.8"
             },
             "suggest": {
@@ -10567,9 +10567,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/php-generator/issues",
-                "source": "https://github.com/nette/php-generator/tree/v4.2.0"
+                "source": "https://github.com/nette/php-generator/tree/v4.2.1"
             },
-            "time": "2025-08-06T18:24:31+00:00"
+            "time": "2026-02-09T05:43:31+00:00"
         },
         {
             "name": "nette/utils",
