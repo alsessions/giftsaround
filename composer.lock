@@ -681,16 +681,16 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.9.8",
+            "version": "5.9.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftcms/cms.git",
-                "reference": "c4e8e75fb785017dcad6a653513f8569b190b4c9"
+                "reference": "74eb5d3a9ffa935df1a4fc2b6ddb1042d9f8e582"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/c4e8e75fb785017dcad6a653513f8569b190b4c9",
-                "reference": "c4e8e75fb785017dcad6a653513f8569b190b4c9",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/74eb5d3a9ffa935df1a4fc2b6ddb1042d9f8e582",
+                "reference": "74eb5d3a9ffa935df1a4fc2b6ddb1042d9f8e582",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +807,7 @@
                 "rss": "https://github.com/craftcms/cms/releases.atom",
                 "source": "https://github.com/craftcms/cms"
             },
-            "time": "2026-02-10T16:01:58+00:00"
+            "time": "2026-02-12T01:13:27+00:00"
         },
         {
             "name": "craftcms/html-field",
@@ -5796,16 +5796,16 @@
         },
         {
             "name": "solspace/craft-freeform",
-            "version": "5.14.13",
+            "version": "5.14.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solspace/craft-freeform.git",
-                "reference": "2603532792a242a35cb33a2d660779c8e7b4fd13"
+                "reference": "15a0204b653625807170658abf4816c3f0848137"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/2603532792a242a35cb33a2d660779c8e7b4fd13",
-                "reference": "2603532792a242a35cb33a2d660779c8e7b4fd13",
+                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/15a0204b653625807170658abf4816c3f0848137",
+                "reference": "15a0204b653625807170658abf4816c3f0848137",
                 "shasum": ""
             },
             "require": {
@@ -5863,9 +5863,9 @@
             "description": "The most flexible and user-friendly form building plugin!",
             "support": {
                 "issues": "https://github.com/solspace/craft-freeform/issues",
-                "source": "https://github.com/solspace/craft-freeform/tree/v5.14.13"
+                "source": "https://github.com/solspace/craft-freeform/tree/v5.14.15"
             },
-            "time": "2026-02-10T13:43:28+00:00"
+            "time": "2026-02-12T19:07:29+00:00"
         },
         {
             "name": "spomky-labs/cbor-php",
@@ -10720,16 +10720,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.19",
+            "version": "v0.12.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "a4f766e5c5b6773d8399711019bb7d90875a50ee"
+                "reference": "19678eb6b952a03b8a1d96ecee9edba518bb0373"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/a4f766e5c5b6773d8399711019bb7d90875a50ee",
-                "reference": "a4f766e5c5b6773d8399711019bb7d90875a50ee",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/19678eb6b952a03b8a1d96ecee9edba518bb0373",
+                "reference": "19678eb6b952a03b8a1d96ecee9edba518bb0373",
                 "shasum": ""
             },
             "require": {
@@ -10793,9 +10793,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.19"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.20"
             },
-            "time": "2026-01-30T17:33:13+00:00"
+            "time": "2026-02-11T15:05:28+00:00"
         },
         {
             "name": "symfony/console",
