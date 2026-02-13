@@ -76,14 +76,9 @@
                 <!-- Right Column -->
                 <div class="space-y-6">
                     <!-- Address -->
-                    {% set businessAddress = entry.businessAddress.one() %}
-                    {% if businessAddress %}
+                    {% if entry.businessAddress %}
                         <div>
-                            <p class="text-gray-900 font-semibold">{{ businessAddress.addressLine1 }}</p>
-                            {% if businessAddress.addressLine2 %}
-                                <p class="text-gray-900 font-semibold">{{ businessAddress.addressLine2 }}</p>
-                            {% endif %}
-                            <p class="text-gray-900 font-semibold">{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}</p>
+                            <p class="text-gray-900 font-semibold whitespace-pre-line">{{ entry.businessAddress }}</p>
                         </div>
                     {% endif %}
                 </div>

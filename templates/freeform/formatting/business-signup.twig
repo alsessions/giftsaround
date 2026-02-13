@@ -20,8 +20,7 @@
 	</div>
 {% endif %}
 
-<form method="post" {{ form.attributes|raw }} x-data="{ passwordVisible: false, confirmVisible: false }">
-	{{ csrfInput() }}
+{{ form.renderTag({ attributes: { 'x-data': "{ passwordVisible: false, confirmVisible: false }" } }) }}
 
 	<div class="space-y-6">
 		{% for row in form %}
@@ -57,7 +56,7 @@
 					{% set isPassword = field.type == 'password' %}
 					{% set isCheckbox = field.type == 'checkbox' %}
 					{% set isTextarea = field.type == 'textarea' %}
-					{% set isSelect = field.type == 'select' %}
+					{% set isSelect = field.type == 'select' or field.type == 'dropdown' %}
 
 					{% if isCheckbox %}
 						<div class="flex items-start">
@@ -176,4 +175,5 @@
 			</button>
 		</div>
 	</div>
-</form>
+
+{{ form.renderClosingTag }}

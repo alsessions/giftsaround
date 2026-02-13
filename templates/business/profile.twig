@@ -1,0 +1,310 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Business Profile" %}
+
+{% requireLogin %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-8 mb-16 px-4">
+	<div class="bg-white rounded-lg shadow-md overflow-hidden">
+		<!-- Business Header with Green Theme -->
+		<div class="bg-gradient-to-r from-green-600 to-green-700 px-8 py-6">
+			<div class="flex items-center justify-between">
+				<div>
+					<div class="flex items-center gap-3 mb-2">
+						<h1 class="text-3xl font-bold text-white">Business Profile</h1>
+						<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white border border-white/30">
+							<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+							</svg>
+							Business Account
+						</span>
+					</div>
+					<p class="text-green-50 mt-1">Manage your business information and settings</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="p-8">
+
+		{% if craft.app.session.hasFlash('success') %}
+			<div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+				<div class="flex">
+					<svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+					</svg>
+					<p class="ml-3 text-sm text-green-800">{{ craft.app.session.getFlash('success') }}</p>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if craft.app.session.hasFlash('error') %}
+			<div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+				<div class="flex">
+					<svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+					</svg>
+					<p class="ml-3 text-sm text-red-800">{{ craft.app.session.getFlash('error') }}</p>
+				</div>
+			</div>
+		{% endif %}
+
+		{% set user = currentUser %}
+
+		{# Debug: Show if form was posted #}
+		{% if craft.app.request.isPost %}
+			<div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-6">
+				<h3 class="font-bold text-purple-900">DEBUG: Form Posted</h3>
+				<div class="text-xs text-purple-800 mt-2">
+					<p><strong>Action:</strong> {{ craft.app.request.post('action') }}</p>
+					<p><strong>User ID:</strong> {{ craft.app.request.post('userId') }}</p>
+					<p><strong>Email:</strong> {{ craft.app.request.post('email') }}</p>
+					<p><strong>Business Name Field UID:</strong> {{ craft.app.request.post('fields')|keys|join(', ') }}</p>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if user.hasErrors() %}
+			<div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+				<div class="flex">
+					<svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+					</svg>
+					<div class="ml-3">
+						<h3 class="text-sm font-medium text-red-800">There were errors saving your profile:</h3>
+						<ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+							{% for attribute, errors in user.getErrors() %}
+								{% for error in errors %}
+									<li>{{ attribute }}: {{ error }}</li>
+								{% endfor %}
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		<form method="post" accept-charset="UTF-8">
+			{{ csrfInput() }}
+			{{ actionInput('users/save-user') }}
+			{{ redirectInput('business/profile') }}
+			{{ hiddenInput('userId', user.id) }}
+
+			<div class="space-y-6">
+				<!-- Account Information -->
+				<div class="border-b border-gray-200 pb-6">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+						<svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+						</svg>
+						Account Information
+					</h2>
+
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div>
+							<label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+							<input type="text" id="username" name="username" value="{{ user.username }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 bg-gray-100" readonly>
+							<p class="text-xs text-gray-500 mt-1">Username cannot be changed</p>
+						</div>
+
+						<div>
+							<label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+							<input type="email" id="email" name="email" value="{{ user.email }}" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+					</div>
+				</div>
+
+				<!-- Business Information -->
+				<div class="border-b border-gray-200 pb-6">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+						<svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+						</svg>
+						Business Information
+					</h2>
+
+					<div class="space-y-4">
+						{% set businessNameField = craft.app.fields.getFieldByHandle('businessName') %}
+						{% set businessEmailField = craft.app.fields.getFieldByHandle('businessEmail') %}
+						{% set businessPhoneField = craft.app.fields.getFieldByHandle('businessPhone') %}
+						{% set businessAddressField = craft.app.fields.getFieldByHandle('businessAddress') %}
+						{% set categoryField = craft.app.fields.getFieldByHandle('category') %}
+						{% set businessImagesField = craft.app.fields.getFieldByHandle('businessImages') %}
+						{% set oneSpecialField = craft.app.fields.getFieldByHandle('oneSpecial') %}
+						{% set monthlySpecialsField = craft.app.fields.getFieldByHandle('monthlySpecials') %}
+
+						<div>
+							<label for="businessName" class="block text-sm font-medium text-gray-700 mb-2">Business Name *</label>
+							<input type="text" id="businessName" name="fields[{{ businessNameField.uid }}]" value="{{ user.getFieldValue(businessNameField.handle) }}" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+
+						<div>
+							<label for="businessEmail" class="block text-sm font-medium text-gray-700 mb-2">Business Email</label>
+							<input type="email" id="businessEmail" name="fields[{{ businessEmailField.uid }}]" value="{{ user.getFieldValue(businessEmailField.handle) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+							<p class="text-xs text-gray-500 mt-1">Public email for customer inquiries</p>
+						</div>
+
+						<div>
+							<label for="businessPhone" class="block text-sm font-medium text-gray-700 mb-2">Business Phone</label>
+							<input type="tel" id="businessPhone" name="fields[{{ businessPhoneField.uid }}]" value="{{ user.getFieldValue(businessPhoneField.handle) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+
+						<div>
+							<label for="businessAddress" class="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
+							<textarea id="businessAddress" name="fields[{{ businessAddressField.uid }}]" rows="3" placeholder="123 Main Street&#10;City, State ZIP" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">{{ user.getFieldValue(businessAddressField.handle) }}</textarea>
+							<p class="text-xs text-gray-500 mt-1">Include street, city, state, and ZIP code</p>
+						</div>
+
+						<div>
+							<label for="category" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+							<select id="category" name="fields[{{ categoryField.uid }}][]" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+								<option value="">Select a category</option>
+								{% set categories = craft.categories.group('category').all() %}
+								{% set userCategories = user.getFieldValue(categoryField.handle) %}
+								{% set userCategoryIds = userCategories ? userCategories.ids() : [] %}
+								{% for cat in categories %}
+									<option value="{{ cat.id }}" {{ cat.id in userCategoryIds ? 'selected' : '' }}>{{ cat.title }}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div x-data="{ showImageUpload: false }">
+							<label for="businessImages" class="block text-sm font-medium text-gray-700 mb-2">Business Images</label>
+							<div class="border-2 border-gray-300 rounded-lg p-4">
+								{% set currentImages = user.getFieldValue(businessImagesField.handle) %}
+								{% if currentImages and currentImages|length > 0 %}
+									<div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+										{% for image in currentImages.all() %}
+											<div class="relative group">
+												<img src="{{ image.url }}" alt="{{ image.title }}" class="w-full h-32 object-cover rounded-lg">
+												<div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity rounded-lg flex items-center justify-center">
+													<span class="text-white text-xs opacity-0 group-hover:opacity-100">{{ image.title }}</span>
+												</div>
+											</div>
+										{% endfor %}
+									</div>
+								{% else %}
+									<div class="text-center py-8">
+										<svg class="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+										</svg>
+										<p class="text-sm text-gray-500">No images uploaded yet</p>
+									</div>
+								{% endif %}
+								<div class="mt-4 text-center">
+									<p class="text-xs text-gray-500 mb-2">To add or remove images, please use the Craft Control Panel</p>
+									<a href="/admin/users/{{ user.id }}" target="_blank" class="text-sm text-blue-600 hover:text-blue-700 font-medium inline-flex items-center">
+										<svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+										</svg>
+										Edit in Control Panel
+									</a>
+								</div>
+							</div>
+						</div>
+
+						<div>
+							<label for="oneSpecial" class="block text-sm font-medium text-gray-700 mb-2">One Special (same each month)</label>
+							<textarea id="oneSpecial" name="fields[{{ oneSpecialField.uid }}]" rows="3" placeholder="Describe a special that runs every month..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">{{ user.getFieldValue(oneSpecialField.handle) }}</textarea>
+							<p class="text-xs text-gray-500 mt-1">A recurring special offer that appears every month</p>
+						</div>
+
+						<div>
+							<label class="block text-sm font-medium text-gray-700 mb-2">Monthly Specials</label>
+							<p class="text-xs text-gray-600 mb-3">Add special offers for each month of the year</p>
+
+							{% set monthlyData = user.getFieldValue(monthlySpecialsField.handle) %}
+							{% set monthlyMap = {} %}
+							{% if monthlyData %}
+								{% for item in monthlyData %}
+									{% set monthlyMap = monthlyMap|merge({ (item.col1): item.col2 }) %}
+								{% endfor %}
+							{% endif %}
+
+							<div class="space-y-2">
+								{% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+								{% for index, month in months %}
+									<div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center">
+										<div class="md:col-span-3">
+											<label for="month-{{ index }}" class="block text-sm font-medium text-gray-700">{{ month }}</label>
+											<input type="hidden" name="fields[{{ monthlySpecialsField.uid }}][{{ index }}][col1]" value="{{ month }}">
+										</div>
+										<div class="md:col-span-9">
+											<input
+												type="text"
+												id="month-{{ index }}"
+												name="fields[{{ monthlySpecialsField.uid }}][{{ index }}][col2]"
+												value="{{ monthlyMap[month] ?? '' }}"
+												placeholder="e.g., 20% off all services"
+												class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+
+				<!-- Change Password (Optional) -->
+				<div class="border-b border-gray-200 pb-6" x-data="{ changePassword: false }">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+						<svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+						</svg>
+						Change Password
+					</h2>
+
+					<button type="button" @click="changePassword = !changePassword" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+						<span x-show="!changePassword">Click to change password</span>
+						<span x-show="changePassword">Cancel password change</span>
+					</button>
+
+					<div x-show="changePassword" x-cloak class="mt-4 space-y-4">
+						<div>
+							<label for="currentPassword" class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+							<input type="password" id="currentPassword" name="currentPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+
+						<div>
+							<label for="newPassword" class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+							<input type="password" id="newPassword" name="newPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+							<p class="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+						</div>
+
+						<div>
+							<label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+							<input type="password" id="confirmPassword" name="newPasswordConfirm" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+					</div>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="flex items-center justify-between">
+					<a href="/" class="text-gray-600 hover:text-gray-800 transition-colors">
+						← Back to Home
+					</a>
+					<button type="submit" class="px-6 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+						Save Changes
+					</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- Additional Information -->
+	<div class="bg-green-50 border border-green-200 rounded-lg p-6 mt-6">
+		<div class="flex items-start">
+			<svg class="w-5 h-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+			</svg>
+			<div>
+				<h3 class="text-lg font-semibold text-green-900 mb-2">Business Account Benefits</h3>
+				<p class="text-green-800 text-sm">Your business profile helps local customers discover your monthly specials and promotions. Keep your information up-to-date for the best results!</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+[x-cloak] { display: none !important; }
+</style>
+{% endblock %}

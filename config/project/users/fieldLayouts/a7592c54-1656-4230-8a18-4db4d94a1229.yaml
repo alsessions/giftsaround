@@ -193,22 +193,6 @@ tabs:
         editCondition: null
         elementCondition: null
         elementEditCondition: null
-        fieldUid: b441d323-0b33-4f14-95c6-153d91a1674d # Business Website
-        handle: null
-        instructions: null
-        label: null
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: f1b7a4d3-a288-4e08-a4f4-3f1ff57999ee
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2026-02-10T20:28:19+00:00'
-        editCondition: null
-        elementCondition: null
-        elementEditCondition: null
         fieldUid: abca8568-b497-484e-b4d3-5fe77d0d18dd # Category
         handle: null
         instructions: null

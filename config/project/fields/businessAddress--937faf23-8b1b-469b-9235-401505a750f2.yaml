@@ -2,11 +2,15 @@ columnSuffix: null
 handle: businessAddress
 instructions: null
 name: 'Business Address'
-searchable: false
+searchable: true
 settings:
-  maxAddresses: null
-  minAddresses: null
-  viewMode: cards
+  byteLimit: null
+  charLimit: null
+  code: false
+  initialRows: 4
+  multiline: true
+  placeholder: null
+  uiMode: normal
 translationKeyFormat: null
-translationMethod: site
-type: craft\fields\Addresses
+translationMethod: none
+type: craft\fields\PlainText

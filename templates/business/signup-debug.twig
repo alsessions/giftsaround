@@ -1,0 +1,335 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Business Signup - DEBUG MODE" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto mt-8 mb-16">
+
+	{# DEBUG: Check for Craft flash messages #}
+	{% set errorFlash = craft.app.session.getFlash('error') %}
+	{% set noticeFlash = craft.app.session.getFlash('notice') %}
+	{% if errorFlash or noticeFlash %}
+		<div class="bg-orange-50 border border-orange-300 rounded-lg p-4 mb-6">
+			<h3 class="font-bold text-orange-900 mb-2">⚠️ CRAFT FLASH MESSAGES</h3>
+			{% if errorFlash %}
+				<div class="bg-red-100 p-2 rounded mb-2">
+					<p class="text-red-900 font-bold">Error:</p>
+					<p class="text-red-800 text-sm">{{ errorFlash }}</p>
+				</div>
+			{% endif %}
+			{% if noticeFlash %}
+				<div class="bg-blue-100 p-2 rounded">
+					<p class="text-blue-900 font-bold">Notice:</p>
+					<p class="text-blue-800 text-sm">{{ noticeFlash }}</p>
+				</div>
+			{% endif %}
+		</div>
+	{% endif %}
+
+	{# DEBUG: Check if form was submitted #}
+	{% if craft.app.request.post('freeform_payload') %}
+		<div class="bg-blue-50 border border-blue-300 rounded-lg p-4 mb-6">
+			<h3 class="font-bold text-blue-900 mb-2">✓ FORM WAS SUBMITTED</h3>
+			<p class="text-sm text-blue-800">The form submission was received by the server.</p>
+
+			{# Show submitted field values #}
+			<div class="mt-3 text-xs text-blue-800">
+				<p class="font-bold">Submitted Values:</p>
+				<ul class="list-disc pl-5 mt-1">
+					<li>Username: {{ craft.app.request.post('username') ?: '(empty)' }}</li>
+					<li>Email: {{ craft.app.request.post('email') ?: '(empty)' }}</li>
+					<li>Password: {{ craft.app.request.post('password') ? '(provided)' : '(empty)' }}</li>
+					<li>Business Name: {{ craft.app.request.post('businessName') ?: '(empty)' }}</li>
+					<li>Contact Name: {{ craft.app.request.post('contactName') ?: '(empty)' }}</li>
+					<li>Category: {{ craft.app.request.post('category') ?: '(empty)' }}</li>
+					<li>Business Phone: {{ craft.app.request.post('businessPhone') ?: '(empty)' }}</li>
+					<li>Business Address: {{ craft.app.request.post('businessAddress') ?: '(empty)' }}</li>
+					<li>Website: {{ craft.app.request.post('website') ?: '(empty)' }}</li>
+				</ul>
+			</div>
+		</div>
+	{% endif %}
+
+	{# DEBUG: Show POST data #}
+	{% if craft.app.request.isPost %}
+		<div class="bg-purple-50 border border-purple-300 rounded-lg p-4 mb-6">
+			<h3 class="font-bold text-purple-900 mb-2">POST DATA RECEIVED</h3>
+			<div class="text-xs text-purple-800 overflow-auto max-h-64">
+				<pre>{{ craft.app.request.post()|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+			</div>
+
+			{# Check for Freeform-specific fields #}
+			<div class="mt-3 bg-orange-100 p-2 rounded">
+				<p class="font-bold text-orange-900">Freeform POST Fields Check:</p>
+				<ul class="list-disc pl-5 text-xs text-orange-800">
+					<li>freeform_payload: {{ craft.app.request.post('freeform_payload') ? '✓ Present' : '❌ MISSING!' }}</li>
+					<li>formHash: {{ craft.app.request.post('formHash') ? '✓ Present' : '❌ MISSING!' }}</li>
+					<li>form_id: {{ craft.app.request.post('form_id') ? '✓ Present' : '❌ MISSING!' }}</li>
+					<li>action: {{ craft.app.request.post('action') ? craft.app.request.post('action') : '❌ MISSING!' }}</li>
+				</ul>
+				{% if not craft.app.request.post('freeform_payload') %}
+					<p class="mt-2 font-bold text-red-900">⚠️ CRITICAL: freeform_payload is missing! This means the form isn't being submitted as a Freeform form.</p>
+					<p class="text-xs mt-1">The form template may not be rendering the hidden Freeform fields correctly.</p>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+
+	{# Get the form #}
+	{% set form = craft.freeform.form('businessSignup') %}
+
+	{# DEBUG: Form Information #}
+	<div class="bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-6">
+		<h3 class="font-bold text-yellow-900 mb-2">🔍 FORM DEBUG INFORMATION</h3>
+
+		<div class="text-sm space-y-2 text-yellow-900">
+			{% if form %}
+				<p><strong>✓ Form Found:</strong> YES</p>
+				<p><strong>Form Name:</strong> {{ form.name }}</p>
+				<p><strong>Form Handle:</strong> {{ form.handle }}</p>
+				<p><strong>Form ID:</strong> {{ form.id }}</p>
+				<p><strong>Has Errors:</strong> {{ form.hasErrors ? 'YES ⚠️' : 'NO' }}</p>
+				<p><strong>Is Form Posted:</strong> {{ form.isFormPosted ? 'YES' : 'NO' }}</p>
+				<p><strong>Is Valid:</strong> {{ form.isValid ? 'YES' : 'NO' }}</p>
+				<p><strong>Is Submitted Successfully:</strong> {{ form.submittedSuccessfully ? 'YES ✓' : 'NO' }}</p>
+				<p><strong>Success Message:</strong> {{ form.successMessage ?: '(none)' }}</p>
+				<p><strong>Return URL:</strong> {{ form.returnUrl ?: '(none)' }}</p>
+				<p><strong>AJAX Enabled:</strong> {{ form.settings.behavior.ajax ? 'YES' : 'NO' }}</p>
+
+				{# Show form errors #}
+				{% if form.hasErrors %}
+					<div class="bg-red-100 p-3 mt-3 rounded">
+						<p class="font-bold text-red-900">❌ FORM ERRORS:</p>
+						<ul class="list-disc pl-5 text-red-800 mt-2">
+							{% for error in form.errors %}
+								<li>{{ error }}</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% else %}
+					{% if form.isFormPosted and not form.isValid %}
+						<div class="bg-orange-100 p-3 mt-3 rounded">
+							<p class="font-bold text-orange-900">⚠️ FORM INVALID BUT NO ERRORS SHOWN</p>
+							<p class="text-orange-800 text-xs mt-1">The form was submitted but is invalid. This usually means a field has a validation error that isn't being displayed.</p>
+						</div>
+					{% endif %}
+				{% endif %}
+
+				{# Show field errors #}
+				<div class="mt-3">
+					<p class="font-bold">Field Status & Values:</p>
+					<ul class="list-disc pl-5 mt-1 text-xs">
+						{% for field in form.fields %}
+							<li>
+								<span class="{% if field.errors %}text-red-700 font-bold{% elseif field.value %}text-green-700{% else %}text-gray-600{% endif %}">
+									{{ field.handle }} ({{ field.type }})
+									{% if field.required %}<span class="text-red-600">*REQUIRED</span>{% endif %}
+									- Value: {{ field.value ? (field.type == 'password' ? '(provided)' : field.value) : '(empty)' }}
+									{% if field.errors %}
+										<br><strong class="text-red-900">ERRORS:</strong> {{ field.errors|join(', ') }}
+									{% endif %}
+								</span>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+
+				{# Check for specific validation issues #}
+				<div class="mt-3 bg-yellow-100 p-2 rounded">
+					<p class="font-bold text-yellow-900 text-xs">Validation Debug:</p>
+					<ul class="list-disc pl-5 text-xs text-yellow-800 mt-1">
+						<li>Form Posted: {{ form.isFormPosted ? 'YES' : 'NO' }}</li>
+						<li>Form Valid: {{ form.isValid ? 'YES' : 'NO' }}</li>
+						<li>Has Errors: {{ form.hasErrors ? 'YES' : 'NO' }}</li>
+						<li>Error Count: {{ form.errors|length }}</li>
+						{% set fieldErrorCount = 0 %}
+						{% for field in form.fields %}
+							{% if field.errors %}
+								{% set fieldErrorCount = fieldErrorCount + 1 %}
+							{% endif %}
+						{% endfor %}
+						<li>Fields with Errors: {{ fieldErrorCount }}</li>
+					</ul>
+				</div>
+
+				{# Check for integrations #}
+				<div class="mt-3 bg-yellow-100 p-3 rounded">
+					<p class="font-bold text-yellow-900">⚠️ INTEGRATION CHECK:</p>
+					<p class="text-xs mt-1 text-yellow-800">
+						To create users, you MUST configure a "User Registration" integration in the Freeform form builder.
+						<br>Go to: Freeform → Forms → Business Signup → Integrations tab → Add "User Registration"
+						<br><br>
+						<strong>Critical Mappings Required:</strong>
+						<br>• Username → username field
+						<br>• Email → email field
+						<br>• Password → password field
+						<br>• User Group → "Business" group
+						<br>• Custom fields (businessName, category, businessPhone, businessAddress, website)
+					</p>
+				</div>
+
+				{# Show recent submissions #}
+				<div class="mt-3">
+					<p class="font-bold">Recent Submissions for this form:</p>
+					{% set submissions = craft.freeform.submissions({
+						form: 'businessSignup',
+						orderBy: 'dateCreated DESC',
+						limit: 3
+					}).all() %}
+					{% if submissions|length > 0 %}
+						<ul class="list-disc pl-5 mt-1 text-xs">
+							{% for submission in submissions %}
+								<li>
+									ID: {{ submission.id }} -
+									{{ submission.dateCreated|date('Y-m-d H:i:s') }} -
+									{% if submission.email %}{{ submission.email }}{% else %}(no email){% endif %} -
+									Username: {{ submission.username ?: '(none)' }}
+								</li>
+							{% endfor %}
+						</ul>
+						<p class="text-green-700 mt-2">✓ Form IS saving submissions (but may not be creating users)</p>
+						<p class="text-yellow-700 mt-1 font-bold">⚠️ If submissions exist but users don't, the User Registration integration is broken or missing field mappings!</p>
+					{% else %}
+						<p class="text-red-700 mt-1">No submissions found - form may be failing validation</p>
+					{% endif %}
+				</div>
+
+			{% else %}
+				<p class="text-red-700 font-bold">❌ FORM NOT FOUND: 'businessSignup'</p>
+				<p class="mt-2">Available forms:</p>
+				<ul class="list-disc pl-5">
+					{% for availableForm in craft.freeform.forms %}
+						<li>{{ availableForm.name }} ({{ availableForm.handle }})</li>
+					{% else %}
+						<li class="text-red-700">No forms found in Freeform!</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+
+			{# Check if any users were recently created #}
+			<div class="mt-3 bg-purple-100 p-3 rounded">
+				<p class="font-bold text-purple-900">Recently Created Users:</p>
+				{% set recentUsers = craft.users.group('business').orderBy('dateCreated DESC').limit(5).all() %}
+				{% if recentUsers|length > 0 %}
+					<ul class="list-disc pl-5 mt-1 text-xs text-purple-800">
+						{% for user in recentUsers %}
+							<li>{{ user.username }} ({{ user.email }}) - {{ user.dateCreated|date('Y-m-d H:i:s') }}</li>
+						{% endfor %}
+					</ul>
+				{% else %}
+					<p class="text-red-700 mt-1">❌ NO BUSINESS USERS FOUND! User Registration is definitely not working.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	{# Additional PHP Error Check #}
+	<div class="bg-red-50 border border-red-300 rounded-lg p-4 mb-6">
+		<h3 class="font-bold text-red-900 mb-2">🔴 CRITICAL CHECKS</h3>
+		<div class="text-sm space-y-2 text-red-900">
+			<p><strong>Custom User Fields Exist?</strong></p>
+			<ul class="list-disc pl-5 text-xs">
+				<li>businessName field: {{ craft.app.fields.getFieldByHandle('businessName') ? '✓ EXISTS' : '❌ MISSING' }}</li>
+				<li>businessPhone field: {{ craft.app.fields.getFieldByHandle('businessPhone') ? '✓ EXISTS' : '❌ MISSING' }}</li>
+				<li>businessAddress field: {{ craft.app.fields.getFieldByHandle('businessAddress') ? '✓ EXISTS' : '❌ MISSING' }}</li>
+				<li>website field: {{ craft.app.fields.getFieldByHandle('website') ? '✓ EXISTS' : '❌ MISSING' }}</li>
+			</ul>
+
+			<p class="mt-2"><strong>Business User Group:</strong></p>
+			<p class="text-xs">{{ craft.app.userGroups.getGroupByHandle('business') ? '✓ EXISTS' : '❌ MISSING - CREATE IT!' }}</p>
+
+			{% if not craft.app.userGroups.getGroupByHandle('business') %}
+				<div class="bg-red-200 p-2 mt-2 rounded">
+					<p class="font-bold">⚠️ BUSINESS GROUP MISSING!</p>
+					<p class="text-xs mt-1">Go to Settings → Users → User Groups → Create "Business" group</p>
+				</div>
+			{% endif %}
+
+			<p class="mt-2"><strong>⚠️ CRITICAL: Field Handle Check</strong></p>
+			<div class="bg-yellow-100 p-2 mt-1 rounded text-xs">
+				<p class="font-bold text-yellow-900">Integration may be using wrong field handles!</p>
+				<p class="mt-1">Common issue: Integration uses "businessWebsite" but Craft field is "website"</p>
+				<p class="mt-1 font-bold">Check: Freeform → Forms → Business Signup → Integrations → User Registration</p>
+				<p>Make sure Craft field handles EXACTLY match what you select in the integration dropdown.</p>
+			</div>
+
+			<p class="mt-3"><strong>🔧 Integration Configuration Check:</strong></p>
+			<div class="bg-blue-100 p-2 mt-1 rounded text-xs">
+				<p class="font-bold text-blue-900">Verify in Freeform CP:</p>
+				<ul class="list-disc pl-5 mt-1 text-blue-800">
+					<li>User Registration integration is ENABLED (toggle on)</li>
+					<li>User Group "Business" is SELECTED</li>
+					<li>Activate Users Upon Creation is CHECKED</li>
+					<li>All required fields are mapped (username, email, password minimum)</li>
+					<li>Form has been SAVED after making integration changes</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	{# Show the actual form #}
+	<div class="bg-white rounded-lg shadow-md p-8">
+		<div class="text-center mb-8">
+			<h1 class="text-3xl font-bold text-green-600">Business Signup Form (DEBUG)</h1>
+			<p class="text-gray-600 mt-2">This debug version shows detailed information about the form state</p>
+			<p class="text-sm text-gray-600 mt-2"><strong>Action:</strong> Fill out form below and submit to see what happens!</p>
+		</div>
+
+		{% if form %}
+			{# Debug form attributes before rendering #}
+			<div class="bg-gray-100 border border-gray-300 rounded p-3 mb-4 text-xs">
+				<p class="font-bold text-gray-900">Form Render Attributes:</p>
+				<ul class="list-disc pl-5 mt-1 text-gray-800">
+					<li>Success Behavior: {{ form.settings.behavior.successBehavior }}</li>
+					<li>Return URL: {{ form.settings.behavior.returnUrl }}</li>
+					<li>Store Data: {{ form.settings.general.storeData ? 'YES' : 'NO' }}</li>
+				</ul>
+			</div>
+
+			{{ form.render({
+				formattingTemplate: 'business-signup.twig'
+			}) }}
+		{% else %}
+			<div class="bg-red-50 border border-red-200 rounded-lg p-4">
+				<p class="text-red-800">The business signup form could not be loaded.</p>
+			</div>
+		{% endif %}
+	</div>
+
+	{# Instructions #}
+	<div class="bg-gray-50 border border-gray-300 rounded-lg p-6 mt-6">
+		<h3 class="font-bold text-gray-900 mb-3">🔧 TROUBLESHOOTING STEPS:</h3>
+		<ol class="list-decimal pl-5 space-y-2 text-sm text-gray-800">
+			<li><strong>Check if form exists:</strong> Look for "Form Found: YES" above</li>
+			<li><strong>Submit the form:</strong> Fill out and submit to see what errors appear</li>
+			<li><strong>Check submissions:</strong> If "Recent Submissions" shows data, the form works but User Registration isn't configured</li>
+			<li><strong>⚠️ VERIFY INTEGRATION IS ENABLED:</strong>
+				<ul class="list-disc pl-5 mt-1 text-xs">
+					<li>Open Freeform CP → Forms → Business Signup → Integrations tab</li>
+					<li>The User Registration integration must have the toggle switch ON (enabled)</li>
+					<li>If it's OFF (grayed out), click to enable it</li>
+					<li>SAVE THE FORM after enabling</li>
+				</ul>
+			</li>
+</ol>
+			<li><strong>⚠️ MOST IMPORTANT - Configure User Registration:</strong>
+				<ul class="list-disc pl-5 mt-1 text-xs">
+					<li>Go to Freeform CP → Forms → Business Signup</li>
+					<li>Click "Integrations" tab</li>
+					<li>Look for "User Registration" integration - if missing, click "+ Add Integration"</li>
+					<li>If present, click to edit it</li>
+					<li><strong>Required mappings:</strong> username→username, email→email, password→password</li>
+					<li><strong>Custom field mappings:</strong> businessName, category, businessPhone, businessAddress, website</li>
+					<li><strong>User Group:</strong> MUST select "Business" (create group first if needed)</li>
+					<li><strong>Enable account:</strong> Check "Activate Account" for immediate login</li>
+					<li>Save integration AND save form</li>
+				</ul>
+			</li>
+			<li><strong>Disable AJAX temporarily:</strong> Settings tab → Behavior → Enable AJAX = OFF (to see errors)</li>
+			<li><strong>Create custom user fields:</strong> Settings → Fields → Create businessName, businessCategory, businessPhone, businessAddress, website</li>
+			<li><strong>Add fields to user layout:</strong> Settings → Users → User Fields → Add all business fields</li>
+			<li><strong>Check Craft logs:</strong> storage/logs/web.log for PHP errors</li>
+</ol>
+	</div>
+</div>
+{% endblock %}
