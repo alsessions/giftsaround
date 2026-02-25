@@ -14,14 +14,22 @@ WRITABLE_PATHS=(
   "$APP_DIR/web/cpresources"
 )
 
-run_craft_command() {
+run_as_web_user() {
   if [ "$(id -un)" = "$WEB_USER" ]; then
-    php craft "$@"
+    "$@"
     return
   fi
 
   if command -v sudo >/dev/null 2>&1 && sudo -n -u "$WEB_USER" true >/dev/null 2>&1; then
-    sudo -n -u "$WEB_USER" php craft "$@"
+    sudo -n -u "$WEB_USER" "$@"
+    return
+  fi
+
+  return 1
+}
+
+run_craft_command() {
+  if run_as_web_user php craft "$@"; then
     return
   fi
 
@@ -30,25 +38,34 @@ run_craft_command() {
 }
 
 apply_craft_permissions() {
-  echo "Applying Craft writable permissions..."
+  local effective_group="$SHARED_GROUP"
 
-  if getent group "$SHARED_GROUP" >/dev/null 2>&1; then
-    for path in "${WRITABLE_PATHS[@]}"; do
-      if [ -d "$path" ]; then
-        chgrp -R "$SHARED_GROUP" "$path" || true
-        find "$path" -type d -exec chmod 2775 {} \;
-        find "$path" -type f -exec chmod 664 {} \;
-      fi
-    done
-  else
-    echo "Shared group '$SHARED_GROUP' not found, skipping chgrp/chmod group setup."
+  echo "Applying Craft writable permissions..."
+  if ! getent group "$effective_group" >/dev/null 2>&1; then
+    if id -gn "$WEB_USER" >/dev/null 2>&1; then
+      effective_group="$(id -gn "$WEB_USER")"
+      echo "Shared group '$SHARED_GROUP' not found; using '$effective_group' instead."
+    else
+      effective_group=""
+      echo "Could not resolve a valid shared group; skipping chgrp."
+    fi
   fi
 
-  if command -v setfacl >/dev/null 2>&1; then
+  for path in "${WRITABLE_PATHS[@]}"; do
+    if [ -d "$path" ]; then
+      if [ -n "$effective_group" ]; then
+        chgrp -R "$effective_group" "$path" || true
+      fi
+      find "$path" -type d -exec chmod 2775 {} \;
+      find "$path" -type f -exec chmod 664 {} \;
+    fi
+  done
+
+  if command -v setfacl >/dev/null 2>&1 && [ -n "$effective_group" ]; then
     for path in "${WRITABLE_PATHS[@]}"; do
       if [ -d "$path" ]; then
-        setfacl -R -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$SHARED_GROUP:rwx" "$path" || true
-        setfacl -dR -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$SHARED_GROUP:rwx" "$path" || true
+        setfacl -R -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$effective_group:rwx" "$path" || true
+        setfacl -dR -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$effective_group:rwx" "$path" || true
       fi
     done
   else
@@ -71,7 +88,9 @@ clear_compiled_templates_with_retry() {
 
     echo "Retrying compiled templates clear (attempt $attempt/3)..."
     run_craft_command clear-caches/compiled-templates || true
-    find "$compiled_dir" -mindepth 1 -exec rm -rf {} + || true
+    if ! run_as_web_user find "$compiled_dir" -mindepth 1 -exec rm -rf {} +; then
+      echo "Warning: could not remove compiled templates as '$WEB_USER'; skipping manual cleanup."
+    fi
     apply_craft_permissions
     sleep 1
   done
