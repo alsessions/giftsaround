@@ -14,6 +14,21 @@ WRITABLE_PATHS=(
   "$APP_DIR/web/cpresources"
 )
 
+run_craft_command() {
+  if [ "$(id -un)" = "$WEB_USER" ]; then
+    php craft "$@"
+    return
+  fi
+
+  if command -v sudo >/dev/null 2>&1 && sudo -n -u "$WEB_USER" true >/dev/null 2>&1; then
+    sudo -n -u "$WEB_USER" php craft "$@"
+    return
+  fi
+
+  echo "Warning: could not switch to '$WEB_USER'; running Craft as '$(id -un)'."
+  php craft "$@"
+}
+
 apply_craft_permissions() {
   echo "Applying Craft writable permissions..."
 
@@ -41,6 +56,27 @@ apply_craft_permissions() {
   fi
 }
 
+clear_compiled_templates_with_retry() {
+  local compiled_dir="$APP_DIR/storage/runtime/compiled_templates"
+  local attempt
+
+  for attempt in 1 2 3; do
+    if [ ! -d "$compiled_dir" ]; then
+      return
+    fi
+
+    if ! find "$compiled_dir" -mindepth 1 -print -quit | grep -q .; then
+      return
+    fi
+
+    echo "Retrying compiled templates clear (attempt $attempt/3)..."
+    run_craft_command clear-caches/compiled-templates || true
+    find "$compiled_dir" -mindepth 1 -exec rm -rf {} + || true
+    apply_craft_permissions
+    sleep 1
+  done
+}
+
 echo "--- Starting Git & Craft CMS deployment ---"
 
 # Delete composer.lock and vendor directory BEFORE pulling from Git
@@ -60,12 +96,13 @@ composer install --no-interaction --no-progress --no-dev
 
 # Apply pending Craft and plugin database migrations, and project config changes.
 echo "Applying database migrations and project config..."
-php craft up --interactive=0
+apply_craft_permissions
+run_craft_command up --interactive=0
 
 # Clear Craft's caches to ensure all changes take effect immediately.
 echo "Clearing Craft caches..."
-
-php craft clear-caches/all
 apply_craft_permissions
+run_craft_command clear-caches/all
+clear_compiled_templates_with_retry
 
 echo "--- Deployment finished successfully ---"
