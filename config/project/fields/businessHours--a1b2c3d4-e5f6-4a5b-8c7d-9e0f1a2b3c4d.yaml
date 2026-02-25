@@ -1,0 +1,16 @@
+columnSuffix: null
+handle: businessHours
+instructions: 'Enter business operating hours (e.g., Mon-Fri 9am-5pm)'
+name: 'Business Hours'
+searchable: true
+settings:
+  byteLimit: null
+  charLimit: 500
+  code: false
+  initialRows: 4
+  multiline: true
+  placeholder: 'Mon-Fri: 9am-5pm'
+  uiMode: normal
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\PlainText

@@ -19,10 +19,6 @@ fs:
       path: '@webroot/uploads'
     type: craft\fs\Local
     url: '@web/uploads'
-graphql:
-  publicToken:
-    enabled: false
-    expiryDate: null
 meta:
   __names__:
     2e7eeff7-13b1-4896-881c-eb60635f0b8a: Body # Body
@@ -39,13 +35,17 @@ meta:
     937faf23-8b1b-469b-9235-401505a750f2: 'Business Address' # Business Address
     1681a684-620d-404c-a918-6af20caa8b8b: 'Business Email' # Business Email
     56699230-c9fb-4962-9d9b-36f4224b5a07: Business # Business
+    a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d: 'Business Hours' # Business Hours
     abca8568-b497-484e-b4d3-5fe77d0d18dd: Category # Category
+    b2c3d4e5-f6a7-4b5c-8d7e-9f0a1b2c3d4e: 'Facebook URL' # Facebook URL
     b441d323-0b33-4f14-95c6-153d91a1674d: 'Business Website' # Business Website
     bb7cd503-f6ff-480a-b797-4ddb4f3ac9a3: 'Business Images' # Business Images
     c06bf154-ba2d-40f9-9acc-9b0eb650ed25: 'Gifts Around' # Gifts Around
+    c3d4e5f6-a7b8-4c5d-8e7f-9a0b1c2d3e4f: 'Instagram URL' # Instagram URL
     c7d677fc-5281-4cac-9550-ba58ae4ed0c7: Business # Business
     d4bb8a19-094e-48c4-b6ca-37154e3fc329: 'Monthly Specials' # Monthly Specials
     d12e90df-8855-47fa-8457-060d783e8a1d: 'Site Contact' # Site Contact
+    e5f6a7b8-c9d0-4e5f-8a7b-9c0d1e2f3a4b: 'Year Established' # Year Established
     f9b21139-b37c-4768-95ce-6a52e55e6352: Users # Users
     fc73028f-e956-417d-a9cb-27cf6b5d2777: Category # Category
     fce21e2d-42e7-4672-8d05-682879197a37: 'Nick Test' # Nick Test

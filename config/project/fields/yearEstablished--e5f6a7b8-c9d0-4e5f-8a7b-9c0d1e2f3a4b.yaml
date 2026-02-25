@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: yearEstablished
+instructions: 'Year the business was established'
+name: 'Year Established'
+searchable: false
+settings:
+  decimals: 0
+  defaultValue: null
+  max: null
+  min: 1800
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: null
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number
