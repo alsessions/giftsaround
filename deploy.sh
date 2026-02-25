@@ -1,14 +1,14 @@
 #!/bin/bash
 # Exit immediately if a command exits with a non-zero status.
 set -e
+umask 0002
 
 # --- Configuration ---
 # The name of the Git branch you want to deploy.
 BRANCH="main"
 APP_DIR="$(cd "$(dirname "$0")" && pwd)"
 WEB_USER="${WEB_USER:-www-data}"
-DEPLOY_USER="${DEPLOY_USER:-$(id -un)}"
-SHARED_GROUP="${SHARED_GROUP:-craft}"
+SHARED_GROUP="${SHARED_GROUP:-www-data}"
 WRITABLE_PATHS=(
   "$APP_DIR/storage"
   "$APP_DIR/web/cpresources"
@@ -38,62 +38,20 @@ run_craft_command() {
 }
 
 apply_craft_permissions() {
-  local effective_group="$SHARED_GROUP"
-
-  echo "Applying Craft writable permissions..."
-  if ! getent group "$effective_group" >/dev/null 2>&1; then
-    if id -gn "$WEB_USER" >/dev/null 2>&1; then
-      effective_group="$(id -gn "$WEB_USER")"
-      echo "Shared group '$SHARED_GROUP' not found; using '$effective_group' instead."
-    else
-      effective_group=""
-      echo "Could not resolve a valid shared group; skipping chgrp."
-    fi
-  fi
-
+  echo "Ensuring Craft writable paths..."
   for path in "${WRITABLE_PATHS[@]}"; do
+    mkdir -p "$path"
     if [ -d "$path" ]; then
-      if [ -n "$effective_group" ]; then
-        chgrp -R "$effective_group" "$path" || true
-      fi
-      find "$path" -type d -exec chmod 2775 {} \;
-      find "$path" -type f -exec chmod 664 {} \;
+      find "$path" -type d -exec chmod g+rws {} + 2>/dev/null || true
+      find "$path" -type f -exec chmod g+rw {} + 2>/dev/null || true
     fi
   done
 
-  if command -v setfacl >/dev/null 2>&1 && [ -n "$effective_group" ]; then
+  if getent group "$SHARED_GROUP" >/dev/null 2>&1; then
     for path in "${WRITABLE_PATHS[@]}"; do
-      if [ -d "$path" ]; then
-        setfacl -R -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$effective_group:rwx" "$path" || true
-        setfacl -dR -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$effective_group:rwx" "$path" || true
-      fi
+      chgrp -R "$SHARED_GROUP" "$path" 2>/dev/null || true
     done
-  else
-    echo "setfacl not found, skipping ACL configuration."
   fi
-}
-
-clear_compiled_templates_with_retry() {
-  local compiled_dir="$APP_DIR/storage/runtime/compiled_templates"
-  local attempt
-
-  for attempt in 1 2 3; do
-    if [ ! -d "$compiled_dir" ]; then
-      return
-    fi
-
-    if ! find "$compiled_dir" -mindepth 1 -print -quit | grep -q .; then
-      return
-    fi
-
-    echo "Retrying compiled templates clear (attempt $attempt/3)..."
-    run_craft_command clear-caches/compiled-templates || true
-    if ! run_as_web_user find "$compiled_dir" -mindepth 1 -exec rm -rf {} +; then
-      echo "Warning: could not remove compiled templates as '$WEB_USER'; skipping manual cleanup."
-    fi
-    apply_craft_permissions
-    sleep 1
-  done
 }
 
 echo "--- Starting Git & Craft CMS deployment ---"
@@ -122,6 +80,5 @@ run_craft_command up --interactive=0
 echo "Clearing Craft caches..."
 apply_craft_permissions
 run_craft_command clear-caches/all
-clear_compiled_templates_with_retry
 
 echo "--- Deployment finished successfully ---"
