@@ -5,41 +5,6 @@ set -e
 # --- Configuration ---
 # The name of the Git branch you want to deploy.
 BRANCH="main"
-APP_DIR="$(cd "$(dirname "$0")" && pwd)"
-WEB_USER="${WEB_USER:-www-data}"
-DEPLOY_USER="${DEPLOY_USER:-$(id -un)}"
-SHARED_GROUP="${SHARED_GROUP:-craft}"
-WRITABLE_PATHS=(
-  "$APP_DIR/storage"
-  "$APP_DIR/web/cpresources"
-)
-
-apply_craft_permissions() {
-  echo "Applying Craft writable permissions..."
-
-  if getent group "$SHARED_GROUP" >/dev/null 2>&1; then
-    for path in "${WRITABLE_PATHS[@]}"; do
-      if [ -d "$path" ]; then
-        chgrp -R "$SHARED_GROUP" "$path" || true
-        find "$path" -type d -exec chmod 2775 {} \;
-        find "$path" -type f -exec chmod 664 {} \;
-      fi
-    done
-  else
-    echo "Shared group '$SHARED_GROUP' not found, skipping chgrp/chmod group setup."
-  fi
-
-  if command -v setfacl >/dev/null 2>&1; then
-    for path in "${WRITABLE_PATHS[@]}"; do
-      if [ -d "$path" ]; then
-        setfacl -R -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$SHARED_GROUP:rwx" "$path" || true
-        setfacl -dR -m "u:$DEPLOY_USER:rwx,u:$WEB_USER:rwx,g:$SHARED_GROUP:rwx" "$path" || true
-      fi
-    done
-  else
-    echo "setfacl not found, skipping ACL configuration."
-  fi
-}
 
 echo "--- Starting Git & Craft CMS deployment ---"
 
@@ -66,6 +31,5 @@ php craft up --interactive=0
 echo "Clearing Craft caches..."
 
 php craft clear-caches/all
-apply_craft_permissions
 
 echo "--- Deployment finished successfully ---"
