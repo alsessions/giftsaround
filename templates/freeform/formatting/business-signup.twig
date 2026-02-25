@@ -57,8 +57,12 @@
 					{% set isCheckbox = field.type == 'checkbox' %}
 					{% set isTextarea = field.type == 'textarea' %}
 					{% set isSelect = field.type == 'select' or field.type == 'dropdown' %}
+					{% set isSubmit = field.type == 'submit' %}
 
-					{% if isCheckbox %}
+					{% if isSubmit %}
+						{% continue %}
+
+					{% elseif isCheckbox %}
 						<div class="flex items-start">
 							<div class="flex items-center h-5">
 								<input type="checkbox" id="{{ field.idAttribute }}" name="{{ field.handle }}" value="1" {{ field.required ? 'required' : '' }} class="focus:ring-blue-500 h-4 w-4 text-blue-600 border-gray-300 rounded">
@@ -170,7 +174,10 @@
 		{% endfor %}
 
 		<div>
-			<button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium text-lg">
+			{% set submitButton = form.currentPage.buttons %}
+			<button {{ submitButton.submitRenderProps({
+				class: 'w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors font-medium text-lg'
+			}) }}>
 				Join FREE - Create Business Account
 			</button>
 		</div>
