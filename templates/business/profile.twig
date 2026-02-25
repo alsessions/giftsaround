@@ -128,7 +128,11 @@
 						{% set businessEmailField = craft.app.fields.getFieldByHandle('businessEmail') %}
 						{% set businessPhoneField = craft.app.fields.getFieldByHandle('businessPhone') %}
 						{% set businessAddressField = craft.app.fields.getFieldByHandle('businessAddress') %}
+						{% set businessHoursField = craft.app.fields.getFieldByHandle('businessHours') %}
+						{% set businessWebsiteField = craft.app.fields.getFieldByHandle('businessWebsite') %}
 						{% set categoryField = craft.app.fields.getFieldByHandle('category') %}
+						{% set businessFacebookField = craft.app.fields.getFieldByHandle('businessFacebook') %}
+						{% set businessInstagramField = craft.app.fields.getFieldByHandle('businessInstagram') %}
 						{% set businessImagesField = craft.app.fields.getFieldByHandle('businessImages') %}
 						{% set oneSpecialField = craft.app.fields.getFieldByHandle('oneSpecial') %}
 						{% set monthlySpecialsField = craft.app.fields.getFieldByHandle('monthlySpecials') %}
@@ -146,13 +150,27 @@
 
 						<div>
 							<label for="businessPhone" class="block text-sm font-medium text-gray-700 mb-2">Business Phone</label>
-							<input type="tel" id="businessPhone" name="fields[{{ businessPhoneField.uid }}]" value="{{ user.getFieldValue(businessPhoneField.handle) }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+							{% set phoneValue = user.getFieldValue(businessPhoneField.handle) %}
+							<input type="tel" id="businessPhone" name="fields[{{ businessPhoneField.uid }}][url]" value="{{ phoneValue.url ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
 						</div>
 
 						<div>
 							<label for="businessAddress" class="block text-sm font-medium text-gray-700 mb-2">Business Address</label>
 							<textarea id="businessAddress" name="fields[{{ businessAddressField.uid }}]" rows="3" placeholder="123 Main Street&#10;City, State ZIP" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">{{ user.getFieldValue(businessAddressField.handle) }}</textarea>
 							<p class="text-xs text-gray-500 mt-1">Include street, city, state, and ZIP code</p>
+						</div>
+
+						<div>
+							<label for="businessWebsite" class="block text-sm font-medium text-gray-700 mb-2">Business Website</label>
+							{% set websiteValue = user.getFieldValue(businessWebsiteField.handle) %}
+							<input type="url" id="businessWebsite" name="fields[{{ businessWebsiteField.uid }}][url]" value="{{ websiteValue.url ?? '' }}" placeholder="https://yourbusiness.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+							<p class="text-xs text-gray-500 mt-1">Your business website URL</p>
+						</div>
+
+						<div>
+							<label for="businessHours" class="block text-sm font-medium text-gray-700 mb-2">Business Hours</label>
+							<textarea id="businessHours" name="fields[{{ businessHoursField.uid }}]" rows="3" placeholder="Mon-Fri: 9am-5pm&#10;Sat: 10am-2pm&#10;Sun: Closed" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">{{ user.getFieldValue(businessHoursField.handle) }}</textarea>
+							<p class="text-xs text-gray-500 mt-1">Enter your business operating hours</p>
 						</div>
 
 						<div>
@@ -243,6 +261,31 @@
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<!-- Social Media Links -->
+				<div class="border-b border-gray-200 pb-6">
+					<h2 class="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+						<svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+						</svg>
+						Social Media
+					</h2>
+
+					<div class="space-y-4">
+						<div>
+							<label for="businessFacebook" class="block text-sm font-medium text-gray-700 mb-2">Facebook</label>
+							{% set fbValue = user.getFieldValue(businessFacebookField.handle) %}
+							<input type="url" id="businessFacebook" name="fields[{{ businessFacebookField.uid }}][url]" value="{{ fbValue.url ?? '' }}" placeholder="https://facebook.com/yourpage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+
+						<div>
+							<label for="businessInstagram" class="block text-sm font-medium text-gray-700 mb-2">Instagram</label>
+							{% set igValue = user.getFieldValue(businessInstagramField.handle) %}
+							<input type="url" id="businessInstagram" name="fields[{{ businessInstagramField.uid }}][url]" value="{{ igValue.url ?? '' }}" placeholder="https://instagram.com/youraccount" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900">
+						</div>
+					</div>
+				</div>
 
 				<!-- Change Password (Optional) -->
 				<div class="border-b border-gray-200 pb-6" x-data="{ changePassword: false }">

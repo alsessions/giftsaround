@@ -1,3 +1,5 @@
 description: null
 handle: business
 name: Business
+permissions:
+  - accesscp

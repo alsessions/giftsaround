@@ -113,6 +113,60 @@ tabs:
         editCondition: null
         elementCondition: null
         elementEditCondition: null
+        fieldUid: 056d3ae0-c36e-4de8-b868-c920778e8b63 # Business Name
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: d0341a39-1bc2-487f-96eb-48a74e9e0f31
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: 19b7dc0c-1f0e-4d68-928d-0866f3bf5c99 # Business Description
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: abca8568-b497-484e-b4d3-5fe77d0d18dd # Category
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 66594876-351c-408a-886d-46bf4af47c6c
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Business Info'
+    uid: 5f00ad56-ec03-4f1f-a4ab-b87b930c0324
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
         fieldUid: 937faf23-8b1b-469b-9235-401505a750f2 # Business Address
         handle: null
         instructions: null
@@ -145,38 +199,6 @@ tabs:
         editCondition: null
         elementCondition: null
         elementEditCondition: null
-        fieldUid: bb7cd503-f6ff-480a-b797-4ddb4f3ac9a3 # Business Images
-        handle: null
-        instructions: null
-        label: null
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: 713c1aaf-e611-4a3f-a566-785aa5af9cea
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2026-02-10T20:28:19+00:00'
-        editCondition: null
-        elementCondition: null
-        elementEditCondition: null
-        fieldUid: 056d3ae0-c36e-4de8-b868-c920778e8b63 # Business Name
-        handle: null
-        instructions: null
-        label: null
-        required: false
-        tip: null
-        type: craft\fieldlayoutelements\CustomField
-        uid: d0341a39-1bc2-487f-96eb-48a74e9e0f31
-        userCondition: null
-        warning: null
-        width: 100
-      -
-        dateAdded: '2026-02-10T20:28:19+00:00'
-        editCondition: null
-        elementCondition: null
-        elementEditCondition: null
         fieldUid: 90c4ffa5-83bb-4af6-8837-6ad5bf1c323c # Business Phone
         handle: null
         instructions: null
@@ -193,14 +215,90 @@ tabs:
         editCondition: null
         elementCondition: null
         elementEditCondition: null
-        fieldUid: abca8568-b497-484e-b4d3-5fe77d0d18dd # Category
+        fieldUid: b441d323-0b33-4f14-95c6-153d91a1674d # Business Website
         handle: null
         instructions: null
         label: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
-        uid: 66594876-351c-408a-886d-46bf4af47c6c
+        uid: b3c4d5e6-f7a8-4b9c-0d1e-2f3a4b5c6d7e
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-11T15:00:00+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d # Business Hours
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: c4d5e6f7-a8b9-4c0d-1e2f-3a4b5c6d7e8f
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Contact Details'
+    uid: b1c2d3e4-f5a6-4b7c-8d9e-0f1a2b3c4d5e
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2026-02-11T15:00:00+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: b2c3d4e5-f6a7-4b5c-8d7e-9f0a1b2c3d4e # Facebook URL
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: d5e6f7a8-b9c0-4d1e-2f3a-4b5c6d7e8f9a
+        userCondition: null
+        warning: null
+        width: 100
+      -
+        dateAdded: '2026-02-11T15:00:00+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: c3d4e5f6-a7b8-4c5d-8e7f-9a0b1c2d3e4f
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: e6f7a8b9-c0d1-4e2f-3a4b-5c6d7e8f9a0b
+        userCondition: null
+        warning: null
+        width: 100
+    name: 'Social Media'
+    uid: c2d3e4f5-a6b7-4c8d-9e0f-1a2b3c4d5e6f
+    userCondition: null
+  -
+    elementCondition: null
+    elements:
+      -
+        dateAdded: '2026-02-10T20:28:19+00:00'
+        editCondition: null
+        elementCondition: null
+        elementEditCondition: null
+        fieldUid: bb7cd503-f6ff-480a-b797-4ddb4f3ac9a3 # Business Images
+        handle: null
+        instructions: null
+        label: null
+        required: false
+        tip: null
+        type: craft\fieldlayoutelements\CustomField
+        uid: 713c1aaf-e611-4a3f-a566-785aa5af9cea
         userCondition: null
         warning: null
         width: 100
@@ -236,7 +334,7 @@ tabs:
         userCondition: null
         warning: null
         width: 100
-    name: 'Business Fields'
-    uid: 5f00ad56-ec03-4f1f-a4ab-b87b930c0324
+    name: 'Specials & Images'
+    uid: d3e4f5a6-b7c8-4d9e-0f1a-2b3c4d5e6f7a
     userCondition: null
 thumbFieldKey: null
