@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 26d33ed5-cdbb-4972-b480-64c1f13b45ff # Privacy
+handle: privacyPolicy
+maxAuthors: 1
+name: 'Privacy Policy'
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around
+    enabledByDefault: true
+    hasUrls: true
+    template: privacy.twig
+    uriFormat: privacy
+type: single
