@@ -14,7 +14,48 @@
             {{ entry.body }}
             </div>
 
-            {{ freeform.form("siteContact").render() }}
+            <div class="mt-6 bg-gray-900 border border-gray-700 rounded-lg p-6">
+                {% set form = craft.freeform.form('siteContact') %}
+                {% if form %}
+                    {{ form.render({
+                        formattingTemplate: 'tailwind-3',
+                        attributes: {
+                            form: { class: 'freeform-form' },
+                            row: { class: 'mb-5' },
+                            container: { class: 'space-y-5' }
+                        },
+                        buttons: {
+                            attributes: {
+                                container: { class: 'pt-2' },
+                                submit: { class: 'w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium text-lg border-0' },
+                                back: { class: 'px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300' },
+                                save: { class: 'px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700' }
+                            }
+                        },
+                        fields: {
+                            '@global': {
+                                attributes: {
+                                    label: { class: 'block text-sm font-medium text-gray-200 mb-2' },
+                                    input: { class: 'w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' },
+                                    instructions: { class: 'text-sm text-gray-400 mt-1' },
+                                    error: { class: 'text-sm text-red-400 mt-1' }
+                                }
+                            },
+                            '@file': {
+                                attributes: {
+                                    input: { class: 'w-full text-sm text-gray-300 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border file:border-gray-600 file:bg-gray-800 file:text-gray-200 hover:file:bg-gray-700' }
+                                }
+                            },
+                            '@checkbox': {
+                                attributes: {
+                                    input: { class: 'h-4 w-4 text-blue-600 bg-gray-800 border-gray-500 rounded focus:ring-blue-500' },
+                                    label: { class: 'text-sm text-gray-300' }
+                                }
+                            }
+                        }
+                    }) }}
+                {% endif %}
+            </div>
 
         </div>
     </div>
