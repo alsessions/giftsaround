@@ -4,13 +4,9 @@ instructions: null
 name: 'Business Address'
 searchable: true
 settings:
-  byteLimit: null
-  charLimit: null
-  code: false
-  initialRows: 4
-  multiline: true
-  placeholder: null
-  uiMode: normal
+  maxAddresses: null
+  minAddresses: null
+  viewMode: cards
 translationKeyFormat: null
-translationMethod: none
-type: craft\fields\PlainText
+translationMethod: site
+type: craft\fields\Addresses

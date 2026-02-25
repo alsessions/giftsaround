@@ -76,9 +76,10 @@
                 <!-- Right Column -->
                 <div class="space-y-6">
                     <!-- Address -->
-                    {% if entry.businessAddress %}
+                    {% set businessAddress = entry.businessAddress.one() %}
+                    {% if businessAddress %}
                         <div>
-                            <p class="text-gray-900 font-semibold whitespace-pre-line">{{ entry.businessAddress }}</p>
+                            <p class="text-gray-900 font-semibold whitespace-pre-line">{{ businessAddress | address }}</p>
                         </div>
                     {% endif %}
                 </div>
