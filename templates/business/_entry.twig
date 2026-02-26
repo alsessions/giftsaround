@@ -131,7 +131,7 @@
                                                 </button>
                                             {% else %}
                                                 <form method="post" class="inline-block ml-4" data-redeem-form>
-                                                {{ csrfInput() }}
+                                                {{ csrfInput({ async: true }) }}
                                                 {{ actionInput('redeem/default/generate-redeem-token') }}
                                                 {{ redirectInput(entry.url) }}
                                                 <input type="hidden" name="businessId" value="{{ entry.id }}">
@@ -259,7 +259,7 @@
                                                     </button>
                                                 {% else %}
                                                     <form method="post" class="inline-block" data-redeem-form>
-                                                        {{ csrfInput() }}
+                                                        {{ csrfInput({ async: true }) }}
                                                         {{ actionInput('redeem/default/generate-redeem-token') }}
                                                         {{ redirectInput(entry.url) }}
                                                         <input type="hidden" name="businessId" value="{{ entry.id }}">
