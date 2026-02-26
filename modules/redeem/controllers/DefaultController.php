@@ -367,7 +367,7 @@ class DefaultController extends Controller
     public function actionQrCode(): Response
     {
         $request = Craft::$app->getRequest();
-        $token = $request->getParam('token');
+        $token = $request->getParam('redeemToken') ?? $request->getParam('token');
 
         if (!$token) {
             throw new NotFoundHttpException('Token parameter required');
@@ -383,7 +383,7 @@ class DefaultController extends Controller
         }
 
         // Generate validation URL that includes the token
-        $validationUrl = Craft::$app->getSites()->getCurrentSite()->getBaseUrl() . 'redeem/validate?token=' . $token;
+        $validationUrl = Craft::$app->getSites()->getCurrentSite()->getBaseUrl() . 'redeem/validate?redeemToken=' . $token;
 
         try {
             // Generate QR code
@@ -416,7 +416,7 @@ class DefaultController extends Controller
     public function actionValidate(): Response
     {
         $request = Craft::$app->getRequest();
-        $token = $request->getParam('token');
+        $token = $request->getParam('redeemToken') ?? $request->getParam('token');
 
         if (!$token) {
             return $this->renderTemplate('business/redeem-validate', [

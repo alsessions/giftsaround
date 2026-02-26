@@ -26,11 +26,11 @@
                 <div class="mb-8 border-b border-gray-200 pb-8">
                     <h2 class="text-xl font-semibold text-gray-900 mb-4">Test 2: Real Redemption QR Code</h2>
                     <div class="bg-gray-50 rounded-lg p-6 text-center">
-                        <img src="/redeem/qr-code?token={{ testTokens.token }}" alt="Redemption QR Code" class="w-64 h-64 mx-auto border border-gray-300 rounded">
+                        <img src="/redeem/qr-code?redeemToken={{ testTokens.token }}" alt="Redemption QR Code" class="w-64 h-64 mx-auto border border-gray-300 rounded">
                         <p class="text-sm text-gray-600 mt-4">Latest redemption token</p>
                         <p class="text-xs text-gray-500 font-mono mt-2">{{ testTokens.token|slice(0, 8)|upper }}...{{ testTokens.token|slice(-8)|upper }}</p>
                         <div class="mt-4 space-x-4">
-                            <a href="/redeem/validate?token={{ testTokens.token }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <a href="/redeem/validate?redeemToken={{ testTokens.token }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 Test Validation Page
                             </a>
                         </div>

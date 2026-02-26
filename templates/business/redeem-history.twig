@@ -137,7 +137,7 @@
                                                     <span x-text="showCode ? 'Hide Code' : 'Show Code'"></span>
                                                 </button>
                                                 <div x-show="showCode" x-transition class="mt-4 bg-gradient-to-br from-green-50 to-blue-50 border border-gray-200 rounded-lg p-4 text-center">
-                                                    <a href="/redeem/validate?token={{ token.token }}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all px-6 py-3">
+                                                    <a href="/redeem/validate?redeemToken={{ token.token }}" class="inline-block bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all px-6 py-3">
                                                         <div class="text-xs uppercase tracking-wider mb-1 text-green-100">Click to Redeem</div>
                                                         <div class="text-base font-mono tracking-wide">{{ token.token|slice(0, 16)|upper }}...</div>
                                                     </a>
