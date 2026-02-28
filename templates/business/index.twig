@@ -105,20 +105,59 @@
 
     <!-- Pagination -->
     {% if pageInfo.totalPages > 1 %}
-        <nav class="flex items-center justify-between max-w-xs mx-auto mt-12 lg:max-w-[240px]">
-            {% if pageInfo.prevUrl %}
-                <a href="{{ pageInfo.prevUrl }}" class="px-3 py-1.5 text-sm bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors">← Prev</a>
-            {% else %}
-                <span class="px-3 py-1.5 text-sm text-gray-600 invisible">← Prev</span>
-            {% endif %}
+        {% set pageWindow = pageInfo.getDynamicRangeUrls(5) %}
+        <nav aria-label="Pagination" class="mt-12">
+            <div class="md:hidden flex items-center justify-between gap-4 max-w-xs mx-auto">
+                {% if pageInfo.prevUrl %}
+                    <a href="{{ pageInfo.prevUrl }}" class="px-3 py-1.5 text-sm bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors">← Prev</a>
+                {% else %}
+                    <span class="px-3 py-1.5 text-sm bg-gray-900 text-gray-600 rounded cursor-not-allowed">← Prev</span>
+                {% endif %}
 
-            <span class="text-sm text-gray-500">{{ pageInfo.currentPage }}/{{ pageInfo.totalPages }}</span>
+                <span class="text-sm text-gray-400">{{ pageInfo.currentPage }} of {{ pageInfo.totalPages }}</span>
 
-            {% if pageInfo.nextUrl %}
-                <a href="{{ pageInfo.nextUrl }}" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">Next →</a>
-            {% else %}
-                <span class="px-3 py-1.5 text-sm text-gray-600 invisible">Next →</span>
-            {% endif %}
+                {% if pageInfo.nextUrl %}
+                    <a href="{{ pageInfo.nextUrl }}" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">Next →</a>
+                {% else %}
+                    <span class="px-3 py-1.5 text-sm bg-gray-900 text-gray-600 rounded cursor-not-allowed">Next →</span>
+                {% endif %}
+            </div>
+
+            <div class="hidden md:flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-gray-900/60 w-fit mx-auto">
+                {% if pageInfo.prevUrl %}
+                    <a href="{{ pageInfo.prevUrl }}" class="px-3 py-1.5 text-sm bg-gray-800 text-gray-300 rounded hover:bg-gray-700 transition-colors">← Prev</a>
+                {% else %}
+                    <span class="px-3 py-1.5 text-sm bg-gray-900 text-gray-600 rounded cursor-not-allowed">← Prev</span>
+                {% endif %}
+
+                {% if pageWindow[1] is not defined %}
+                    <a href="{{ pageInfo.getPageUrl(1) }}" class="min-w-9 px-3 py-1.5 text-sm text-center rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">1</a>
+                    {% if pageWindow|keys|first > 2 %}
+                        <span class="px-1 text-gray-500">…</span>
+                    {% endif %}
+                {% endif %}
+
+                {% for page, url in pageWindow %}
+                    {% if page == pageInfo.currentPage %}
+                        <span aria-current="page" class="min-w-9 px-3 py-1.5 text-sm text-center rounded bg-green-600 text-white font-medium">{{ page }}</span>
+                    {% else %}
+                        <a href="{{ url }}" class="min-w-9 px-3 py-1.5 text-sm text-center rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">{{ page }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if pageWindow[pageInfo.totalPages] is not defined %}
+                    {% if pageWindow|keys|last < pageInfo.totalPages - 1 %}
+                        <span class="px-1 text-gray-500">…</span>
+                    {% endif %}
+                    <a href="{{ pageInfo.getPageUrl(pageInfo.totalPages) }}" class="min-w-9 px-3 py-1.5 text-sm text-center rounded bg-gray-800 text-gray-300 hover:bg-gray-700 transition-colors">{{ pageInfo.totalPages }}</a>
+                {% endif %}
+
+                {% if pageInfo.nextUrl %}
+                    <a href="{{ pageInfo.nextUrl }}" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 transition-colors">Next →</a>
+                {% else %}
+                    <span class="px-3 py-1.5 text-sm bg-gray-900 text-gray-600 rounded cursor-not-allowed">Next →</span>
+                {% endif %}
+            </div>
         </nav>
     {% endif %}
 
