@@ -184,12 +184,63 @@
         </div>
     </div>
 </div>
-<div class="bg-gray-900 py-16" id="membership">
+<div class="bg-gray-900 py-16" id="latest-businesses">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">Something, Something</h2>
-            <p class="text-lg text-gray-400 mb-8">Hey, we told you it was gonna be rough for a bit. Check back soon.</p>
+        {% set latestBusinesses = craft.entries()
+            .section('business')
+            .orderBy('postDate DESC')
+            .limit(6)
+            .all() %}
+
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-green-400 mb-4">Latest Businesses</h2>
+            <p class="text-lg text-gray-400">Explore six of the most recently added local business listings.</p>
         </div>
-    </div
+
+        {% if latestBusinesses|length %}
+            <div class="grid gap-4 md:grid-cols-2">
+                {% for business in latestBusinesses %}
+                    <a href="{{ business.url }}" class="bg-gray-800 border border-gray-700 rounded-lg p-3 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200">
+                        <div class="flex items-start gap-3">
+                            <div class="w-24 h-20 rounded-md overflow-hidden bg-gray-700 flex-shrink-0">
+                                {% set businessImage = business.businessImages.one() %}
+                                {% if businessImage %}
+                                    <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
+                                {% else %}
+                                    <div class="w-full h-full flex items-center justify-center text-gray-500">
+                                        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="min-w-0 text-left">
+                                <h3 class="text-base font-semibold text-gray-100 leading-tight truncate">{{ business.title }}</h3>
+
+                                {% set businessAddress = business.businessAddress.one() %}
+                                {% if businessAddress %}
+                                    <p class="text-sm text-gray-400 mt-1 line-clamp-2">
+                                        {{ businessAddress.addressLine1 }}{% if businessAddress.addressLine2 %}, {{ businessAddress.addressLine2 }}{% endif %}{% if businessAddress.locality or businessAddress.administrativeArea or businessAddress.postalCode %}, {{ businessAddress.locality }}{% if businessAddress.administrativeArea %}, {{ businessAddress.administrativeArea }}{% endif %}{% if businessAddress.postalCode %} {{ businessAddress.postalCode }}{% endif %}{% endif %}
+                                    </p>
+                                {% endif %}
+
+                                {% set businessCategories = business.category.all() %}
+                                {% if businessCategories|length %}
+                                    <p class="text-xs text-blue-300 mt-1 truncate">
+                                        {{ businessCategories|map(c => c.title)|join(', ') }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-8">
+                <p class="text-gray-400">No business listings available yet.</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
