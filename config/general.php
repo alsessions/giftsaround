@@ -21,6 +21,8 @@ return GeneralConfig::create()
     ->preloadSingles()
     // Prevent user enumeration attacks
     ->preventUserEnumeration()
+    // Avoid collisions with third-party URLs that use a generic `token` query param.
+    ->tokenParam('craftToken')
     // Set the @webroot alias so the clear-caches command knows where to find CP resources
     ->aliases([
         '@webroot' => dirname(__DIR__) . '/web',
