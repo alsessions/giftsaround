@@ -1,94 +1,63 @@
 {% extends "_layouts/base.twig" %}
 
-{% set title = "Business Registration Successful" %}
+{% set title = "Application Received" %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto mt-8 mb-16">
+<div class="max-w-2xl mx-auto mt-8 mb-16 px-4 sm:px-6">
     <div class="bg-white rounded-lg shadow-md p-8 text-center">
+
         <div class="mb-6">
             <div class="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                 <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                 </svg>
             </div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome to {{ siteName }}!</h1>
-            <p class="text-xl text-gray-600">Your business account has been created successfully</p>
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Application Received!</h1>
+            <p class="text-lg text-gray-600">Thanks for signing up — we're excited to have you on {{ siteName }}.</p>
         </div>
 
-        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-8">
-            <div class="flex items-center justify-center mb-3">
-                <svg class="w-8 h-8 text-amber-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                </svg>
-                <h2 class="text-lg font-semibold text-amber-900">Check Your Email</h2>
+        {# Step 1: Verify email #}
+        <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 mb-4 text-left">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 mt-0.5">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-500 text-white text-xs font-bold">1</span>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-base font-semibold text-amber-900 mb-1">Verify your email address</h2>
+                    <p class="text-amber-800 text-sm">We've sent a confirmation link to your email. Please click it to verify your address — check your inbox and spam folder.</p>
+                </div>
             </div>
-            <p class="text-amber-800 mb-3">
-                <strong>Important:</strong> To activate your account, you need to verify your email address.
-            </p>
-            <p class="text-amber-700 text-sm">
-                We've sent a confirmation email with an activation link. Please check your inbox (and spam folder) and click the link to complete your registration.
-            </p>
         </div>
 
-        <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
-            <h2 class="text-lg font-semibold text-green-900 mb-3">Once Your Account is Activated:</h2>
-            <ul class="text-left text-green-800 space-y-2">
-                <li class="flex items-start">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Complete your business profile with photos and description</span>
-                </li>
-                <li class="flex items-start">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Create your first monthly special offer</span>
-                </li>
-                <li class="flex items-start">
-                    <svg class="w-5 h-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span>Start attracting new customers in your area</span>
-                </li>
-            </ul>
+        {# Step 2: Await approval #}
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8 text-left">
+            <div class="flex items-start">
+                <div class="flex-shrink-0 mt-0.5">
+                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-500 text-white text-xs font-bold">2</span>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-base font-semibold text-blue-900 mb-1">We'll review your listing</h2>
+                    <p class="text-blue-800 text-sm">Once your email is verified, our team will review your business listing. <strong>We'll notify you by email when your listing is approved and live</strong> on the site — usually within 1–2 business days.</p>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
-            <div class="flex items-center justify-center mb-2">
-                <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
+            <div class="flex items-center justify-center mb-1">
+                <svg class="w-4 h-4 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <h3 class="text-blue-900 font-semibold">Remember: It's Always FREE!</h3>
+                <p class="text-green-900 font-semibold text-sm">Listing on {{ siteName }} is always FREE</p>
             </div>
-            <p class="text-blue-800 text-sm">There are no monthly fees, setup costs, or hidden charges. {{ siteName }} is completely free for businesses to advertise their monthly specials.</p>
+            <p class="text-green-800 text-sm">No monthly fees, setup costs, or hidden charges — ever.</p>
         </div>
 
-        <div class="space-y-4">
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/account"
-                   class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                    </svg>
-                    Go to My Account
-                </a>
-
-                <a href="/business/profile"
-                   class="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                    </svg>
-                    Complete Business Profile
-                </a>
-            </div>
-
-            <div class="pt-4 border-t border-gray-200">
-                <a href="/" class="text-gray-600 hover:text-gray-800 transition-colors">
-                    ← Back to Home
-                </a>
-            </div>
+        <div class="pt-4 border-t border-gray-200">
+            <a href="/" class="text-gray-500 hover:text-gray-700 transition-colors text-sm">
+                ← Back to Home
+            </a>
         </div>
+
     </div>
 </div>
 {% endblock %}
