@@ -14,6 +14,7 @@
 
 		{# Freeform form with custom dark theme styling #}
 		{{ freeform.form('userRegistration').render({
+			returnUrl: '/account',
 			attributes: {
 				row: { class: 'mb-6' },
 				container: { class: 'space-y-6' }

@@ -25,8 +25,8 @@ return GeneralConfig::create()
     ->tokenParam('craftToken')
     // Log users in automatically after they verify their email
     ->autoLoginAfterAccountActivation(true)
-    // Send verified users to their profile page
-    ->activateAccountSuccessPath('account/profile')
+    // Send verified users to their account page
+    ->activateAccountSuccessPath('account')
     // Set the @webroot alias so the clear-caches command knows where to find CP resources
     ->aliases([
         '@webroot' => dirname(__DIR__) . '/web',
