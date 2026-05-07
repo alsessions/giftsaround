@@ -56,10 +56,10 @@ fieldLayouts:
         uid: fdf7d432-9c9f-473e-b7c5-244cdb08be0a
         userCondition: null
     thumbFieldKey: null
-handle: privacy
+handle: builder
 hasTitleField: true
 icon: null
-name: Privacy
+name: Builder
 showSlugField: true
 showStatusField: true
 slugTranslationKeyFormat: null
