@@ -8,7 +8,10 @@ settings:
   availableVolumes: '*'
   characterLimit: null
   css: null
+  cssFile: null
   defaultTransform: null
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: null
   fullGraphqlData: true
   headingLevels:
     - 1
@@ -17,7 +20,11 @@ settings:
     - 4
     - 5
     - 6
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
   js: null
+  jsFile: null
   options: null
   parseEmbeds: false
   purifierConfig: null

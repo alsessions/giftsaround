@@ -4,6 +4,7 @@ instructions: null
 name: 'Instagram URL'
 searchable: false
 settings:
+  fullGraphqlData: false
   maxLength: 255
   showLabelField: false
   typeSettings:
