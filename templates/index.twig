@@ -37,12 +37,12 @@
         {% set latestBusinesses = craft.entries()
             .section('business')
             .orderBy('postDate DESC')
-            .limit(6)
+            .limit(8)
             .all() %}
 
         <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">Latest Businesses</h2>
-            <p class="text-lg text-gray-400">Explore six of the most recently added local business listings.</p>
+            <h2 class="text-3xl font-bold text-green-400 mb-4">What's New</h2>
+            <p class="text-lg text-gray-400">A peek at the latest local listings &mdash; <a href="/business" class="text-blue-400 hover:text-blue-300 underline-offset-4 hover:underline transition-colors">browse all businesses &rarr;</a></p>
         </div>
 
         {% if latestBusinesses|length %}
