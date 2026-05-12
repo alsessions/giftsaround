@@ -680,16 +680,16 @@
         },
         {
             "name": "craftcms/cms",
-            "version": "5.9.22",
+            "version": "5.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftcms/cms.git",
-                "reference": "516d9f46ffe6aca893ce749448798880ae3da16e"
+                "reference": "50b1db3a69cd9f865829fbabf1afad8a72fc1570"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/cms/zipball/516d9f46ffe6aca893ce749448798880ae3da16e",
-                "reference": "516d9f46ffe6aca893ce749448798880ae3da16e",
+                "url": "https://api.github.com/repos/craftcms/cms/zipball/50b1db3a69cd9f865829fbabf1afad8a72fc1570",
+                "reference": "50b1db3a69cd9f865829fbabf1afad8a72fc1570",
                 "shasum": ""
             },
             "require": {
@@ -740,7 +740,7 @@
                 "twig/twig": "~3.21.1",
                 "voku/portable-ascii": "^2.0",
                 "web-auth/webauthn-lib": "~5.2.4",
-                "yiisoft/yii2": "~2.0.54.0",
+                "yiisoft/yii2": "~2.0.55.0",
                 "yiisoft/yii2-debug": "~2.1.27.0",
                 "yiisoft/yii2-queue": "~2.3.2",
                 "yiisoft/yii2-symfonymailer": "^4.0.0"
@@ -805,7 +805,7 @@
                 "rss": "https://github.com/craftcms/cms/releases.atom",
                 "source": "https://github.com/craftcms/cms"
             },
-            "time": "2026-04-29T17:12:32+00:00"
+            "time": "2026-05-12T01:39:36+00:00"
         },
         {
             "name": "craftcms/html-field",
@@ -5801,16 +5801,16 @@
         },
         {
             "name": "solspace/craft-freeform",
-            "version": "5.15.9",
+            "version": "5.15.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solspace/craft-freeform.git",
-                "reference": "415eeaccde80b7ed1fb68a458cdcf9e96b3d800f"
+                "reference": "e4a0a074bc541d5e92874049936d1254a63c0015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/415eeaccde80b7ed1fb68a458cdcf9e96b3d800f",
-                "reference": "415eeaccde80b7ed1fb68a458cdcf9e96b3d800f",
+                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/e4a0a074bc541d5e92874049936d1254a63c0015",
+                "reference": "e4a0a074bc541d5e92874049936d1254a63c0015",
                 "shasum": ""
             },
             "require": {
@@ -5869,9 +5869,9 @@
             "description": "The most flexible and user-friendly form building plugin!",
             "support": {
                 "issues": "https://github.com/solspace/craft-freeform/issues",
-                "source": "https://github.com/solspace/craft-freeform/tree/v5.15.9"
+                "source": "https://github.com/solspace/craft-freeform/tree/v5.15.10"
             },
-            "time": "2026-05-05T20:03:29+00:00"
+            "time": "2026-05-11T17:25:27+00:00"
         },
         {
             "name": "spomky-labs/cbor-php",
@@ -9944,16 +9944,16 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.54",
+            "version": "2.0.55",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "99daebf2de0b031d129706a5db6ce0802c70bac9"
+                "reference": "b900eecdb225041a4c4e0f5e0e5336f606a23bdb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/99daebf2de0b031d129706a5db6ce0802c70bac9",
-                "reference": "99daebf2de0b031d129706a5db6ce0802c70bac9",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b900eecdb225041a4c4e0f5e0e5336f606a23bdb",
+                "reference": "b900eecdb225041a4c4e0f5e0e5336f606a23bdb",
                 "shasum": ""
             },
             "require": {
@@ -10061,7 +10061,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-01-09T22:24:11+00:00"
+            "time": "2026-05-09T14:50:57+00:00"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -10569,16 +10569,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "bb3ea637e3d131d72acc033cfc2746ee893349fe"
+                "reference": "7da6c396d7ebe142bc857c20479d5e70a5e1aac7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/bb3ea637e3d131d72acc033cfc2746ee893349fe",
-                "reference": "bb3ea637e3d131d72acc033cfc2746ee893349fe",
+                "url": "https://api.github.com/repos/nette/utils/zipball/7da6c396d7ebe142bc857c20479d5e70a5e1aac7",
+                "reference": "7da6c396d7ebe142bc857c20479d5e70a5e1aac7",
                 "shasum": ""
             },
             "require": {
@@ -10654,9 +10654,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.1.3"
+                "source": "https://github.com/nette/utils/tree/v4.1.4"
             },
-            "time": "2026-02-13T03:05:33+00:00"
+            "time": "2026-05-11T20:49:54+00:00"
         },
         {
             "name": "nikic/php-parser",
