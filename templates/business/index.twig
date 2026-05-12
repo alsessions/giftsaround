@@ -69,6 +69,23 @@
                 <div class="p-6 flex flex-col flex-grow">
                     <h3 class="text-xl font-bold text-gray-100 mb-3">{{ business.title }}</h3>
 
+                    <!-- Current Monthly Special (or fallback to oneSpecial) -->
+                    {% set currentMonthIndex = 'now'|date('n') - 1 %}
+                    {% set currentMonthName = 'now'|date('F') %}
+                    {% set currentSpecialRow = business.monthlySpecials[currentMonthIndex] ?? null %}
+                    {% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
+                    {% if currentSpecial %}
+                        <div class="mb-4 rounded-md border border-green-500/40 bg-green-500/10 px-3 py-2">
+
+                            <p class="text-base md:text-lg  text-green-300 leading-snug line-clamp-2">{{ currentSpecial }}</p>
+                        </div>
+                    {% elseif business.oneSpecial|length %}
+                        <div class="mb-4 rounded-md border border-green-500/40 bg-green-500/10 px-3 py-2">
+
+                            <p class="text-base md:text-lg  text-green-300 leading-snug line-clamp-2">{{ business.oneSpecial }}</p>
+                        </div>
+                    {% endif %}
+
                     <!-- Contact Details -->
                     <div class="space-y-2 text-sm text-gray-400 mb-4">
                         <!-- Address -->
