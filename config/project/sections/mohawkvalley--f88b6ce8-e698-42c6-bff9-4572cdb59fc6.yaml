@@ -5,6 +5,7 @@ entryTypes:
     uid: 26d33ed5-cdbb-4972-b480-64c1f13b45ff # Builder
 handle: mohawkvalley
 maxAuthors: 1
+minAuthors: 1
 name: 'Mohawk Valley Living'
 previewTargets:
   -

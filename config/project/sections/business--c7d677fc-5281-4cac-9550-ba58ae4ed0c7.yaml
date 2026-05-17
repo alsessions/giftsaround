@@ -5,6 +5,7 @@ entryTypes:
     uid: 9d21a74f-c6b5-434c-8ed2-c75251a61c26 # Business
 handle: business
 maxAuthors: 1
+minAuthors: 1
 name: Business
 previewTargets:
   -

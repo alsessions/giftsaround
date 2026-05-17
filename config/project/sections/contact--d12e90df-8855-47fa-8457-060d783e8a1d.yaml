@@ -5,6 +5,7 @@ entryTypes:
     uid: 6d3e1917-0432-4bae-96fe-6e467b048fb3 # Contact 
 handle: contact
 maxAuthors: 1
+minAuthors: 1
 name: 'Site Contact'
 previewTargets:
   -
