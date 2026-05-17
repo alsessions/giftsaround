@@ -1,0 +1,85 @@
+{# Freeform user registration formatting template. #}
+
+{{ form.renderTag({
+	attributes: {
+		form: { class: 'space-y-6' },
+		row: { class: 'grid gap-4 md:grid-cols-2 mb-6' },
+		novalidate: true,
+	},
+	buttons: {
+		attributes: {
+			container: { class: 'mt-8' },
+			submit: { class: 'w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium' },
+		},
+	},
+	fields: {
+		'@global': {
+			attributes: {
+				container: { class: 'min-w-0' },
+				label: { '=class': 'block text-sm font-medium text-gray-300 mb-2' },
+				input: { '=class': 'w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' },
+				instructions: { '=class': 'text-sm text-gray-500 mt-1' },
+				error: { '=class': 'text-sm text-red-400 mt-1' },
+			},
+		},
+		':required': {
+			attributes: {
+				label: { '+class': 'freeform-required' },
+				input: { required: '' },
+			},
+		},
+		':errors': {
+			attributes: {
+				input: { '+class': 'border-red-500' },
+			},
+		},
+		'@checkbox': {
+			attributes: {
+				container: { class: 'md:col-span-2' },
+				input: { '=class': 'h-8 w-8 rounded border border-red-500 bg-gray-800 text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500' },
+				label: { '=class': 'block text-lg font-medium text-red-500 ml-2' },
+				instructions: { '=class': 'text-lg text-base text-red-400 mt-1' },
+			},
+		},
+		'@stripe': {
+			attributes: {
+				container: { class: 'md:col-span-2' },
+				input: { '=class': 'w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg' },
+			},
+		},
+	},
+}) }}
+
+{% if not form.settings.ajax %}
+	{% if form.submittedSuccessfully %}
+		<div class="rounded-lg border border-green-700 bg-green-900/30 p-4 text-green-100 mb-6">
+			{{ form.successMessage|t('freeform') }}
+		</div>
+	{% endif %}
+	{% if form.hasErrors %}
+		<div class="rounded-lg border border-red-700 bg-red-900/30 p-4 text-red-100 mb-6">
+			<p>{{ form.errorMessage|t('freeform') }}</p>
+			{% if form.errors|length %}
+				<ul class="mt-2 list-disc list-inside">
+					{% for error in form.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	{% endif %}
+{% endif %}
+
+{% for row in form.rows %}
+	{% set columnCount = row|length %}
+	{% set rowClass = columnCount == 2 ? 'grid gap-4 md:grid-cols-2' : 'grid gap-4' %}
+	<div class="{{ rowClass }} mb-6">
+		{% for field in row %}
+			{% if field.type != 'submit' %}
+				{{ field.render }}
+			{% endif %}
+		{% endfor %}
+	</div>
+{% endfor %}
+
+{{ form.renderClosingTag }}
