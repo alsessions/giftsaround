@@ -3,20 +3,20 @@
 {% set title = "Create Account" %}
 
 {% block content %}
-<div class="xs:max-w-none md:max-w-3xl lg:max-w-4xl xl:max-w-5xl mx-auto mt-8 mb-16 px-2 md:px-4">
+<div class="xs:max-w-none sm:max-w-5xl md:max-w-5xl lg:max-w-6xl xl:max-w-6xl mx-auto mt-8 mb-16 px-2 md:px-4">
 	<div class="bg-gray-900 rounded-lg shadow-md p-2 md:p-8 border border-gray-800">
 
 
 		<div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 md:p-10 mb-10 text-gray-200 text-base md:text-lg lg:text-xl leading-loose">
 
 			<h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-green-400 mb-6">Welcome to Gifts Around</h2>
-			<p class="mb-6 leading-8">Gifts Around is your local-first membership for discovering and redeeming exclusive monthly specials from businesses right in your community — food &amp; beverage, retail, entertainment, health &amp; beauty, and services.</p>
+			<p class="mb-6 leading-8 text-lg">Gifts Around is your local-first membership for discovering and redeeming exclusive monthly specials from businesses right in your community — food &amp; beverage, retail, entertainment, health &amp; beauty, and services.</p>
 
 			{% set latestBusinesses = craft.entries().section('business').orderBy('postDate DESC').limit(6).all() %}
 			{% if latestBusinesses|length %}
 				<div class="mb-8">
-					<p class="text-xs md:text-sm uppercase tracking-wider font-semibold text-green-400 mb-3">Recently Added Businesses</p>
-					<div class="grid gap-3 sm:grid-cols-2">
+					<p class=" uppercase tracking-wider font-semibold text-green-400 mb-3">Recently Added Businesses</p>
+					<div class="grid gap-3 sm:grid-cols-2 text-lg">
 						{% for business in latestBusinesses %}
 							<a href="{{ business.url }}" class="flex items-center gap-3 bg-gray-900/60 border border-gray-700 rounded-lg p-2 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200">
 								<div class="w-14 h-14 rounded-md overflow-hidden bg-gray-700 flex-shrink-0">
@@ -33,7 +33,7 @@
 									<p class="text-sm md:text-base font-semibold text-gray-100 leading-tight truncate">{{ business.title }}</p>
 									{% set businessCategories = business.category.all() %}
 									{% if businessCategories|length %}
-										<p class="text-xs text-blue-300 truncate">{{ businessCategories|map(c => c.title)|join(', ') }}</p>
+										<p class="text-sm text-blue-300 truncate">{{ businessCategories|map(c => c.title)|join(', ') }}</p>
 									{% endif %}
 								</div>
 							</a>

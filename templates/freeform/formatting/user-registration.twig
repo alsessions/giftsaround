@@ -30,7 +30,7 @@
 		},
 		':errors': {
 			attributes: {
-				input: { '+class': 'border-red-500' },
+				input: { '+class': 'border-red-500 text-red-500' },
 			},
 		},
 		'@checkbox': {
@@ -38,13 +38,13 @@
 				container: { class: 'md:col-span-2' },
 				input: { '=class': 'h-4 w-4 mr-2 rounded border border-red-500 bg-gray-800 text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500' },
 				label: { '=class': 'block text-lg font-medium  mb-2  ml-2' },
-				instructions: { '=class': 'text-lg text-red-500 text-base mb-4 mt-1' },
+				instructions: { '=class': 'text-xl text-red-500 text-base mb-4 mt-1' },
 			},
 		},
 		'@stripe': {
 			attributes: {
-				container: { class: 'md:col-span-2' },
-				input: { '=class': 'w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg' },
+				container: { class: 'md:col-span-2 max-w-4xl text-lg' },
+				input: { '=class': 'w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg text-lg' },
 			},
 		},
 	},
