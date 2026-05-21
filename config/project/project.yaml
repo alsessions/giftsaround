@@ -1,4 +1,4 @@
-dateModified: 1779042918
+dateModified: 1779397766
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -1079,6 +1079,11 @@ plugins:
       lowerQualityRetinaImageVariants: true
       sharpenScaledImagePercentage: 50
       transformClass: nystudio107\imageoptimize\imagetransforms\CraftImageTransform
+  seomatic:
+    edition: standard
+    enabled: true
+    licenseKey: JTNJQW1YOEOIS9UMCCOXTKEL
+    schemaVersion: 3.0.13
 system:
   edition: pro
   live: true

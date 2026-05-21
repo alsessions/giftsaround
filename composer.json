@@ -7,6 +7,7 @@
         "endroid/qr-code": "^5.0",
         "mmikkel/cp-clearcache": "^2.0.1",
         "nystudio107/craft-imageoptimize": "^5.0.7",
+        "nystudio107/craft-seomatic": "^5.1.21",
         "solspace/craft-freeform": "^5.12.4",
         "vlucas/phpdotenv": "^5.4.0"
     },
