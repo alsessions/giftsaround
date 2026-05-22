@@ -8,10 +8,10 @@
     {% set submissionId = submissionParam %}
     {% set submissionParam = null %}
 {% endif %}
-{% set submission = submissionParam
-    ? freeform.submissions({ token: submissionParam }).one()
-    : (submissionId ? freeform.submissions({ id: submissionId }).one() : null)
-%}
+{% set submission = submissionId ? freeform.submissions({ id: submissionId }).one() : null %}
+{% if not submission and submissionParam %}
+    {% set submission = freeform.submissions({ token: submissionParam }).one() %}
+{% endif %}
 {% set payment = submission ? freeform.payments(submission) : null %}
 {% set paymentStatus = payment ? payment.status : null %}
 {% set hasSuccessfulPayment = paymentStatus == 'succeeded' %}
