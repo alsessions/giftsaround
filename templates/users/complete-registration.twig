@@ -9,17 +9,18 @@
     {% set submissionParam = null %}
 {% endif %}
 {% set submission = submissionParam
-    ? freeform.submissions({ token: submissionParam, form: 'userRegistration' }).one()
-    : (submissionId ? freeform.submissions({ id: submissionId, form: 'userRegistration' }).one() : null)
+    ? freeform.submissions({ token: submissionParam }).one()
+    : (submissionId ? freeform.submissions({ id: submissionId }).one() : null)
 %}
 {% set payment = submission ? freeform.payments(submission) : null %}
 {% set paymentStatus = payment ? payment.status : null %}
+{% set hasSuccessfulPayment = paymentStatus == 'succeeded' %}
 {% set account = user ?? null %}
 {% set submittedUsername = account ? account.username : craft.app.request.getParam('username') %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 mb-16 px-4">
-    {% if not submission or paymentStatus != 'succeeded' %}
+    {% if not submission %}
         <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
             <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
                 <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -27,7 +28,26 @@
                 </svg>
             </div>
             <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Required</h1>
-            <p class="text-gray-300 mb-8">Your account can only be created after a successful payment.</p>
+            <p class="text-gray-300 mb-4">We couldn't find your registration submission.</p>
+            <p class="text-gray-500 text-sm mb-8">Please return to registration and try again.</p>
+            <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                Return to Registration
+            </a>
+        </div>
+    {% elseif not hasSuccessfulPayment %}
+        <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
+            <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Required</h1>
+            <p class="text-gray-300 mb-4">Your account can only be created after a successful payment.</p>
+            {% if paymentStatus %}
+                <p class="text-gray-500 text-sm mb-8">Current payment status: {{ paymentStatus|replace('_', ' ') }}</p>
+            {% else %}
+                <p class="text-gray-500 text-sm mb-8">We found your submission, but no completed payment is attached yet. Wait a moment and refresh this page.</p>
+            {% endif %}
             <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
                 Return to Registration
             </a>

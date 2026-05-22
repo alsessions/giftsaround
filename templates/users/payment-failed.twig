@@ -22,8 +22,8 @@
             {% set submissionParam = null %}
         {% endif %}
         {% set submission = submissionParam
-            ? freeform.submissions({ token: submissionParam, form: 'userRegistration' }).one()
-            : (submissionId ? freeform.submissions({ id: submissionId, form: 'userRegistration' }).one() : null)
+            ? freeform.submissions({ token: submissionParam }).one()
+            : (submissionId ? freeform.submissions({ id: submissionId }).one() : null)
         %}
         {% if submission %}
             {% set payments = freeform.payments(submission) %}
