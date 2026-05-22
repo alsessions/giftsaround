@@ -15,9 +15,10 @@
             <p class="text-xl text-gray-300">We couldn't process your payment</p>
         </div>
 
-        {% set submissionId = craft.app.request.getParam('submission') %}
-        {% if submissionId %}
-            {% set payments = freeform.payments(submissionId) %}
+        {% set submissionToken = craft.app.request.getParam('submission') %}
+        {% set submission = submissionToken ? freeform.submissions({ token: submissionToken, form: 'userRegistration' }).one() : null %}
+        {% if submission %}
+            {% set payments = freeform.payments(submission) %}
             {% if payments and payments.errorMessage %}
                 <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-6">
                     <p class="text-red-300">{{ payments.errorMessage }}</p>

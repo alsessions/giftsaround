@@ -1,0 +1,99 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = "Complete Registration" %}
+
+{% set submissionToken = craft.app.request.getParam('submission') %}
+{% set submission = submissionToken ? freeform.submissions({ token: submissionToken, form: 'userRegistration' }).one() : null %}
+{% set payment = submission ? freeform.payments(submission) : null %}
+{% set paymentStatus = payment ? payment.status : null %}
+{% set account = user ?? null %}
+{% set submittedUsername = account ? account.username : craft.app.request.getParam('username') %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8 mb-16 px-4">
+    {% if not submission or paymentStatus != 'succeeded' %}
+        <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
+            <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
+                <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Required</h1>
+            <p class="text-gray-300 mb-8">Your account can only be created after a successful payment.</p>
+            <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                Return to Registration
+            </a>
+        </div>
+    {% else %}
+        <div class="bg-gray-900 rounded-lg shadow-md p-8 border border-gray-800">
+            <div class="text-center mb-8">
+                <div class="mx-auto w-16 h-16 bg-green-900/50 rounded-full flex items-center justify-center mb-4 border border-green-700">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-green-400 mb-2">Payment Complete</h1>
+                <p class="text-gray-300">Create your account password to finish registration.</p>
+            </div>
+
+            {% if account and account.hasErrors() %}
+                <div class="bg-red-900/30 border border-red-700 rounded-lg p-4 mb-6">
+                    <h2 class="text-sm font-semibold text-red-200 mb-2">Please correct the following errors:</h2>
+                    <ul class="text-sm text-red-100 list-disc list-inside space-y-1">
+                        {% for fieldErrors in account.getErrors() %}
+                            {% for error in fieldErrors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post" accept-charset="UTF-8" class="space-y-6">
+                {{ csrfInput() }}
+                {{ actionInput('users/save-user') }}
+                {{ redirectInput('register/success') }}
+                {{ successMessageInput('User registered.') }}
+
+                <input type="hidden" name="email" value="{{ submission.email }}">
+                <input type="hidden" name="fullName" value="{{ submission.name }}">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                    <div class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-400 rounded-lg">{{ submission.name }}</div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                    <div class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-400 rounded-lg">{{ submission.email }}</div>
+                </div>
+
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-300 mb-2">Username *</label>
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           value="{{ submittedUsername ?? submission.email }}"
+                           required
+                           autocomplete="username"
+                           class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password *</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           required
+                           autocomplete="new-password"
+                           class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+
+                <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
