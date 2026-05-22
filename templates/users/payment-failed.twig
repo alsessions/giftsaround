@@ -17,6 +17,7 @@
 
         {% set submissionParam = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
         {% set submissionId = craft.app.request.getParam('submissionId') %}
+        {% set paymentIntentId = craft.app.request.getParam('paymentIntent') ?? craft.app.request.getParam('payment_intent') %}
         {% if not submissionId and submissionParam matches '/^\\d+$/' %}
             {% set submissionId = submissionParam %}
             {% set submissionParam = null %}
@@ -24,6 +25,15 @@
         {% set submission = submissionId ? freeform.submissions({ id: submissionId }).one() : null %}
         {% if not submission and submissionParam %}
             {% set submission = freeform.submissions({ token: submissionParam }).one() %}
+        {% endif %}
+        {% if not submission and paymentIntentId %}
+            {% set paymentRecord = craft.app.db.createCommand(
+                'SELECT [[submissionId]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
+                { resourceId: paymentIntentId }
+            ).queryOne() %}
+            {% if paymentRecord and paymentRecord.submissionId %}
+                {% set submission = freeform.submissions({ id: paymentRecord.submissionId }).one() %}
+            {% endif %}
         {% endif %}
         {% if submission %}
             {% set payments = freeform.payments(submission) %}
