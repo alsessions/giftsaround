@@ -2,16 +2,8 @@
 
 {% set title = "Complete Registration" %}
 
-{% set submissionParam = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
-{% set submissionId = craft.app.request.getParam('submissionId') %}
-{% if not submissionId and submissionParam matches '/^\\d+$/' %}
-    {% set submissionId = submissionParam %}
-    {% set submissionParam = null %}
-{% endif %}
-{% set submission = submissionParam
-    ? freeform.submissions({ token: submissionParam, form: 'userRegistration' }).one()
-    : (submissionId ? freeform.submissions({ id: submissionId, form: 'userRegistration' }).one() : null)
-%}
+{% set submissionToken = craft.app.request.getParam('submission') %}
+{% set submission = submissionToken ? freeform.submissions({ token: submissionToken, form: 'userRegistration' }).one() : null %}
 {% set payment = submission ? freeform.payments(submission) : null %}
 {% set paymentStatus = payment ? payment.status : null %}
 {% set account = user ?? null %}
