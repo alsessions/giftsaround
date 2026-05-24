@@ -47,9 +47,9 @@
 			<hr class="border-gray-700 mb-8">
 			<h2 class="text-base md:text-lg font-semibold text-green-400 mb-4">How it works</h2>
 			<ol class="list-decimal list-inside space-y-3 text-base md:text-lg leading-relaxed">
-				<li>Fill out the form below to create your account.</li>
+				<li>Enter your name, email, and payment details below.</li>
+				<li>After payment succeeds, choose your username and password.</li>
 				<li>Check your email for a verification link and click it to activate your account.</li>
-				<li>Once activated, you'll be signed in and taken to your account page.</li>
 				<li>Start redeeming local specials from businesses near you for just <span class="line-through text-gray-500 font-semibold">$19.99/year</span> <strong class="text-green-400">$9.99/year</strong> (introductory pricing).</li>
 			</ol>
 		</div>
@@ -57,7 +57,6 @@
 		{# Freeform form with custom dark theme styling #}
 		{{ freeform.form('userRegistration').render({
 			formattingTemplate: 'user-registration.twig',
-			returnUrl: '/account',
 		}) }}
 
 		<div class="mt-6 text-center">

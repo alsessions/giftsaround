@@ -2,50 +2,22 @@
 
 {% set title = "Complete Registration" %}
 
-{% set submissionParam = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
-{% set submissionId = craft.app.request.getParam('submissionId') %}
 {% set paymentIntentId = craft.app.request.getParam('paymentIntent') ?? craft.app.request.getParam('payment_intent') %}
-{% if not submissionId and submissionParam matches '/^\\d+$/' %}
-    {% set submissionId = submissionParam %}
-    {% set submissionParam = null %}
-{% endif %}
-{% set submission = submissionId ? freeform.submissions({ id: submissionId }).one() : null %}
-{% if not submission and submissionParam %}
-    {% set submission = freeform.submissions({ token: submissionParam }).one() %}
-{% endif %}
-{% if not submission and paymentIntentId %}
-    {% set paymentRecord = craft.app.db.createCommand(
-        'SELECT [[submissionId]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
-        { resourceId: paymentIntentId }
-    ).queryOne() %}
-    {% if paymentRecord and paymentRecord.submissionId %}
-        {% set submission = freeform.submissions({ id: paymentRecord.submissionId }).one() %}
-    {% endif %}
-{% endif %}
-{% set payment = submission ? freeform.payments(submission) : null %}
-{% set paymentStatus = payment ? payment.status : null %}
-{% set stripePaymentIntent = null %}
-{% if not submission and paymentIntentId %}
-    {% set registrationForm = freeform.form('userRegistration') %}
-    {% set stripeIntegration = registrationForm ? freeform.integration(registrationForm, 'stripe') : null %}
-    {% if stripeIntegration %}
-        {% set stripePaymentIntent = stripeIntegration.getStripeClient().paymentIntents.retrieve(paymentIntentId, { expand: ['customer'] }) %}
-    {% endif %}
-{% endif %}
-{% set stripePaymentStatus = stripePaymentIntent ? stripePaymentIntent.status : null %}
-{% set stripeAmount = stripePaymentIntent ? stripePaymentIntent.amount : null %}
-{% set stripeCurrency = stripePaymentIntent ? stripePaymentIntent.currency : null %}
+{% set paymentRecord = paymentIntentId ? craft.app.db.createCommand(
+    'SELECT [[submissionId]], [[status]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
+    { resourceId: paymentIntentId }
+).queryOne() : null %}
+{% set submission = (paymentRecord and paymentRecord.submissionId) ? freeform.submissions({ id: paymentRecord.submissionId }).one() : null %}
+{% set paymentStatus = paymentRecord ? paymentRecord.status : null %}
 {% set hasSuccessfulPayment = paymentStatus == 'succeeded' %}
-{% set hasSuccessfulStripePayment = stripePaymentStatus == 'succeeded' and stripeAmount >= 999 and stripeCurrency == 'usd' %}
-{% set customer = stripePaymentIntent ? stripePaymentIntent.customer : null %}
-{% set registrationName = submission ? submission.name : (customer ? customer.name : null) %}
-{% set registrationEmail = submission ? submission.email : (customer ? customer.email : null) %}
+{% set registrationName = submission ? submission.name : null %}
+{% set registrationEmail = submission ? submission.email : null %}
 {% set account = user ?? null %}
 {% set submittedUsername = account ? account.username : craft.app.request.getParam('username') %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 mb-16 px-4">
-    {% if not submission and not hasSuccessfulStripePayment %}
+    {% if not paymentIntentId or not paymentRecord or not submission or not registrationEmail %}
         <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
             <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
                 <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -53,13 +25,13 @@
                 </svg>
             </div>
             <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Required</h1>
-            <p class="text-gray-300 mb-4">We couldn't find your registration submission.</p>
+            <p class="text-gray-300 mb-4">We couldn't find a completed registration payment.</p>
             <p class="text-gray-500 text-sm mb-8">Please return to registration and try again.</p>
             <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
                 Return to Registration
             </a>
         </div>
-    {% elseif submission and not hasSuccessfulPayment %}
+    {% elseif not hasSuccessfulPayment %}
         <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
             <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
                 <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,11 +40,7 @@
             </div>
             <h1 class="text-3xl font-bold text-red-400 mb-2">Payment Required</h1>
             <p class="text-gray-300 mb-4">Your account can only be created after a successful payment.</p>
-            {% if paymentStatus %}
-                <p class="text-gray-500 text-sm mb-8">Current payment status: {{ paymentStatus|replace('_', ' ') }}</p>
-            {% else %}
-                <p class="text-gray-500 text-sm mb-8">We found your submission, but no completed payment is attached yet. Wait a moment and refresh this page.</p>
-            {% endif %}
+            <p class="text-gray-500 text-sm mb-8">Current payment status: {{ paymentStatus ? paymentStatus|replace('_', ' ') : 'unknown' }}</p>
             <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
                 Return to Registration
             </a>
@@ -86,7 +54,7 @@
                     </svg>
                 </div>
                 <h1 class="text-3xl font-bold text-green-400 mb-2">Payment Complete</h1>
-                <p class="text-gray-300">Create your account password to finish registration.</p>
+                <p class="text-gray-300">Choose your username and password to finish registration.</p>
             </div>
 
             {% if account and account.hasErrors() %}
