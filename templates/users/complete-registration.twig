@@ -10,14 +10,28 @@
 {% set submission = (paymentRecord and paymentRecord.submissionId) ? freeform.submissions({ id: paymentRecord.submissionId }).one() : null %}
 {% set paymentStatus = paymentRecord ? paymentRecord.status : null %}
 {% set hasSuccessfulPayment = paymentStatus == 'succeeded' %}
-{% set registrationName = submission ? submission.name : null %}
-{% set registrationEmail = submission ? submission.email : null %}
+{% set stripePaymentIntent = null %}
+{% if paymentIntentId and not hasSuccessfulPayment %}
+    {% set registrationForm = freeform.form('userRegistration') %}
+    {% set stripeIntegration = registrationForm ? freeform.integration(registrationForm, 'stripe') : null %}
+    {% if stripeIntegration %}
+        {% set stripePaymentIntent = stripeIntegration.getStripeClient().paymentIntents.retrieve(paymentIntentId, { expand: ['customer'] }) %}
+    {% endif %}
+{% endif %}
+{% set stripePaymentStatus = stripePaymentIntent ? stripePaymentIntent.status : null %}
+{% set stripeAmount = stripePaymentIntent ? stripePaymentIntent.amount : null %}
+{% set stripeCurrency = stripePaymentIntent ? stripePaymentIntent.currency : null %}
+{% set hasSuccessfulStripePayment = stripePaymentStatus == 'succeeded' and stripeAmount >= 999 and stripeCurrency == 'usd' %}
+{% set hasCompletedPayment = hasSuccessfulPayment or hasSuccessfulStripePayment %}
+{% set customer = stripePaymentIntent ? stripePaymentIntent.customer : null %}
+{% set registrationName = submission ? submission.name : (customer ? customer.name : null) %}
+{% set registrationEmail = submission ? submission.email : (customer ? customer.email : null) %}
 {% set account = user ?? null %}
 {% set submittedUsername = account ? account.username : craft.app.request.getParam('username') %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 mb-16 px-4">
-    {% if not paymentIntentId or not paymentRecord or not submission or not registrationEmail %}
+    {% if not paymentIntentId or not registrationEmail %}
         <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
             <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
                 <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -31,7 +45,7 @@
                 Return to Registration
             </a>
         </div>
-    {% elseif not hasSuccessfulPayment %}
+    {% elseif not hasCompletedPayment %}
         <div class="bg-gray-900 rounded-lg shadow-md p-8 text-center border border-gray-800">
             <div class="mx-auto w-16 h-16 bg-red-900/50 rounded-full flex items-center justify-center mb-4 border border-red-700">
                 <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
