@@ -14,8 +14,11 @@
 {% if paymentIntentId and not hasSuccessfulPayment %}
     {% set registrationForm = freeform.form('userRegistration') %}
     {% set stripeIntegration = registrationForm ? freeform.integration(registrationForm, 'stripe') : null %}
+    {% if not stripeIntegration and registrationForm %}
+        {% set stripeIntegration = freeform.integration(registrationForm, 'Stripe') %}
+    {% endif %}
     {% if not stripeIntegration %}
-        {% set stripeIntegrationModel = craft.app.plugins.getPlugin('freeform').integrations.getByHandle('stripe') %}
+        {% set stripeIntegrationModel = craft.app.plugins.getPlugin('freeform').integrations.getByHandle('stripe') ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('Stripe') %}
         {% set stripeIntegration = stripeIntegrationModel ? stripeIntegrationModel.getIntegrationObject() : null %}
     {% endif %}
     {% if stripeIntegration %}
