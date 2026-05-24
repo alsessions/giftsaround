@@ -18,7 +18,24 @@
         {% set stripeIntegration = freeform.integration(registrationForm, 'Stripe') %}
     {% endif %}
     {% if not stripeIntegration %}
-        {% set stripeIntegrationModel = craft.app.plugins.getPlugin('freeform').integrations.getByHandle('stripe') ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('Stripe') %}
+        {% set stripeIntegrationUid = craft.app.db.createCommand(
+            'SELECT JSON_UNQUOTE(JSON_EXTRACT(ff.[[metadata]], :path)) AS [[integrationUid]]
+             FROM {{%freeform_forms_fields}} ff
+             INNER JOIN {{%freeform_forms}} f ON f.[[id]] = ff.[[formId]]
+             WHERE f.[[handle]] = :formHandle
+               AND ff.[[type]] LIKE :fieldType
+             ORDER BY ff.[[id]] ASC
+             LIMIT 1',
+            {
+                path: '$.integration',
+                formHandle: 'userRegistration',
+                fieldType: '%StripeField',
+            }
+        ).queryScalar() %}
+        {% set stripeIntegrationModel = stripeIntegrationUid ? craft.app.plugins.getPlugin('freeform').integrations.getByUid(stripeIntegrationUid) : null %}
+    {% endif %}
+    {% if not stripeIntegration %}
+        {% set stripeIntegrationModel = stripeIntegrationModel ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('stripe') ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('Stripe') %}
         {% set stripeIntegration = stripeIntegrationModel ? stripeIntegrationModel.getIntegrationObject() : null %}
     {% endif %}
     {% if stripeIntegration %}
