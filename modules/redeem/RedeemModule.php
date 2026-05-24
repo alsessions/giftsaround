@@ -3,12 +3,8 @@
 namespace modules\redeem;
 
 use Craft;
-use craft\elements\User;
-use craft\events\ElementEvent;
 use craft\events\RegisterUrlRulesEvent;
-use craft\services\Elements;
 use craft\web\UrlManager;
-use Throwable;
 use yii\base\Event;
 
 /**
@@ -91,34 +87,5 @@ class RedeemModule extends \yii\base\Module
             }
         );
 
-        // Ensure newly registered pending users receive an activation email.
-        Event::on(
-            Elements::class,
-            Elements::EVENT_AFTER_SAVE_ELEMENT,
-            function (ElementEvent $event) {
-                if (
-                    !$event->isNew ||
-                    !$event->element instanceof User ||
-                    !Craft::$app->getRequest()->getIsSiteRequest() ||
-                    $event->element->getStatus() !== User::STATUS_PENDING
-                ) {
-                    return;
-                }
-
-                try {
-                    Craft::$app->getUsers()->sendActivationEmail($event->element);
-                } catch (Throwable $e) {
-                    Craft::error(
-                        sprintf(
-                            'Could not send activation email for user %d (%s): %s',
-                            (int)$event->element->id,
-                            (string)$event->element->email,
-                            $e->getMessage()
-                        ),
-                        __METHOD__
-                    );
-                }
-            }
-        );
     }
 }
