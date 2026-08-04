@@ -21,6 +21,7 @@
     {% block head %}{% endblock %}
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
+    {% block header %}
     <!-- Header -->
     <header class="bg-gray-900 shadow-sm border-b border-gray-800">
         <div class="max-w-none mx-auto px-4 sm:px-6 lg:px-8">
@@ -171,12 +172,14 @@
             </div>
         </div>
     </header>
+    {% endblock %}
 
     <!-- Main Content -->
     <main class="min-h-screen">
         {% block content %}{% endblock %}
     </main>
 
+    {% block footer %}
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -188,6 +191,7 @@
             </div>
         </div>
     </footer>
+    {% endblock %}
 
     {% block scripts %}{% endblock %}
 </body>

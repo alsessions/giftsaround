@@ -2,253 +2,316 @@
 
 {% block title %}Welcome - {{ parent() }}{% endblock %}
 
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
 {% block content %}
-<!-- Hero Section -->
-<div class="bg-gradient-to-br from-gray-900 to-gray-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
-        <div class="text-center">
-            <h1 class="text-4xl md:text-6xl font-bold text-green-400 mb-6">
-                Welcome to Gifts Around
-            </h1>
-            <p class="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-                Discover amazing local deals for just <span class="line-through text-gray-500">$19.99</span> <strong class="text-green-400">$9.99</strong> a year &mdash; <span class="inline-block bg-green-500/10 text-green-300 text-sm font-semibold uppercase tracking-wide px-2 py-1 rounded align-middle">Introductory Rate</span>. Join others saving money at their favorite local businesses while supporting their community.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/register" class="inline-flex items-center px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                    Join Now!
-                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
+{% set latestBusinesses = craft.entries()
+    .section('business')
+    .orderBy('postDate DESC')
+    .limit(3)
+    .all() %}
+
+{% set categories = [
+    { title: 'Food', fullTitle: 'Food & Beverage', url: '/category/food-beverage', icon: 'food' },
+    { title: 'Retail', fullTitle: 'Retail', url: '/category/retail', icon: 'retail' },
+    { title: 'Entertainment', fullTitle: 'Entertainment', url: '/category/entertainment', icon: 'ticket' },
+    { title: 'Health', fullTitle: 'Health & Beauty', url: '/category/health-beauty', icon: 'heart' },
+    { title: 'Services', fullTitle: 'Services', url: '/category/services', icon: 'gear' },
+] %}
+
+<div class="min-h-screen bg-[#06101d] text-white">
+    <div class="flex w-full flex-col overflow-hidden bg-[#06101d]">
+        <header class="relative border-b border-white/10 bg-[#050d1a]/95" x-data="{ open: false }" @click.away="open = false">
+            <div class="flex h-16 items-center justify-between px-5 sm:px-7 lg:h-[5.25rem] lg:px-16">
+                <a href="/" class="flex items-center">
+                    <img src="/uploads/business/trans_logo.png" alt="Gifts Around" class="h-11 w-auto lg:h-16">
                 </a>
-                <a href="/business" class="inline-flex items-center px-6 py-3 bg-gray-800 text-blue-400 border border-blue-500 font-medium rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                    View Businesses
-                    <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+
+                <nav class="hidden items-center gap-11 text-sm font-semibold text-white lg:flex">
+                    <a href="/business" class="transition-colors hover:text-emerald-300">Browse Deals</a>
+                    <a href="#categories" class="transition-colors hover:text-emerald-300">Categories</a>
+                    <a href="/business" class="transition-colors hover:text-emerald-300">Businesses</a>
+                </nav>
+
+                <div class="hidden items-center gap-5 lg:flex">
+                    {% if currentUser %}
+                        <a href="/account" class="rounded-md bg-emerald-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">My Account</a>
+                        <a href="/logout" class="rounded-md border border-white/25 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5">Sign Out</a>
+                    {% else %}
+                        <a href="/register" class="rounded-md bg-emerald-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">Join Now</a>
+                        <a href="/login" class="rounded-md border border-white/25 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5">Login</a>
+                    {% endif %}
+                </div>
+
+                <button @click="open = !open" class="text-white lg:hidden" type="button" aria-label="Open menu">
+                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"></path>
+                        <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-                </a>
+                </button>
             </div>
-        </div>
-    </div>
-</div>
 
-<!-- Latest Businesses Section -->
-<div class="py-16 bg-gray-950" id="latest-businesses">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {% set latestBusinesses = craft.entries()
-            .section('business')
-            .orderBy('postDate DESC')
-            .limit(8)
-            .all() %}
+            <div x-show="open" x-transition class="absolute left-4 right-4 top-16 z-50 rounded-md border border-white/10 bg-[#071321] p-3 shadow-2xl shadow-black/40 lg:hidden">
+                <a href="/business" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Browse Deals</a>
+                <a href="#categories" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Categories</a>
+                <a href="/business" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Businesses</a>
+                <a href="/contact" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Contact</a>
+                <div class="mt-2 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
+                    {% if currentUser %}
+                        <a href="/account" @click="open = false" class="rounded bg-emerald-500 px-3 py-2 text-center text-sm font-bold text-white">My Account</a>
+                        <a href="/logout" @click="open = false" class="rounded border border-white/25 px-3 py-2 text-center text-sm font-bold text-white">Sign Out</a>
+                    {% else %}
+                        <a href="/register" @click="open = false" class="rounded bg-emerald-500 px-3 py-2 text-center text-sm font-bold text-white">Join Now</a>
+                        <a href="/login" @click="open = false" class="rounded border border-white/25 px-3 py-2 text-center text-sm font-bold text-white">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
 
-        <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">What's New</h2>
-            <p class="text-lg text-gray-400">A peek at the latest local listings &mdash; <a href="/business" class="text-blue-400 hover:text-blue-300 underline-offset-4 hover:underline transition-colors">browse all businesses &rarr;</a></p>
-        </div>
+        <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] lg:min-h-[380px]">
+            <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/uploads/_576x381_crop_center-center_82_line/unsplash-hero-glasss.jpg');"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-[#071321] via-[#071321]/82 to-[#071321]/20"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#071321]/75 via-transparent to-[#071321]/10"></div>
 
-        {% if latestBusinesses|length %}
-            <div class="grid gap-4 md:grid-cols-2">
-                {% for business in latestBusinesses %}
-                    <a href="{{ business.url }}" class="bg-gray-800 border border-gray-700 rounded-lg p-3 hover:border-blue-500 hover:shadow-lg hover:shadow-blue-500/10 transition-all duration-200">
-                        <div class="flex items-start gap-3">
-                            <div class="w-24 h-20 rounded-md overflow-hidden bg-gray-700 flex-shrink-0">
-                                {% set businessImage = business.businessImages.one() %}
+            <div class="relative mx-auto grid w-full max-w-[90rem] gap-7 px-5 py-7 sm:px-7 lg:grid-cols-[1fr_0.95fr] lg:px-8 lg:py-14">
+                <div class="max-w-xl">
+                    <h1 class="text-[2rem] font-extrabold leading-[1.05] tracking-normal text-white sm:text-5xl lg:text-[3.35rem]">
+                        Save Money at<br>
+                        100+ Local Businesses
+                    </h1>
+                    <p class="mt-3 text-2xl font-extrabold leading-tight text-emerald-400 lg:text-[1.95rem]">Only $9.99/year</p>
+                    <p class="mt-4 max-w-sm text-base font-medium leading-6 text-white lg:text-lg">
+                        One membership.<br>
+                        Hundreds of local deals.<br>
+                        Support local while saving money.
+                    </p>
+
+                    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:max-w-[490px]">
+                        {% if currentUser %}
+                            <a href="/account" class="inline-flex h-12 items-center justify-center rounded-md bg-emerald-500 px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
+                                My Account
+                                <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        {% else %}
+                            <a href="/register" class="inline-flex h-12 items-center justify-center rounded-md bg-emerald-500 px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
+                                Join Now
+                                <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        {% endif %}
+                        <a href="/business" class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 px-6 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5">Browse Deals</a>
+                    </div>
+                </div>
+
+                <div class="hidden items-center justify-center lg:flex">
+                    <div class="flex h-40 w-40 rotate-[-10deg] items-center justify-center rounded-full border-4 border-emerald-400 bg-[#0b1726]/90 text-center shadow-2xl shadow-black/40">
+                        <div class="rotate-[10deg]">
+                            <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-emerald-300">Support Local</p>
+                            <svg class="mx-auto my-3 h-14 w-14 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                            </svg>
+                            <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-emerald-300">Save Big</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class=" bg-[#081522] px-5 py-4 sm:px-7 lg:py-5" id="featured-deals">
+            <div class="mx-auto w-full max-w-[90rem]">
+            <div class="mb-3 flex items-center justify-between">
+                <h2 class="flex items-center text-base font-extrabold text-white lg:text-lg">
+                    <svg class="mr-2 h-5 w-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.41 2.59A2 2 0 0016 2H9.83a2 2 0 00-1.42.59L2.59 8.41a2 2 0 000 2.83l6.17 6.17a2 2 0 002.83 0l5.82-5.82A2 2 0 0018 10.17V4a2 2 0 00-.59-1.41zM14 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                    </svg>
+                    Featured Deals
+                </h2>
+                <a href="/business" class="text-xs font-bold text-emerald-400 transition-colors hover:text-emerald-300">View All<span class="hidden sm:inline"> Deals</span> -></a>
+            </div>
+
+            {% if latestBusinesses|length %}
+                <div class="grid grid-cols-3 gap-3 overflow-x-auto pb-1 lg:gap-5 lg:overflow-visible">
+                    {% for business in latestBusinesses %}
+                        {% set businessImage = business.businessImages.one() %}
+                        {% set currentMonthIndex = 'now'|date('n') - 1 %}
+                        {% set currentMonthName = 'now'|date('F') %}
+                        {% set currentSpecialRow = business.monthlySpecials[currentMonthIndex] ?? null %}
+                        {% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
+                        {% set businessCategories = business.category.all() %}
+
+                        <a href="{{ business.url }}" class="group min-w-[112px] overflow-hidden rounded-md border border-white/10 bg-[#07101c] shadow-lg shadow-black/10 transition-colors hover:border-emerald-400/60 lg:min-w-0">
+                            <div class="relative aspect-[1.18/1] bg-slate-800 lg:aspect-[1.48/1]">
                                 {% if businessImage %}
-                                    <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="w-full h-full object-cover">
+                                    {% if businessImage.optimizedImage %}
+                                        {{ businessImage.optimizedImage.pictureTag().pictureAttrs({'class': 'block h-full w-full'}).imgAttrs({'alt': businessImage.title ?: business.title, 'class': 'h-full w-full object-cover'}).render() }}
+                                    {% else %}
+                                        <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="h-full w-full object-cover">
+                                    {% endif %}
                                 {% else %}
-                                    <div class="w-full h-full flex items-center justify-center text-gray-500">
-                                        <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="flex h-full w-full items-center justify-center bg-slate-800 text-emerald-400">
+                                        <svg class="h-9 w-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                         </svg>
                                     </div>
                                 {% endif %}
+                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pb-2 pt-8 lg:hidden">
+                                    <p class="truncate text-[0.68rem] font-bold text-white">{{ business.title }}</p>
+                                </div>
                             </div>
-
-                            <div class="min-w-0 text-left">
-                                <h3 class="text-base font-semibold text-gray-100 leading-tight truncate">{{ business.title }}</h3>
-
-                                {% set currentMonthIndex = 'now'|date('n') - 1 %}
-                                {% set currentMonthName = 'now'|date('F') %}
-                                {% set currentSpecialRow = business.monthlySpecials[currentMonthIndex] ?? null %}
-                                {% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
+                            <div class="p-2.5 lg:p-4">
+                                <div class="hidden items-start justify-between gap-3 lg:flex">
+                                    <h3 class="truncate text-base font-bold text-white">{{ business.title }}</h3>
+                                    <span class="shrink-0 rounded bg-emerald-400/10 px-2.5 py-1 text-xs font-extrabold uppercase text-emerald-300">Special</span>
+                                </div>
                                 {% if currentSpecial %}
-                                    <div class="mt-2   bg-green-500/10 px-3 py-2">
-
-                                        <p class="text-base  font-bold text-green-300 leading-snug line-clamp-2">{{ currentSpecial }}</p>
-                                    </div>
+                                    <p class="line-clamp-2 min-h-[2.5rem] text-base font-extrabold leading-tight text-emerald-400 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl">{{ currentSpecial }}</p>
                                 {% else %}
-                                    <p class="text-sm text-gray-500 mt-1 italic">No special listed for {{ currentMonthName }}.</p>
+                                    <p class="line-clamp-2 min-h-[2.5rem] text-base font-extrabold leading-tight text-emerald-400 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl">Deal for {{ currentMonthName }}</p>
                                 {% endif %}
+                                <div class="mt-2 flex items-center justify-between gap-2">
+                                    {% if businessCategories|length %}
+                                        <p class="truncate text-xs font-medium text-white/70 lg:text-sm">{{ businessCategories|map(c => c.title)|join(', ') }}</p>
+                                    {% else %}
+                                        <p class="truncate text-xs font-medium text-white/70 lg:text-sm">Local deal</p>
+                                    {% endif %}
+                                    <span class="hidden text-sm font-bold text-emerald-300 group-hover:text-emerald-200 lg:inline">Redeem -></span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="rounded-md border border-white/10 bg-white/5 p-5 text-center text-sm text-white/70">No business listings available yet.</div>
+            {% endif %}
+            </div>
+        </section>
 
-                                {% set businessCategories = business.category.all() %}
-                                {% if businessCategories|length %}
-                                    <p class="text-xs text-blue-300 mt-1 truncate">
-                                        {{ businessCategories|map(c => c.title)|join(', ') }}
-                                    </p>
-                                {% endif %}
+        <section class="bg-[#081522] px-5 pb-10 pt-5 sm:px-7 lg:pb-14 lg:pt-4">
+            <div class="mx-auto w-full max-w-[90rem]">
+            <div id="categories">
+                <h2 class="mb-3 text-xl font-extrabold text-white lg:text-2xl">Browse by Category</h2>
+                <div class="grid grid-cols-5 gap-2 lg:gap-3">
+                    {% for category in categories %}
+                        <a href="{{ category.url }}" class="flex aspect-[1.05/1] min-h-[64px] flex-col items-center justify-center rounded-md border border-white/10 bg-[#06101d] px-2 text-center transition-colors hover:border-emerald-400/60 hover:bg-white/5 lg:min-h-[118px]">
+                            {% if category.icon == 'food' %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 19h16M6 19l5.5-12.5a1 1 0 011.8 0L19 19M8.5 13.5h7M10.5 9h3"></path>
+                                </svg>
+                            {% elseif category.icon == 'retail' %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V8a4 4 0 00-8 0v3M5 9h14l1 12H4L5 9z"></path>
+                                </svg>
+                            {% elseif category.icon == 'ticket' %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 8.5V6a2 2 0 012-2h12a2 2 0 012 2v2.5a3.5 3.5 0 000 7V18a2 2 0 01-2 2H6a2 2 0 01-2-2v-2.5a3.5 3.5 0 000-7zM9 12h6"></path>
+                                </svg>
+                            {% elseif category.icon == 'heart' %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-3-3v6"></path>
+                                </svg>
+                            {% else %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.3 4.3c.4-1.7 2.9-1.7 3.4 0a1.7 1.7 0 002.5 1c1.5-.9 3.3.8 2.4 2.4a1.7 1.7 0 001 2.5c1.7.4 1.7 2.9 0 3.4a1.7 1.7 0 00-1 2.5c.9 1.5-.8 3.3-2.4 2.4a1.7 1.7 0 00-2.5 1c-.4 1.7-2.9 1.7-3.4 0a1.7 1.7 0 00-2.5-1c-1.5.9-3.3-.8-2.4-2.4a1.7 1.7 0 00-1-2.5c-1.7-.4-1.7-2.9 0-3.4a1.7 1.7 0 001-2.5c-.9-1.5.8-3.3 2.4-2.4a1.7 1.7 0 002.5-1z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            {% endif %}
+                            <span class="text-[0.68rem] font-bold leading-tight text-white lg:text-base">{{ category.title }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                <div class="mt-5 rounded-md border border-white/10 bg-[#0a1828] p-5 lg:flex lg:min-h-[194px] lg:items-center lg:justify-between">
+                    <div>
+                        <h2 class="text-xl font-extrabold text-white lg:text-2xl">Own a Business?</h2>
+                        <p class="mt-2 max-w-xs text-sm font-medium leading-5 text-white lg:text-base">List your specials FREE and reach more local customers.</p>
+                        <a href="/business/signup" class="mt-5 inline-flex h-11 items-center justify-center rounded-md bg-blue-600 px-7 text-sm font-semibold text-white transition-colors hover:bg-blue-500">
+                            List My Business
+                            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="mt-5 flex justify-end lg:mt-0">
+                        <div class="relative h-24 w-32 lg:h-28 lg:w-40">
+                            <div class="absolute bottom-0 left-5 h-16 w-24 rounded-sm border border-white/20 bg-slate-700 lg:h-20 lg:w-28">
+                                <div class="h-9 bg-slate-900"></div>
+                                <div class="mx-auto mt-2 h-8 w-12 bg-[#12253a]"></div>
+                            </div>
+                            <div class="absolute left-0 top-2 flex h-9 w-32 overflow-hidden rounded-t-sm border border-white/10 lg:w-40">
+                                <div class="flex-1 bg-blue-600"></div>
+                                <div class="flex-1 bg-emerald-500"></div>
+                                <div class="flex-1 bg-blue-600"></div>
+                                <div class="flex-1 bg-emerald-500"></div>
                             </div>
                         </div>
-                    </a>
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="text-center py-8">
-                <p class="text-gray-400">No business listings available yet.</p>
-            </div>
-        {% endif %}
-    </div>
-</div>
-
-<!-- Discover Local Savings Section -->
-<div class="py-16 bg-gray-900" id="discover">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">Discover Local Savings</h2>
-            <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-                Explore exclusive deals from your favorite local businesses. From dining and retail to entertainment and services, we've got you covered!
-            </p>
-        </div>
-
-        <!-- Resources Grid -->
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <!-- Food & Beverage -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-shadow">
-                <a href="/category/food-beverage" class="flex items-center mb-4 group">
-                    <div class="bg-blue-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
-                        </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-100 group-hover:text-blue-400 ml-3 transition-colors">Food & Beverage</h3>
-                </a>
-                <p class="text-gray-400 mb-4">Enjoy exclusive discounts at local restaurants, cafes, and specialty food stores.</p>
-                <a href="/category/food-beverage" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    View Deals
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Retail -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-green-500/10 transition-shadow">
-                <a href="/category/retail" class="flex items-center mb-4 group">
-                    <div class="bg-green-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-green-400 group-hover:text-green-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 group-hover:text-blue-400 ml-3 transition-colors">Retail</h3>
-                </a>
-                <p class="text-gray-400 mb-4">Save money on clothing, home goods, and specialty retail stores in your area.</p>
-                <a href="/category/retail" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    Browse Shops
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Entertainment -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-shadow">
-                <a href="/category/entertainment" class="flex items-center mb-4 group">
-                    <div class="bg-purple-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-purple-400 group-hover:text-purple-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V3a1 1 0 011 1v1M7 4V3a1 1 0 011-1m0 0h8m-8 0v1m0 14l2-2m0 0l2 2m-2-2v-6m0 0l2 2m-2-2L9 16"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 group-hover:text-blue-400 ml-3 transition-colors">Entertainment</h3>
-                </a>
-                <p class="text-gray-400 mb-4">Get discounts on movies, events, recreation, and local entertainment venues.</p>
-                <a href="/category/entertainment" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    Find Fun
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Health & Beauty -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-indigo-500/10 transition-shadow">
-                <a href="/category/health-beauty" class="flex items-center mb-4 group">
-                    <div class="bg-indigo-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-indigo-400 group-hover:text-indigo-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 group-hover:text-blue-400 ml-3 transition-colors">Health & Beauty</h3>
-                </a>
-                <p class="text-gray-400 mb-4">Save on spa services, salons, fitness centers, and wellness providers.</p>
-                <a href="/category/health-beauty" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    Look Good, Feel Good
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Services -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-orange-500/10 transition-shadow">
-                <a href="/category/services" class="flex items-center mb-4 group">
-                    <div class="bg-orange-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-orange-400 group-hover:text-orange-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 group-hover:text-blue-400 ml-3 transition-colors">Services</h3>
-                </a>
-                <p class="text-gray-400 mb-4">Find deals on professional services, home improvement, and local experts.</p>
-                <a href="/category/services" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    Get Service
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Business Partnership -->
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:shadow-xl hover:shadow-red-500/10 transition-shadow">
-                <div class="flex items-center mb-4">
-                    <div class="bg-red-900/50 rounded-lg p-2">
-                        <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V4a2 2 0 012 2v8.94a1.5 1.5 0 01-.44 1.06l-3.61 3.61a.75.75 0 01-1.06 0l-3.61-3.61A1.5 1.5 0 0112 14.06V5a2 2 0 012-2z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-100 ml-3">For Businesses</h3>
                 </div>
-                <p class="text-gray-400 mb-4">It's FREE for businesses to advertise monthly specials and reach new customers.</p>
-                <a href="/business/signup" class="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium transition-colors">
-                    Join Free
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                </a>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- Membership Section -->
-<div class="bg-gray-900 py-16" id="membership">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center">
-            <h2 class="text-3xl font-bold text-green-400 mb-4">Join Gifts Around Today</h2>
-            <p class="text-lg text-gray-400 mb-8">Start saving at hundreds of local businesses. Your membership pays for itself with your first few deals!</p>
-            <div class="flex justify-center space-x-4">
-                <a href="/register" class="inline-flex items-center px-8 py-4 bg-green-500 text-white font-medium text-lg rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                    Join Now
-                    <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
-                </a>
-                <a href="/business/signup" class="inline-flex items-center px-8 py-4 bg-gray-800 text-blue-400 border border-blue-500 font-medium text-lg rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
-                    Business? Join FREE
-                    <svg class="ml-2 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V4a2 2 0 012 2v8.94a1.5 1.5 0 01-.44 1.06l-3.61 3.61a.75.75 0 01-1.06 0l-3.61-3.61A1.5 1.5 0 0112 14.06V5a2 2 0 012-2z"></path>
-                    </svg>
-                </a>
+                <div class="mt-5 rounded-md bg-[#06101d] px-4 py-5 lg:px-8 lg:py-7">
+                    <h2 class="mb-5 text-xl font-extrabold text-white lg:text-2xl">Why Join?</h2>
+                    <div class="grid grid-cols-3 divide-x divide-white/15">
+                        <div class="px-2 text-center">
+                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.7 0-3 .9-3 2s1.3 2 3 2 3 .9 3 2-1.3 2-3 2m0-8V6m0 12v-2m9-4a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-xs font-bold leading-snug lg:text-base">Pays for itself<br>in one visit.</p>
+                        </div>
+                        <div class="px-2 text-center">
+                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20v-2a4 4 0 00-4-4h-2a4 4 0 00-4 4v2M12 10a4 4 0 100-8 4 4 0 000 8zM20 20v-2a3 3 0 00-2-2.8M4 20v-2a3 3 0 012-2.8"></path>
+                            </svg>
+                            <p class="text-xs font-bold leading-snug lg:text-base">100+ Local<br>Businesses</p>
+                        </div>
+                        <div class="px-2 text-center">
+                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 000-7.8z"></path>
+                            </svg>
+                            <p class="text-xs font-bold leading-snug lg:text-base">Support Local<br>Businesses</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+            </div>
+        </section>
+
+        <footer class="bg-emerald-600 px-5 py-4 sm:px-7 lg:px-16 mt-10">
+            <div class="flex items-center justify-between gap-4">
+                <a href="/" class="flex items-center">
+                    <img src="/uploads/business/trans_logo.png" alt="Gifts Around" class="h-10 w-auto brightness-0 invert">
+                </a>
+                <nav class="hidden items-center gap-12 text-sm font-medium text-white lg:flex">
+                    <a href="/privacy" class="hover:underline">About Us</a>
+                    <a href="/business/signup" class="hover:underline">For Businesses</a>
+                    <a href="/contact" class="hover:underline">Contact</a>
+                </nav>
+                <div class="hidden items-center gap-6 text-white lg:flex">
+                    <a href="/contact" aria-label="Facebook" class="hover:text-white/80">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v2H6v4h3v5h4v-5h3.2l.8-4h-4V9c0-.7.3-1 1-1z"></path>
+                        </svg>
+                    </a>
+                    <a href="/contact" aria-label="Instagram" class="hover:text-white/80">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect width="16" height="16" x="4" y="4" rx="4" stroke-width="2"></rect>
+                            <path stroke-width="2" d="M9 12a3 3 0 106 0 3 3 0 00-6 0z"></path>
+                            <path stroke-linecap="round" stroke-width="2" d="M17.5 6.5h.01"></path>
+                        </svg>
+                    </a>
+                    <a href="/contact" aria-label="Email" class="hover:text-white/80">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16v12H4z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7l8 6 8-6"></path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="text-sm font-medium text-white">giftsaround.com</p>
+            </div>
+        </footer>
     </div>
 </div>
 {% endblock %}
