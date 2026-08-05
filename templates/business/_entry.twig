@@ -186,7 +186,29 @@
                     {% endif %}
                 {% endfor %}
 
-                {# Get user's redeemed monthly tokens for this business #}
+                {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
+
+                {% set currentMonthIndex = 'now'|date('n') - 1 %}
+                {% set membershipStartMonthIndex = currentUser ? currentUser.dateCreated|date('n') - 1 : 0 %}
+                {% set currentMembershipOffset = currentUser ? (currentMonthIndex - membershipStartMonthIndex + 12) % 12 : currentMonthIndex %}
+                {% set cycleStartYear = 'now'|date('Y') %}
+                {% if currentUser and currentMonthIndex < membershipStartMonthIndex %}
+                    {% set cycleStartYear = cycleStartYear - 1 %}
+                {% endif %}
+                {% set cycleStartDate = cycleStartYear ~ '-' ~ '%02d'|format(membershipStartMonthIndex + 1) ~ '-01 00:00:00' %}
+                {% set cycleEndDate = cycleStartDate|date_modify('+1 year')|date('Y-m-d H:i:s') %}
+                {% set displayMonths = [] %}
+                {% for offset in 0..11 %}
+                    {% set rawMonthIndex = membershipStartMonthIndex + offset %}
+                    {% set monthIndex = rawMonthIndex > 11 ? rawMonthIndex - 12 : rawMonthIndex %}
+                    {% set displayMonths = displayMonths|merge([{
+                        month: months[monthIndex],
+                        index: monthIndex,
+                        offset: offset
+                    }]) %}
+                {% endfor %}
+
+                {# Get user's redeemed monthly tokens for this business in their current membership year #}
                 {% set redeemedMonths = {} %}
                 {% if currentUser %}
                     {% set userRedeemedTokens = craft.app.db.createCommand("
@@ -195,9 +217,14 @@
                         WHERE userId = :userId
                         AND businessId = :businessId
                         AND redeemType = 'monthlySpecial'
+                        AND usedAt IS NOT NULL
+                        AND usedAt >= :cycleStartDate
+                        AND usedAt < :cycleEndDate
                     ")
                     .bindValue(':userId', currentUser.id)
                     .bindValue(':businessId', entry.id)
+                    .bindValue(':cycleStartDate', cycleStartDate)
+                    .bindValue(':cycleEndDate', cycleEndDate)
                     .queryAll() %}
 
                     {% for token in userRedeemedTokens %}
@@ -205,13 +232,6 @@
                         {% set redeemedMonths = redeemedMonths|merge({(key): token.usedAt}) %}
                     {% endfor %}
                 {% endif %}
-
-
-
-                {% set months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] %}
-
-                {# Get current month for time-based availability #}
-                {% set currentMonthIndex = 'now'|date('n') - 1 %}
 
                 <div class="mt-8 mb-20 rounded-lg border border-gray-800 bg-gray-950/40 p-5">
                     <div class="flex items-start space-x-3 mb-4">
@@ -230,8 +250,9 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-gray-900 divide-y divide-gray-800">
-                                {% for month in months %}
-                                    {% set monthIndex = loop.index0 %}
+                                {% for displayMonth in displayMonths %}
+                                    {% set month = displayMonth.month %}
+                                    {% set monthIndex = displayMonth.index %}
                                     {% set monthData = validMonthlySpecials[monthIndex] ?? null %}
                                     {% if allSame %}
                                         {% set displaySpecial = firstSpecial %}
@@ -239,8 +260,8 @@
                                         {% set displaySpecial = monthData ? monthData.special : firstSpecial %}
                                     {% endif %}
                                     {% set isRedeemed = redeemedMonths['month_' ~ monthIndex] is defined %}
-                                    {% set isFutureMonth = monthIndex > currentMonthIndex %}
-                                    {% set isPastMonth = monthIndex < currentMonthIndex %}
+                                    {% set isFutureMonth = displayMonth.offset > currentMembershipOffset %}
+                                    {% set isPastMonth = displayMonth.offset < currentMembershipOffset %}
                                     <tr class="{% if loop.index is odd %}bg-gray-900{% else %}bg-gray-950/40{% endif %} {% if isRedeemed or isFutureMonth %}opacity-60{% endif %}">
                                         <td class="px-4 sm:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">{{ month }}</td>
                                         <td class="px-4 sm:px-6 py-4 text-sm text-gray-200">

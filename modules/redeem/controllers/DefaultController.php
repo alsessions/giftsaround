@@ -77,7 +77,8 @@ class DefaultController extends Controller
             return $this->goHome();
         }
 
-        if (!Craft::$app->getUser()->getIdentity()) {
+        $user = Craft::$app->getUser()->getIdentity();
+        if (!$user) {
             Craft::$app->getSession()->setError('You must be logged in to redeem offers');
             return $this->redirect('/login');
         }
@@ -88,7 +89,7 @@ class DefaultController extends Controller
             $redeemType = $request->getBodyParam('redeemType');
             $monthIndex = $request->getBodyParam('monthIndex');
             $monthData = $request->getBodyParam('monthData');
-            $userId = Craft::$app->getUser()->getId();
+            $userId = $user->id;
 
             // Validate required parameters
             if (!$businessId || !$redeemType) {
@@ -105,6 +106,15 @@ class DefaultController extends Controller
 
             // Check for existing redeemed monthly special
             if ($redeemType === 'monthlySpecial' && $monthIndex !== null) {
+                $signupMonth = (int)$user->dateCreated->format('n');
+                $currentMonth = (int)date('n');
+                $cycleStartYear = (int)date('Y');
+                if ($currentMonth < $signupMonth) {
+                    $cycleStartYear--;
+                }
+                $cycleStartDate = sprintf('%d-%02d-01 00:00:00', $cycleStartYear, $signupMonth);
+                $cycleEndDate = (new \DateTimeImmutable($cycleStartDate))->modify('+1 year')->format('Y-m-d H:i:s');
+
                 $existingRedeemed = Craft::$app->db->createCommand(
                     'SELECT id, usedAt FROM {{%redeem_tokens}}
                     WHERE userId = :userId
@@ -112,12 +122,16 @@ class DefaultController extends Controller
                     AND redeemType = :redeemType
                     AND monthIndex = :monthIndex
                     AND usedAt IS NOT NULL
+                    AND usedAt >= :cycleStartDate
+                    AND usedAt < :cycleEndDate
                     LIMIT 1'
                 )
                 ->bindValue(':userId', $userId)
                 ->bindValue(':businessId', $businessId)
                 ->bindValue(':redeemType', $redeemType)
                 ->bindValue(':monthIndex', $monthIndex)
+                ->bindValue(':cycleStartDate', $cycleStartDate)
+                ->bindValue(':cycleEndDate', $cycleEndDate)
                 ->queryOne();
 
                 if ($existingRedeemed) {
