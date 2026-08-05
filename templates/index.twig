@@ -13,11 +13,12 @@
     .all() %}
 
 {% set categories = [
-    { title: 'Food', fullTitle: 'Food & Beverage', url: '/category/food-beverage', icon: 'food' },
+    { title: 'Health', fullTitle: 'Health & Beauty', url: '/category/health-beauty', icon: 'heart' },
     { title: 'Retail', fullTitle: 'Retail', url: '/category/retail', icon: 'retail' },
     { title: 'Entertainment', fullTitle: 'Entertainment', url: '/category/entertainment', icon: 'ticket' },
-    { title: 'Health', fullTitle: 'Health & Beauty', url: '/category/health-beauty', icon: 'heart' },
     { title: 'Services', fullTitle: 'Services', url: '/category/services', icon: 'gear' },
+    { title: 'Food', fullTitle: 'Food & Beverage', url: '/category/food-beverage', icon: 'food' },
+    { title: 'Automotive', fullTitle: 'Automotive', url: '/category/automotive', icon: 'car' },
 ] %}
 
 <div class="min-h-screen bg-[#06101d] text-white">
@@ -190,26 +191,31 @@
             <div class="mx-auto w-full max-w-[90rem]">
             <div id="categories">
                 <h2 class="mb-3 text-xl font-extrabold text-white lg:text-2xl">Browse by Category</h2>
-                <div class="grid grid-cols-5 gap-2 lg:gap-3">
+                <div class="flex flex-wrap justify-center gap-1.5 lg:gap-2">
                     {% for category in categories %}
-                        <a href="{{ category.url }}" class="flex aspect-[1.05/1] min-h-[64px] flex-col items-center justify-center rounded-md border border-white/10 bg-[#06101d] px-2 text-center transition-colors hover:border-emerald-400/60 hover:bg-white/5 lg:min-h-[118px]">
+                        <a href="{{ category.url }}" class="flex aspect-square min-h-[48px] flex-1 basis-[31%] flex-col items-center justify-center rounded-md border border-white/10 bg-[#06101d] px-1.5 text-center transition-colors hover:border-emerald-400/60 hover:bg-white/5 lg:min-h-[76px] lg:basis-[15%]">
                             {% if category.icon == 'food' %}
-                                <svg class="mb-1 h-8 w-8 text-emerald-400 lg:mb-3 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-10 lg:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 4h14l-7 8-7-8zM12 12v7M8.5 20h7"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 7h6"></path>
                                 </svg>
                             {% elseif category.icon == 'retail' %}
-                                <svg class="mb-1 h-8 w-8 text-emerald-400 lg:mb-3 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-10 lg:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V8a4 4 0 00-8 0v3M5 9h14l1 12H4L5 9z"></path>
                                 </svg>
                             {% elseif category.icon == 'ticket' %}
-                                <svg class="mb-1 h-8 w-8 text-emerald-400 lg:mb-3 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-10 lg:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 8.5V6a2 2 0 012-2h12a2 2 0 012 2v2.5a3.5 3.5 0 000 7V18a2 2 0 01-2 2H6a2 2 0 01-2-2v-2.5a3.5 3.5 0 000-7zM9 12h6"></path>
                                 </svg>
                             {% elseif category.icon == 'heart' %}
-                                <svg class="mb-1 h-8 w-8 text-emerald-400 lg:mb-3 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-10 lg:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-3-3v6"></path>
+                                </svg>
+                            {% elseif category.icon == 'car' %}
+                                <svg class="mb-1 h-7 w-7 text-emerald-400 lg:mb-3 lg:h-10 lg:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5 13l1.7-4.2A2 2 0 018.55 7h6.9a2 2 0 011.86 1.26L19 13"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 13h16v5H4v-5zM7 18v1.5M17 18v1.5M7.5 15.5h.01M16.5 15.5h.01"></path>
                                 </svg>
                             {% else %}
                                 <svg class="mb-1 h-8 w-8 text-emerald-400 lg:mb-3 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -217,7 +223,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                             {% endif %}
-                            <span class="text-[0.68rem] font-bold leading-tight text-white lg:text-base">{{ category.icon == 'food' ? 'Food & Beverage' : category.title }}</span>
+                            <span class="text-[0.64rem] font-bold leading-tight text-white lg:text-sm">{{ category.fullTitle }}</span>
                         </a>
                     {% endfor %}
                 </div>
