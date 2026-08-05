@@ -9,7 +9,7 @@
 {% set latestBusinesses = craft.entries()
     .section('business')
     .orderBy('postDate DESC')
-    .limit(3)
+    .limit(4)
     .all() %}
 
 {% set categories = [
@@ -69,7 +69,7 @@
             </div>
         </header>
 
-        <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] lg:min-h-[380px]">
+        <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] md:min-h-[420px] lg:min-h-[440px]">
             <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/uploads/_576x381_crop_center-center_82_line/unsplash-hero-glasss.jpg');"></div>
             <div class="absolute inset-0 bg-gradient-to-r from-[#071321] via-[#071321]/82 to-[#071321]/20"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-[#071321]/75 via-transparent to-[#071321]/10"></div>
@@ -107,10 +107,10 @@
                     </div>
                 </div>
 
-                <div class="hidden items-center justify-center lg:flex">
-                    <div class="flex h-40 w-40 rotate-[-10deg] items-center justify-center rounded-full border-4 border-emerald-400 bg-[#0b1726]/90 text-center shadow-2xl shadow-black/40">
+                <div class="hidden items-center justify-end pr-5 lg:flex">
+                    <div class="flex h-44 w-44 -translate-x-5 translate-y-[52px] rotate-[-10deg] items-center justify-center rounded-full border-4 border-emerald-400 bg-[#0b1726]/90 p-4 text-center shadow-2xl shadow-black/40">
                         <div class="rotate-[10deg]">
-                            <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-emerald-300">Support Local</p>
+                            <p class="whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-300">Support Local</p>
                             <svg class="mx-auto my-3 h-14 w-14 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                             </svg>
@@ -134,7 +134,7 @@
             </div>
 
             {% if latestBusinesses|length %}
-                <div class="grid grid-cols-3 gap-3 overflow-x-auto pb-1 lg:gap-5 lg:overflow-visible">
+                <div class="grid grid-cols-3 gap-3 overflow-x-auto pb-1 lg:grid-cols-4 lg:gap-5 lg:overflow-visible">
                     {% for business in latestBusinesses %}
                         {% set businessImage = business.businessImages.one() %}
                         {% set currentMonthIndex = 'now'|date('n') - 1 %}
@@ -143,8 +143,8 @@
                         {% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
                         {% set businessCategories = business.category.all() %}
 
-                        <a href="{{ business.url }}" class="group min-w-[112px] overflow-hidden rounded-md border border-white/10 bg-[#07101c] shadow-lg shadow-black/10 transition-colors hover:border-emerald-400/60 lg:min-w-0">
-                            <div class="relative aspect-[1.18/1] bg-slate-800 lg:aspect-[1.48/1]">
+                        <a href="{{ business.url }}" class="group min-w-[112px] overflow-hidden rounded-md bg-[#0b1726] shadow-[0_10px_24px_rgba(0,0,0,0.22)] transition-colors hover:bg-[#0f2033] lg:min-w-0{{ loop.index > 3 ? ' hidden lg:block' : '' }}">
+                            <div class="relative aspect-square bg-[#111f31] lg:aspect-[1.48/1]">
                                 {% if businessImage %}
                                     {% if businessImage.optimizedImage %}
                                         {{ businessImage.optimizedImage.pictureTag().pictureAttrs({'class': 'block h-full w-full'}).imgAttrs({'alt': businessImage.title ?: business.title, 'class': 'h-full w-full object-cover'}).render() }}
@@ -152,31 +152,28 @@
                                         <img src="{{ businessImage.url }}" alt="{{ businessImage.title ?: business.title }}" class="h-full w-full object-cover">
                                     {% endif %}
                                 {% else %}
-                                    <div class="flex h-full w-full items-center justify-center bg-slate-800 text-emerald-400">
+                                    <div class="flex h-full w-full items-center justify-center bg-[#111f31] text-emerald-400">
                                         <svg class="h-9 w-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                                         </svg>
                                     </div>
                                 {% endif %}
-                                <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent px-2 pb-2 pt-8 lg:hidden">
-                                    <p class="truncate text-[0.68rem] font-bold text-white">{{ business.title }}</p>
-                                </div>
                             </div>
                             <div class="p-2.5 lg:p-4">
                                 <div class="hidden items-start justify-between gap-3 lg:flex">
-                                    <h3 class="truncate text-base font-bold text-white">{{ business.title }}</h3>
+                                    <h3 class="truncate text-lg font-bold text-white">{{ business.title }}</h3>
                                     <span class="shrink-0 rounded bg-emerald-400/10 px-2.5 py-1 text-xs font-extrabold uppercase text-emerald-300">Special</span>
                                 </div>
                                 {% if currentSpecial %}
-                                    <p class="line-clamp-2 min-h-[2.5rem] text-base font-extrabold leading-tight text-emerald-400 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl">{{ currentSpecial }}</p>
+                                    <p class="min-h-[1.5rem] truncate text-base font-bold leading-tight text-emerald-300 lg:mt-2 lg:line-clamp-2 lg:min-h-[3.6rem] lg:whitespace-normal lg:text-2xl lg:font-extrabold">{{ currentSpecial }}</p>
                                 {% else %}
-                                    <p class="line-clamp-2 min-h-[2.5rem] text-base font-extrabold leading-tight text-emerald-400 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl">Deal for {{ currentMonthName }}</p>
+                                    <p class="min-h-[1.5rem] truncate text-base font-bold leading-tight text-emerald-300 lg:mt-2 lg:line-clamp-2 lg:min-h-[3.6rem] lg:whitespace-normal lg:text-2xl lg:font-extrabold">Deal for {{ currentMonthName }}</p>
                                 {% endif %}
-                                <div class="mt-2 flex items-center justify-between gap-2">
+                                <div class="mt-2 hidden items-center justify-between gap-2 lg:flex">
                                     {% if businessCategories|length %}
-                                        <p class="truncate text-xs font-medium text-white/70 lg:text-sm">{{ businessCategories|map(c => c.title)|join(', ') }}</p>
+                                        <p class="truncate text-sm font-medium text-white/80">{{ businessCategories|map(c => c.title)|join(', ') }}</p>
                                     {% else %}
-                                        <p class="truncate text-xs font-medium text-white/70 lg:text-sm">Local deal</p>
+                                        <p class="truncate text-sm font-medium text-white/80">Local deal</p>
                                     {% endif %}
                                     <span class="hidden text-sm font-bold text-emerald-300 group-hover:text-emerald-200 lg:inline">Redeem -></span>
                                 </div>
