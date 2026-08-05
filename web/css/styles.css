@@ -2590,6 +2590,24 @@ video {
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
+.from-\[\#06101d\]\/65 {
+  --tw-gradient-from: rgb(6 16 29 / 0.65) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(6 16 29 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-\[\#071321\]\/80 {
+  --tw-gradient-from: rgb(7 19 33 / 0.8) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(7 19 33 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.from-\[\#071321\]\/90 {
+  --tw-gradient-from: rgb(7 19 33 / 0.9) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgb(7 19 33 / 0) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
 .via-gray-950\/60 {
   --tw-gradient-to: rgb(3 7 18 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(3 7 18 / 0.6) var(--tw-gradient-via-position), var(--tw-gradient-to);
@@ -2608,6 +2626,16 @@ video {
 .via-\[\#071321\]\/80 {
   --tw-gradient-to: rgb(7 19 33 / 0)  var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), rgb(7 19 33 / 0.8) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+.via-\[\#06101d\]\/15 {
+  --tw-gradient-to: rgb(6 16 29 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(6 16 29 / 0.15) var(--tw-gradient-via-position), var(--tw-gradient-to);
+}
+
+.via-\[\#071321\]\/55 {
+  --tw-gradient-to: rgb(7 19 33 / 0)  var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), rgb(7 19 33 / 0.55) var(--tw-gradient-via-position), var(--tw-gradient-to);
 }
 
 .to-\[\#071321\]\/10 {
