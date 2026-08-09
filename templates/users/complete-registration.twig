@@ -2,7 +2,13 @@
 
 {% set title = "Complete Registration" %}
 
+{% set expectedPaymentAmount = 999 %}
 {% set paymentIntentId = craft.app.request.getParam('paymentIntent') ?? craft.app.request.getParam('payment_intent') %}
+{% set paymentIntentClientSecret = craft.app.request.getParam('payment_intent_client_secret') %}
+{% if not paymentIntentId and paymentIntentClientSecret and '_secret_' in paymentIntentClientSecret %}
+    {% set paymentIntentId = paymentIntentClientSecret|split('_secret_')|first %}
+{% endif %}
+{% set stripeRedirectStatus = craft.app.request.getParam('redirect_status') %}
 {% set submissionToken = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
 {% if not paymentIntentId and submissionToken %}
     {% set submissionFromToken = freeform.submissions({ token: submissionToken }).one() %}
@@ -15,7 +21,7 @@
     {% endif %}
 {% endif %}
 {% set paymentRecord = paymentIntentId ? craft.app.db.createCommand(
-    'SELECT [[submissionId]], [[status]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
+    'SELECT [[submissionId]], [[status]], [[amount]], [[currency]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
     { resourceId: paymentIntentId }
 ).queryOne() : null %}
 {% set submission = (paymentRecord and paymentRecord.submissionId) ? freeform.submissions({ id: paymentRecord.submissionId }).one() : null %}
@@ -56,8 +62,10 @@
 {% set stripePaymentStatus = stripePaymentIntent ? stripePaymentIntent.status : null %}
 {% set stripeAmount = stripePaymentIntent ? stripePaymentIntent.amount : null %}
 {% set stripeCurrency = stripePaymentIntent ? stripePaymentIntent.currency : null %}
-{% set hasSuccessfulStripePayment = stripePaymentStatus == 'succeeded' and stripeAmount >= 999 and stripeCurrency == 'usd' %}
+{% set hasSuccessfulStripePayment = stripePaymentStatus == 'succeeded' and stripeAmount >= expectedPaymentAmount and stripeCurrency == 'usd' %}
 {% set hasCompletedPayment = hasSuccessfulPayment or hasSuccessfulStripePayment %}
+{% set visiblePaymentAmount = paymentRecord and paymentRecord.amount is not empty ? paymentRecord.amount : stripeAmount %}
+{% set visiblePaymentCurrency = paymentRecord and paymentRecord.currency is not empty ? paymentRecord.currency : stripeCurrency %}
 {% set customer = stripePaymentIntent ? stripePaymentIntent.customer : null %}
 {% set registrationName = submission ? submission.name : (customer ? customer.name : null) %}
 {% set registrationEmail = submission ? submission.email : (customer ? customer.email : null) %}
@@ -95,6 +103,20 @@
                 Current payment status:
                 {{ paymentStatus ? paymentStatus|replace('_', ' ') : (stripePaymentStatus ? stripePaymentStatus|replace('_', ' ') : 'unknown') }}
             </p>
+            {% if paymentIntentId or stripeRedirectStatus %}
+                <div class="mb-8 rounded-lg border border-gray-800 bg-gray-950/50 p-4 text-left text-xs text-gray-400">
+                    {% if paymentIntentId %}
+                        <p class="break-all">Payment reference: {{ paymentIntentId }}</p>
+                    {% endif %}
+                    {% if stripeRedirectStatus %}
+                        <p>Stripe redirect status: {{ stripeRedirectStatus|replace('_', ' ') }}</p>
+                    {% endif %}
+                    {% if visiblePaymentAmount and visiblePaymentCurrency %}
+                        <p>Amount seen: {{ (visiblePaymentAmount / 100)|number_format(2) }} {{ visiblePaymentCurrency|upper }}</p>
+                        <p>Required amount: {{ (expectedPaymentAmount / 100)|number_format(2) }} USD</p>
+                    {% endif %}
+                </div>
+            {% endif %}
             <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
                 Return to Registration
             </a>
