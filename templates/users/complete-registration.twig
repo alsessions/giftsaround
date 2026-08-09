@@ -10,6 +10,7 @@
 {% endif %}
 {% set stripeRedirectStatus = stripeRedirectStatus ?? craft.app.request.getParam('redirect_status') %}
 {% set stripeLookupError = stripeLookupError ?? null %}
+{% set needsPassword = needsPassword ?? false %}
 {% set submissionToken = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
 {% if not paymentIntentId and submissionToken %}
     {% set submissionFromToken = freeform.submissions({ token: submissionToken }).one() %}
@@ -105,19 +106,54 @@
                 </div>
             {% endif %}
 
-            <p class="text-center text-gray-300 mb-8">We could not automatically finish the account setup. Please contact support with your payment reference.</p>
+            {% if needsPassword %}
+                <p class="text-center text-gray-300 mb-8">Set your password to finish creating your account.</p>
+
+                <form method="post" accept-charset="UTF-8" class="space-y-6">
+                    {{ csrfInput() }}
+                    <input type="hidden" name="paymentIntent" value="{{ paymentIntentId|e('html_attr') }}">
+
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                        <input type="password"
+                               id="password"
+                               name="password"
+                               required
+                               autocomplete="new-password"
+                               class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label for="passwordConfirm" class="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+                        <input type="password"
+                               id="passwordConfirm"
+                               name="passwordConfirm"
+                               required
+                               autocomplete="new-password"
+                               class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                        Create Account
+                    </button>
+                </form>
+            {% else %}
+                <p class="text-center text-gray-300 mb-8">We could not automatically finish the account setup. Please contact support with your payment reference.</p>
+            {% endif %}
 
             {% if paymentIntentId %}
-                <div class="mb-8 rounded-lg border border-gray-800 bg-gray-950/50 p-4 text-left text-xs text-gray-400">
+                <div class="{{ needsPassword ? 'mt-8' : 'mb-8' }} rounded-lg border border-gray-800 bg-gray-950/50 p-4 text-left text-xs text-gray-400">
                     <p class="break-all">Payment reference: {{ paymentIntentId }}</p>
                 </div>
             {% endif %}
 
-            <div class="text-center">
-                <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
-                    Return to Registration
-                </a>
-            </div>
+            {% if not needsPassword %}
+                <div class="text-center">
+                    <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                        Return to Registration
+                    </a>
+                </div>
+            {% endif %}
         </div>
     {% endif %}
 </div>

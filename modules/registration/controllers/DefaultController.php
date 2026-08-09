@@ -18,10 +18,12 @@ class DefaultController extends Controller
     public function actionComplete(): Response
     {
         $session = Craft::$app->getSession();
+        $request = Craft::$app->getRequest();
         $paymentIntentId = $this->resolvePaymentIntentId();
         $paymentRecord = $paymentIntentId ? $this->getPaymentRecord($paymentIntentId) : null;
         $stripePaymentIntent = null;
         $stripeLookupError = null;
+        $needsPassword = false;
 
         if ($paymentIntentId && !$this->paymentRecordIsValid($paymentRecord)) {
             try {
@@ -39,11 +41,18 @@ class DefaultController extends Controller
             }
 
             [$email, $fullName, $password, $passwordConfirm, $submissionId] = $this->getRegistrationData($paymentRecord, $stripePaymentIntent);
+            if (!$password && $request->getIsPost()) {
+                $password = (string)$request->getBodyParam('password', '');
+                $passwordConfirm = (string)$request->getBodyParam('passwordConfirm', '');
+            }
 
             if (!$email) {
                 $session->setError('We could not find an email address for this paid registration.');
             } elseif (!$password || $password !== $passwordConfirm) {
-                $session->setError('Please enter and confirm your password before payment.');
+                $needsPassword = true;
+                if ($request->getIsPost()) {
+                    $session->setError('Please enter matching passwords.');
+                }
             } else {
                 $user = $this->createPaidUser($paymentIntentId, $email, $fullName, $password, $submissionId);
 
@@ -62,6 +71,7 @@ class DefaultController extends Controller
             'stripeLookupError' => $stripeLookupError,
             'stripeRedirectStatus' => Craft::$app->getRequest()->getParam('redirect_status'),
             'expectedPaymentAmount' => $this->getExpectedPaymentAmount(),
+            'needsPassword' => $needsPassword,
         ]);
     }
 
