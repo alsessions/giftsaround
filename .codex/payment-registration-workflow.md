@@ -33,14 +33,14 @@ The safer native workflow is to separate payment collection from account creatio
    ```
 
 4. The completion page verifies the payment.
-5. If payment is successful, the page displays a Craft-native registration form with username/password fields.
-6. The form posts to Craft's native action:
+5. If payment is successful, the page displays a Craft-native registration form with username/password fields and a short-lived signed paid-registration token.
+6. The form posts to the local payment-gated registration controller:
 
    ```twig
-   {{ actionInput('users/save-user') }}
+   {{ actionInput('registration/default/create-user') }}
    ```
 
-7. Craft creates a pending user, assigns the default `Users` group, and sends the email verification/activation email.
+7. The controller validates the signed token, re-checks the PaymentIntent, rejects already-consumed PaymentIntent IDs, creates a pending Craft user, assigns the default `Users` group, sends the activation email, and marks the PaymentIntent as consumed.
 
 ## Template Routes
 
@@ -105,7 +105,15 @@ If successful, it uses Stripe customer data for:
 - `email`
 - `fullName`
 
-Then it displays username/password fields and submits to Craft's native `users/save-user` action.
+Then it displays username/password fields and submits through `registration/default/create-user` so payment proof can be validated again during the final save.
+
+The final save stores consumed PaymentIntent IDs in:
+
+```text
+paid_registration_payments
+```
+
+This prevents a successful payment link from creating more than one account.
 
 ## Freeform Form Changes
 
@@ -138,11 +146,13 @@ Preferred production process:
 1. Deploy template/route changes.
 2. In the Freeform control panel, disable the User integration for `userRegistration`.
 3. Set the Stripe field success/failed redirects shown above.
-4. Test successful payment with a Stripe test card.
-5. Confirm the `/register/complete` page shows username/password fields.
-6. Submit the completion form.
-7. Confirm a pending Craft user is created and receives the activation email.
-8. Test a declined card and confirm no Craft user is created.
+4. Run Craft migrations so the consumed-payment table exists and the local Freeform return URL cleanup is applied.
+5. Test successful payment with a Stripe test card.
+6. Confirm the `/register/complete` page shows username/password fields.
+7. Submit the completion form.
+8. Confirm a pending Craft user is created and receives the activation email.
+9. Revisit the same completion URL and confirm it cannot create a second account.
+10. Test a declined card and confirm no Craft user is created.
 
 ## Known Edge Case
 

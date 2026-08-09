@@ -35,13 +35,18 @@
                 {% set submission = freeform.submissions({ id: paymentRecord.submissionId }).one() %}
             {% endif %}
         {% endif %}
-        {% if submission %}
-            {% set payments = freeform.payments(submission) %}
-            {% if payments and payments.errorMessage %}
-                <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-6">
-                    <p class="text-red-300">{{ payments.errorMessage }}</p>
-                </div>
-            {% endif %}
+        {% set paymentStatus = null %}
+        {% if paymentIntentId %}
+            {% set paymentRecord = craft.app.db.createCommand(
+                'SELECT [[status]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
+                { resourceId: paymentIntentId }
+            ).queryOne() %}
+            {% set paymentStatus = paymentRecord ? paymentRecord.status : null %}
+        {% endif %}
+        {% if paymentStatus %}
+            <div class="bg-red-900/20 border border-red-800 rounded-lg p-4 mb-6">
+                <p class="text-red-300">Payment status: {{ paymentStatus|replace('_', ' ') }}</p>
+            </div>
         {% endif %}
 
         <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8">

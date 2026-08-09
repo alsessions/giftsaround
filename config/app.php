@@ -28,6 +28,9 @@ return [
         'redeem' => [
             'class' => \modules\redeem\RedeemModule::class,
         ],
+        'registration' => [
+            'class' => \modules\registration\RegistrationModule::class,
+        ],
     ],
-    'bootstrap' => ['redeem'],
+    'bootstrap' => ['redeem', 'registration'],
 ];
