@@ -6,7 +6,7 @@ return [
     'logout' => ['template' => 'users/logout'],
     'account' => ['template' => 'users/account'],
     'account/profile' => ['template' => 'users/profile'],
-    'register/complete' => ['template' => 'users/complete-registration'],
+    'register/complete' => 'registration/default/complete',
     'register/success' => ['template' => 'users/register-success'],
     'register/payment-failed' => ['template' => 'users/payment-failed'],
     'account/redeem-history' => 'redeem/default/history',

@@ -13,7 +13,33 @@ use yii\web\Response;
 
 class DefaultController extends Controller
 {
-    protected array|bool|int $allowAnonymous = ['create-user'];
+    protected array|bool|int $allowAnonymous = ['complete', 'create-user'];
+
+    public function actionComplete(): Response
+    {
+        $paymentIntentId = $this->resolvePaymentIntentId();
+        $paymentRecord = $paymentIntentId ? $this->getPaymentRecord($paymentIntentId) : null;
+        $stripePaymentIntent = null;
+        $stripeLookupError = null;
+
+        if ($paymentIntentId && !$this->paymentRecordIsValid($paymentRecord)) {
+            try {
+                $stripePaymentIntent = $this->getStripePaymentIntent($paymentIntentId, ['customer']);
+            } catch (Throwable $e) {
+                $stripeLookupError = $e->getMessage();
+                Craft::warning($e->getMessage(), __METHOD__);
+            }
+        }
+
+        return $this->renderTemplate('users/complete-registration', [
+            'paymentIntentId' => $paymentIntentId,
+            'paymentRecord' => $paymentRecord,
+            'stripePaymentIntent' => $stripePaymentIntent,
+            'stripeLookupError' => $stripeLookupError,
+            'stripeRedirectStatus' => Craft::$app->getRequest()->getParam('redirect_status'),
+            'expectedPaymentAmount' => $this->getExpectedPaymentAmount(),
+        ]);
+    }
 
     public function actionCreateUser(): Response
     {
@@ -113,42 +139,119 @@ class DefaultController extends Controller
 
     private function paymentIsValid(string $paymentIntentId): bool
     {
-        $payment = (new Query())
-            ->select(['status', 'amount', 'currency'])
-            ->from('{{%freeform_payments}}')
-            ->where(['resourceId' => $paymentIntentId])
-            ->orderBy(['id' => SORT_DESC])
-            ->one();
+        $payment = $this->getPaymentRecord($paymentIntentId);
 
-        return ($payment
-            && ($payment['status'] ?? null) === 'succeeded'
-            && (float)($payment['amount'] ?? 0) >= 999
-            && strtolower((string)($payment['currency'] ?? '')) === 'usd')
-            || $this->stripePaymentIsValid($paymentIntentId);
+        return $this->paymentRecordIsValid($payment) || $this->stripePaymentIsValid($paymentIntentId);
     }
 
     private function stripePaymentIsValid(string $paymentIntentId): bool
     {
         try {
-            $freeform = Craft::$app->getPlugins()->getPlugin('freeform');
-            $integrations = $freeform?->integrations;
-            $integrationModel = $integrations?->getByHandle('stripe')
-                ?? $integrations?->getByHandle('Stripe');
-            $integration = $integrationModel?->getIntegrationObject();
-
-            if (!$integration) {
-                return false;
-            }
-
-            $paymentIntent = $integration->getStripeClient()->paymentIntents->retrieve($paymentIntentId);
+            $paymentIntent = $this->getStripePaymentIntent($paymentIntentId);
 
             return $paymentIntent->status === 'succeeded'
-                && (int)$paymentIntent->amount >= 999
+                && (int)$paymentIntent->amount >= $this->getExpectedPaymentAmount()
                 && strtolower((string)$paymentIntent->currency) === 'usd';
         } catch (Throwable $e) {
             Craft::warning($e->getMessage(), __METHOD__);
             return false;
         }
+    }
+
+    private function resolvePaymentIntentId(): ?string
+    {
+        $request = Craft::$app->getRequest();
+        $paymentIntentId = $request->getParam('paymentIntent') ?: $request->getParam('payment_intent');
+        $paymentIntentClientSecret = $request->getParam('payment_intent_client_secret');
+
+        if (!$paymentIntentId && $paymentIntentClientSecret && str_contains($paymentIntentClientSecret, '_secret_')) {
+            $paymentIntentId = explode('_secret_', $paymentIntentClientSecret)[0];
+        }
+
+        if (!$paymentIntentId) {
+            $submissionToken = $request->getParam('submissionToken') ?: $request->getParam('submission');
+            $submission = $submissionToken ? \Solspace\Freeform\Elements\Submission::find()->token($submissionToken)->one() : null;
+
+            if ($submission) {
+                $paymentIntentId = (new Query())
+                    ->select(['resourceId'])
+                    ->from('{{%freeform_payments}}')
+                    ->where(['submissionId' => $submission->id])
+                    ->orderBy(['id' => SORT_DESC])
+                    ->scalar();
+            }
+        }
+
+        return $paymentIntentId ?: null;
+    }
+
+    private function getPaymentRecord(string $paymentIntentId): ?array
+    {
+        $payment = (new Query())
+            ->select(['submissionId', 'status', 'amount', 'currency'])
+            ->from('{{%freeform_payments}}')
+            ->where(['resourceId' => $paymentIntentId])
+            ->orderBy(['id' => SORT_DESC])
+            ->one();
+
+        return $payment ?: null;
+    }
+
+    private function paymentRecordIsValid(?array $payment): bool
+    {
+        return $payment
+            && ($payment['status'] ?? null) === 'succeeded'
+            && (float)($payment['amount'] ?? 0) >= $this->getExpectedPaymentAmount()
+            && strtolower((string)($payment['currency'] ?? '')) === 'usd';
+    }
+
+    private function getExpectedPaymentAmount(): int
+    {
+        $amount = (new Query())
+            ->select(["JSON_UNQUOTE(JSON_EXTRACT([[ff.metadata]], '$.amount'))"])
+            ->from(['ff' => '{{%freeform_forms_fields}}'])
+            ->innerJoin(['f' => '{{%freeform_forms}}'], '[[f.id]] = [[ff.formId]]')
+            ->where(['f.handle' => 'userRegistration'])
+            ->andWhere(['like', 'ff.type', 'StripeField'])
+            ->orderBy(['ff.id' => SORT_ASC])
+            ->scalar();
+
+        return is_numeric($amount) ? (int)round((float)$amount * 100) : 999;
+    }
+
+    private function getStripePaymentIntent(string $paymentIntentId, array $expand = []): object
+    {
+        $integration = $this->getStripeIntegration();
+
+        if (!$integration || !method_exists($integration, 'getStripeClient')) {
+            throw new \RuntimeException('No Stripe integration could be resolved for paid registration.');
+        }
+
+        $options = $expand ? ['expand' => $expand] : [];
+
+        return $integration->getStripeClient()->paymentIntents->retrieve($paymentIntentId, $options);
+    }
+
+    private function getStripeIntegration(): ?object
+    {
+        $freeform = Craft::$app->getPlugins()->getPlugin('freeform');
+        $integrations = $freeform?->integrations;
+
+        $integrationUid = (new Query())
+            ->select(["JSON_UNQUOTE(JSON_EXTRACT([[ff.metadata]], '$.integration'))"])
+            ->from(['ff' => '{{%freeform_forms_fields}}'])
+            ->innerJoin(['f' => '{{%freeform_forms}}'], '[[f.id]] = [[ff.formId]]')
+            ->where(['f.handle' => 'userRegistration'])
+            ->andWhere(['like', 'ff.type', 'StripeField'])
+            ->orderBy(['ff.id' => SORT_ASC])
+            ->scalar();
+
+        $integrationModel = $integrationUid ? $integrations?->getByUid($integrationUid) : null;
+        $integrationModel = $integrationModel
+            ?? $integrations?->getByHandle('stripe')
+            ?? $integrations?->getByHandle('Stripe');
+
+        return $integrationModel?->getIntegrationObject();
     }
 
     private function paymentIsConsumed(string $paymentIntentId): bool

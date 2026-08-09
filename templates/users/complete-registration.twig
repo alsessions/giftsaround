@@ -2,13 +2,14 @@
 
 {% set title = "Complete Registration" %}
 
-{% set expectedPaymentAmount = 999 %}
-{% set paymentIntentId = craft.app.request.getParam('paymentIntent') ?? craft.app.request.getParam('payment_intent') %}
+{% set expectedPaymentAmount = expectedPaymentAmount ?? 999 %}
+{% set paymentIntentId = paymentIntentId ?? craft.app.request.getParam('paymentIntent') ?? craft.app.request.getParam('payment_intent') %}
 {% set paymentIntentClientSecret = craft.app.request.getParam('payment_intent_client_secret') %}
 {% if not paymentIntentId and paymentIntentClientSecret and '_secret_' in paymentIntentClientSecret %}
     {% set paymentIntentId = paymentIntentClientSecret|split('_secret_')|first %}
 {% endif %}
-{% set stripeRedirectStatus = craft.app.request.getParam('redirect_status') %}
+{% set stripeRedirectStatus = stripeRedirectStatus ?? craft.app.request.getParam('redirect_status') %}
+{% set stripeLookupError = stripeLookupError ?? null %}
 {% set submissionToken = craft.app.request.getParam('submissionToken') ?? craft.app.request.getParam('submission') %}
 {% if not paymentIntentId and submissionToken %}
     {% set submissionFromToken = freeform.submissions({ token: submissionToken }).one() %}
@@ -20,45 +21,14 @@
         {% set paymentIntentId = paymentFromSubmission ? paymentFromSubmission.resourceId : null %}
     {% endif %}
 {% endif %}
-{% set paymentRecord = paymentIntentId ? craft.app.db.createCommand(
+{% set paymentRecord = paymentRecord ?? (paymentIntentId ? craft.app.db.createCommand(
     'SELECT [[submissionId]], [[status]], [[amount]], [[currency]] FROM {{%freeform_payments}} WHERE [[resourceId]] = :resourceId ORDER BY [[id]] DESC LIMIT 1',
     { resourceId: paymentIntentId }
-).queryOne() : null %}
+).queryOne() : null) %}
 {% set submission = (paymentRecord and paymentRecord.submissionId) ? freeform.submissions({ id: paymentRecord.submissionId }).one() : null %}
 {% set paymentStatus = paymentRecord ? paymentRecord.status : null %}
 {% set hasSuccessfulPayment = paymentStatus == 'succeeded' %}
-{% set stripePaymentIntent = null %}
-{% if paymentIntentId and not hasSuccessfulPayment %}
-    {% set registrationForm = freeform.form('userRegistration') %}
-    {% set stripeIntegration = registrationForm ? freeform.integration(registrationForm, 'stripe') : null %}
-    {% if not stripeIntegration and registrationForm %}
-        {% set stripeIntegration = freeform.integration(registrationForm, 'Stripe') %}
-    {% endif %}
-    {% if not stripeIntegration %}
-        {% set stripeIntegrationUid = craft.app.db.createCommand(
-            'SELECT JSON_UNQUOTE(JSON_EXTRACT(ff.[[metadata]], :path)) AS [[integrationUid]]
-             FROM {{%freeform_forms_fields}} ff
-             INNER JOIN {{%freeform_forms}} f ON f.[[id]] = ff.[[formId]]
-             WHERE f.[[handle]] = :formHandle
-               AND ff.[[type]] LIKE :fieldType
-             ORDER BY ff.[[id]] ASC
-             LIMIT 1',
-            {
-                path: '$.integration',
-                formHandle: 'userRegistration',
-                fieldType: '%StripeField',
-            }
-        ).queryScalar() %}
-        {% set stripeIntegrationModel = stripeIntegrationUid ? craft.app.plugins.getPlugin('freeform').integrations.getByUid(stripeIntegrationUid) : null %}
-    {% endif %}
-    {% if not stripeIntegration %}
-        {% set stripeIntegrationModel = stripeIntegrationModel ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('stripe') ?? craft.app.plugins.getPlugin('freeform').integrations.getByHandle('Stripe') %}
-        {% set stripeIntegration = stripeIntegrationModel ? stripeIntegrationModel.getIntegrationObject() : null %}
-    {% endif %}
-    {% if stripeIntegration %}
-        {% set stripePaymentIntent = stripeIntegration.getStripeClient().paymentIntents.retrieve(paymentIntentId, { expand: ['customer'] }) %}
-    {% endif %}
-{% endif %}
+{% set stripePaymentIntent = stripePaymentIntent ?? null %}
 {% set stripePaymentStatus = stripePaymentIntent ? stripePaymentIntent.status : null %}
 {% set stripeAmount = stripePaymentIntent ? stripePaymentIntent.amount : null %}
 {% set stripeCurrency = stripePaymentIntent ? stripePaymentIntent.currency : null %}
