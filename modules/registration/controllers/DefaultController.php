@@ -6,17 +6,18 @@ use Craft;
 use craft\db\Query;
 use craft\elements\User;
 use craft\helpers\Db;
-use craft\helpers\UrlHelper;
 use craft\web\Controller;
+use Solspace\Freeform\Elements\Submission;
 use Throwable;
 use yii\web\Response;
 
 class DefaultController extends Controller
 {
-    protected array|bool|int $allowAnonymous = ['complete', 'create-user'];
+    protected array|bool|int $allowAnonymous = ['complete'];
 
     public function actionComplete(): Response
     {
+        $session = Craft::$app->getSession();
         $paymentIntentId = $this->resolvePaymentIntentId();
         $paymentRecord = $paymentIntentId ? $this->getPaymentRecord($paymentIntentId) : null;
         $stripePaymentIntent = null;
@@ -31,6 +32,29 @@ class DefaultController extends Controller
             }
         }
 
+        if ($paymentIntentId && ($this->paymentRecordIsValid($paymentRecord) || $this->stripePaymentIntentIsValid($stripePaymentIntent))) {
+            if ($this->paymentIsConsumed($paymentIntentId)) {
+                $session->setNotice('This payment has already been used to create an account.');
+                return $this->redirect(Craft::$app->getUser()->getIdentity() ? '/account' : '/login');
+            }
+
+            [$email, $fullName, $password, $passwordConfirm, $submissionId] = $this->getRegistrationData($paymentRecord, $stripePaymentIntent);
+
+            if (!$email) {
+                $session->setError('We could not find an email address for this paid registration.');
+            } elseif (!$password || $password !== $passwordConfirm) {
+                $session->setError('Please enter and confirm your password before payment.');
+            } else {
+                $user = $this->createPaidUser($paymentIntentId, $email, $fullName, $password, $submissionId);
+
+                if ($user) {
+                    Craft::$app->getUser()->login($user);
+                    $session->setSuccess('Your account has been created.');
+                    return $this->redirect('/account');
+                }
+            }
+        }
+
         return $this->renderTemplate('users/complete-registration', [
             'paymentIntentId' => $paymentIntentId,
             'paymentRecord' => $paymentRecord,
@@ -39,123 +63,6 @@ class DefaultController extends Controller
             'stripeRedirectStatus' => Craft::$app->getRequest()->getParam('redirect_status'),
             'expectedPaymentAmount' => $this->getExpectedPaymentAmount(),
         ]);
-    }
-
-    public function actionCreateUser(): Response
-    {
-        $this->requirePostRequest();
-
-        $request = Craft::$app->getRequest();
-        $session = Craft::$app->getSession();
-        $token = $request->getBodyParam('paidRegistrationToken');
-        $payload = $this->decodePayload($token);
-
-        if (!$payload) {
-            $session->setError('Your registration session expired. Please return to registration and try again.');
-            return $this->redirect('/register');
-        }
-
-        $paymentIntentId = $payload['paymentIntent'] ?? null;
-        $email = trim((string)($payload['email'] ?? $request->getBodyParam('email', '')));
-        $fullName = trim((string)($payload['fullName'] ?? ''));
-
-        if (!$paymentIntentId || !$email || !$this->paymentIsValid($paymentIntentId)) {
-            $session->setError('We could not verify a completed payment for this registration.');
-            return $this->redirect('/register');
-        }
-
-        if ($this->paymentIsConsumed($paymentIntentId)) {
-            $session->setError('This payment has already been used to create an account.');
-            return $this->redirect('/login');
-        }
-
-        $username = trim((string)$request->getBodyParam('username'));
-        $password = (string)$request->getBodyParam('password');
-
-        $user = new User();
-        $user->username = $username;
-        $user->email = $email;
-        $user->fullName = $fullName ?: null;
-        $user->newPassword = $password;
-        $user->pending = true;
-        $user->affiliatedSiteId = Craft::$app->getSites()->getCurrentSite()->id;
-        $user->setScenario(User::SCENARIO_REGISTRATION);
-
-        $groups = Craft::$app->getUsers()->getDefaultUserGroups($user);
-        if ($groups) {
-            $user->setGroups($groups);
-        }
-
-        $transaction = Craft::$app->getDb()->beginTransaction();
-
-        try {
-            if (!Craft::$app->getElements()->saveElement($user)) {
-                $transaction->rollBack();
-                $this->flashUserErrors($user);
-                return $this->redirect(UrlHelper::url('register/complete', ['paymentIntent' => $paymentIntentId]));
-            }
-
-            if ($groups) {
-                Craft::$app->getUsers()->assignUserToDefaultGroup($user);
-            }
-
-            $this->consumePayment($paymentIntentId, $user->id);
-            $transaction->commit();
-        } catch (Throwable $e) {
-            $transaction->rollBack();
-            Craft::error($e->getMessage(), __METHOD__);
-            $session->setError('We could not create your account. Please try again.');
-            return $this->redirect(UrlHelper::url('register/complete', ['paymentIntent' => $paymentIntentId]));
-        }
-
-        try {
-            Craft::$app->getUsers()->sendActivationEmail($user);
-        } catch (Throwable $e) {
-            Craft::warning($e->getMessage(), __METHOD__);
-        }
-
-        $session->setSuccess('User registered.');
-        return $this->redirect('/register/success');
-    }
-
-    private function decodePayload(?string $token): ?array
-    {
-        if (!$token) {
-            return null;
-        }
-
-        $json = Craft::$app->getSecurity()->validateData($token);
-        if ($json === false) {
-            return null;
-        }
-
-        $payload = json_decode($json, true);
-        if (!is_array($payload) || (int)($payload['expires'] ?? 0) < time()) {
-            return null;
-        }
-
-        return $payload;
-    }
-
-    private function paymentIsValid(string $paymentIntentId): bool
-    {
-        $payment = $this->getPaymentRecord($paymentIntentId);
-
-        return $this->paymentRecordIsValid($payment) || $this->stripePaymentIsValid($paymentIntentId);
-    }
-
-    private function stripePaymentIsValid(string $paymentIntentId): bool
-    {
-        try {
-            $paymentIntent = $this->getStripePaymentIntent($paymentIntentId);
-
-            return $paymentIntent->status === 'succeeded'
-                && (int)$paymentIntent->amount >= $this->getExpectedPaymentAmount()
-                && strtolower((string)$paymentIntent->currency) === 'usd';
-        } catch (Throwable $e) {
-            Craft::warning($e->getMessage(), __METHOD__);
-            return false;
-        }
     }
 
     private function resolvePaymentIntentId(): ?string
@@ -170,7 +77,7 @@ class DefaultController extends Controller
 
         if (!$paymentIntentId) {
             $submissionToken = $request->getParam('submissionToken') ?: $request->getParam('submission');
-            $submission = $submissionToken ? \Solspace\Freeform\Elements\Submission::find()->token($submissionToken)->one() : null;
+            $submission = $submissionToken ? Submission::find()->token($submissionToken)->one() : null;
 
             if ($submission) {
                 $paymentIntentId = (new Query())
@@ -203,6 +110,136 @@ class DefaultController extends Controller
             && ($payment['status'] ?? null) === 'succeeded'
             && (float)($payment['amount'] ?? 0) >= $this->getExpectedPaymentAmount()
             && strtolower((string)($payment['currency'] ?? '')) === 'usd';
+    }
+
+    private function stripePaymentIntentIsValid(?object $paymentIntent): bool
+    {
+        return $paymentIntent
+            && ($paymentIntent->status ?? null) === 'succeeded'
+            && (int)($paymentIntent->amount ?? 0) >= $this->getExpectedPaymentAmount()
+            && strtolower((string)($paymentIntent->currency ?? '')) === 'usd';
+    }
+
+    private function getRegistrationData(?array $paymentRecord, ?object $stripePaymentIntent): array
+    {
+        $submission = ($paymentRecord && $paymentRecord['submissionId'])
+            ? Submission::find()->id($paymentRecord['submissionId'])->one()
+            : null;
+
+        $values = $submission ? $submission->getFormFieldValues() : [];
+        $customer = $stripePaymentIntent->customer ?? null;
+
+        $email = trim((string)($values['email'] ?? $customer->email ?? $stripePaymentIntent->receipt_email ?? ''));
+        $fullName = trim((string)($values['name'] ?? $customer->name ?? ''));
+        $password = (string)($values['password'] ?? '');
+        $passwordConfirm = (string)($values['passwordConfirm'] ?? '');
+
+        return [$email, $fullName, $password, $passwordConfirm, $submission?->id];
+    }
+
+    private function createPaidUser(string $paymentIntentId, string $email, ?string $fullName, string $password, ?int $submissionId): ?User
+    {
+        $session = Craft::$app->getSession();
+        $existingUser = Craft::$app->getUsers()->getUserByUsernameOrEmail($email);
+
+        if ($existingUser) {
+            $session->setError('An account already exists for this email address. Please sign in.');
+            return null;
+        }
+
+        $user = new User();
+        $user->username = $this->generateUsername($email);
+        $user->email = $email;
+        $user->fullName = $fullName ?: null;
+        $user->newPassword = $password;
+        $user->pending = false;
+        $user->active = true;
+        $user->affiliatedSiteId = Craft::$app->getSites()->getCurrentSite()->id;
+        $user->setScenario(User::SCENARIO_REGISTRATION);
+
+        $groups = Craft::$app->getUsers()->getDefaultUserGroups($user);
+        if ($groups) {
+            $user->setGroups($groups);
+        }
+
+        $transaction = Craft::$app->getDb()->beginTransaction();
+
+        try {
+            if (!Craft::$app->getElements()->saveElement($user)) {
+                $transaction->rollBack();
+                $this->flashUserErrors($user);
+                return null;
+            }
+
+            Craft::$app->getUsers()->activateUser($user);
+
+            if ($groups) {
+                Craft::$app->getUsers()->assignUserToDefaultGroup($user);
+            }
+
+            $this->consumePayment($paymentIntentId, $user->id);
+            $this->clearRegistrationPasswordValues($submissionId);
+            $transaction->commit();
+        } catch (Throwable $e) {
+            $transaction->rollBack();
+            Craft::error($e->getMessage(), __METHOD__);
+            $session->setError('We could not create your account. Please contact support.');
+            return null;
+        }
+
+        return $user;
+    }
+
+    private function clearRegistrationPasswordValues(?int $submissionId): void
+    {
+        if (!$submissionId) {
+            return;
+        }
+
+        $formId = (int)(new Query())
+            ->select(['id'])
+            ->from('{{%freeform_forms}}')
+            ->where(['handle' => 'userRegistration'])
+            ->scalar();
+
+        if (!$formId) {
+            return;
+        }
+
+        $fields = (new Query())
+            ->select(['id', "JSON_UNQUOTE(JSON_EXTRACT([[metadata]], '$.handle')) AS [[handle]]"])
+            ->from('{{%freeform_forms_fields}}')
+            ->where(['formId' => $formId])
+            ->andWhere(new \yii\db\Expression("JSON_UNQUOTE(JSON_EXTRACT([[metadata]], '$.handle')) IN ('password', 'passwordConfirm')"))
+            ->all();
+
+        if (!$fields) {
+            return;
+        }
+
+        $values = [];
+        foreach ($fields as $field) {
+            $values[Submission::generateFieldColumnName((int)$field['id'], (string)$field['handle'])] = null;
+        }
+
+        Craft::$app->getDb()->createCommand()
+            ->update('{{%freeform_submissions_user_registration_'.$formId.'}}', $values, ['id' => $submissionId])
+            ->execute();
+    }
+
+    private function generateUsername(string $email): string
+    {
+        $base = strtolower((string)preg_replace('/[^a-zA-Z0-9]+/', '-', strstr($email, '@', true) ?: 'user'));
+        $base = trim($base, '-') ?: 'user';
+        $username = $base;
+        $counter = 2;
+
+        while (Craft::$app->getUsers()->getUserByUsernameOrEmail($username)) {
+            $username = $base.'-'.$counter;
+            $counter++;
+        }
+
+        return $username;
     }
 
     private function getExpectedPaymentAmount(): int

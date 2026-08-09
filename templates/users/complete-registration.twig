@@ -39,10 +39,6 @@
 {% set customer = stripePaymentIntent ? stripePaymentIntent.customer : null %}
 {% set registrationName = submission ? submission.name : (customer ? customer.name : null) %}
 {% set registrationEmail = submission ? submission.email : (customer ? customer.email : null) %}
-{% set account = user ?? null %}
-{% set submittedName = account ? account.fullName : craft.app.request.getParam('fullName') %}
-{% set submittedEmail = account ? account.email : craft.app.request.getParam('email') %}
-{% set submittedUsername = account ? account.username : craft.app.request.getParam('username') %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto mt-8 mb-16 px-4">
@@ -100,7 +96,7 @@
                     </svg>
                 </div>
                 <h1 class="text-3xl font-bold text-green-400 mb-2">Payment Complete</h1>
-                <p class="text-gray-300">Choose your username and password to finish registration.</p>
+                <p class="text-gray-300">Your payment was verified.</p>
             </div>
 
             {% if craft.app.session.hasFlash('error') %}
@@ -109,94 +105,19 @@
                 </div>
             {% endif %}
 
-            {% if account and account.hasErrors() %}
-                <div class="bg-red-900/30 border border-red-700 rounded-lg p-4 mb-6">
-                    <h2 class="text-sm font-semibold text-red-200 mb-2">Please correct the following errors:</h2>
-                    <ul class="text-sm text-red-100 list-disc list-inside space-y-1">
-                        {% for fieldErrors in account.getErrors() %}
-                            {% for error in fieldErrors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
+            <p class="text-center text-gray-300 mb-8">We could not automatically finish the account setup. Please contact support with your payment reference.</p>
+
+            {% if paymentIntentId %}
+                <div class="mb-8 rounded-lg border border-gray-800 bg-gray-950/50 p-4 text-left text-xs text-gray-400">
+                    <p class="break-all">Payment reference: {{ paymentIntentId }}</p>
                 </div>
             {% endif %}
 
-            {% set registrationPayload = {
-                paymentIntent: paymentIntentId,
-                submissionId: submission ? submission.id : null,
-                email: registrationEmail,
-                fullName: registrationName,
-                expires: 'now'|date('U') + 1800,
-            } %}
-
-            <form method="post" accept-charset="UTF-8" class="space-y-6">
-                {{ csrfInput() }}
-                {{ actionInput('registration/default/create-user') }}
-                <input type="hidden" name="paidRegistrationToken" value="{{ craft.app.security.hashData(registrationPayload|json_encode)|e('html_attr') }}">
-
-                {% if registrationEmail %}
-                    <input type="hidden" name="email" value="{{ registrationEmail }}">
-                    <input type="hidden" name="fullName" value="{{ registrationName }}">
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Name</label>
-                        <div class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-400 rounded-lg">{{ registrationName ?: 'Not provided' }}</div>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-medium text-gray-300 mb-2">Email</label>
-                        <div class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-400 rounded-lg">{{ registrationEmail }}</div>
-                    </div>
-                {% else %}
-                    <div>
-                        <label for="fullName" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
-                        <input type="text"
-                               id="fullName"
-                               name="fullName"
-                               value="{{ submittedName }}"
-                               autocomplete="name"
-                               class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email *</label>
-                        <input type="email"
-                               id="email"
-                               name="email"
-                               value="{{ submittedEmail }}"
-                               required
-                               autocomplete="email"
-                               class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    </div>
-                {% endif %}
-
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-300 mb-2">Username *</label>
-                    <input type="text"
-                           id="username"
-                           name="username"
-                           value="{{ submittedUsername }}"
-                           required
-                           autocomplete="username"
-                           placeholder="Choose a unique username"
-                           class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password *</label>
-                    <input type="password"
-                           id="password"
-                           name="password"
-                           required
-                           autocomplete="new-password"
-                           class="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-
-                <button type="submit" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
-                    Create Account
-                </button>
-            </form>
+            <div class="text-center">
+                <a href="/register" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium">
+                    Return to Registration
+                </a>
+            </div>
         </div>
     {% endif %}
 </div>

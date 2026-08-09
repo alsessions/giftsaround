@@ -8,7 +8,7 @@ The desired behavior is:
 
 - No Craft user should be created before successful payment.
 - Declined payments should not create users.
-- After a successful payment, the customer should enter their username/password and complete Craft-native registration.
+- The customer should enter their password before payment, confirm it, then land in their account after successful payment.
 
 ## Findings
 
@@ -33,21 +33,15 @@ The safer native workflow is to separate payment collection from account creatio
    ```
 
 4. The completion page verifies the payment.
-5. If payment is successful, the page displays a Craft-native registration form with username/password fields and a short-lived signed paid-registration token.
-6. The form posts to the local payment-gated registration controller:
-
-   ```twig
-   {{ actionInput('registration/default/create-user') }}
-   ```
-
-7. The controller validates the signed token, re-checks the PaymentIntent, rejects already-consumed PaymentIntent IDs, creates a pending Craft user, assigns the default `Users` group, sends the activation email, and marks the PaymentIntent as consumed.
+5. If payment is successful, the registration controller creates the Craft user automatically.
+6. The controller rejects already-consumed PaymentIntent IDs, creates an active Craft user with the submitted password, assigns the default `Users` group, logs the user in, marks the PaymentIntent as consumed, and redirects to `/account`.
 
 ## Template Routes
 
 The Craft routes needed are:
 
 ```php
-'register/complete' => ['template' => 'users/complete-registration'],
+'register/complete' => 'registration/default/complete',
 'register/payment-failed' => ['template' => 'users/payment-failed'],
 ```
 
@@ -97,15 +91,17 @@ It attempts, in order:
 The direct Stripe fallback checks:
 
 - PaymentIntent status is `succeeded`.
-- Amount is at least `999`.
+- Amount is at least the configured Freeform Stripe field amount.
 - Currency is `usd`.
 
-If successful, it uses Stripe customer data for:
+If successful, it uses Freeform submission data first, then Stripe customer data as fallback, for:
 
 - `email`
 - `fullName`
+- `password`
+- `passwordConfirm`
 
-Then it displays username/password fields and submits through `registration/default/create-user` so payment proof can be validated again during the final save.
+Then it creates the user immediately, activates them, logs them in, clears the stored encrypted password fields from the Freeform submission, and redirects to `/account`.
 
 The final save stores consumed PaymentIntent IDs in:
 
@@ -119,9 +115,9 @@ This prevents a successful payment link from creating more than one account.
 
 For the final workflow, the Freeform User element integration should be disabled or removed from the `userRegistration` form.
 
-The payment form should collect payment and contact/customer data only. Username/password should be collected on the `/register/complete` page after payment succeeds.
+The payment form should collect contact/customer data, password, password confirmation, and payment. Username should not be collected. The controller generates a unique internal username from the email address.
 
-If the User integration remains enabled, Craft may still create users before the customer reaches the password step.
+Password fields are encrypted Freeform text fields and are cleared from the submission after account creation. The `/register/complete` page should not collect username/password.
 
 ## Redemption Impact
 
@@ -135,7 +131,7 @@ defaultGroup: f9b21139-b37c-4768-95ce-6a52e55e6352 # Users
 requireEmailVerification: true
 ```
 
-Craft's native public registration assigns that default group automatically.
+The custom registration controller assigns the default group and activates the user directly, bypassing the email activation requirement for paid registrations.
 
 ## Operational Notes
 
@@ -148,18 +144,18 @@ Preferred production process:
 3. Set the Stripe field success/failed redirects shown above.
 4. Run Craft migrations so the consumed-payment table exists and the local Freeform return URL cleanup is applied.
 5. Test successful payment with a Stripe test card.
-6. Confirm the `/register/complete` page shows username/password fields.
-7. Submit the completion form.
-8. Confirm a pending Craft user is created and receives the activation email.
-9. Revisit the same completion URL and confirm it cannot create a second account.
-10. Test a declined card and confirm no Craft user is created.
+6. Confirm the payment form includes password and confirm password fields before Stripe.
+7. Confirm mismatched passwords are blocked before payment submission.
+8. Confirm the `/register/complete` redirect creates an active Craft user automatically.
+9. Confirm the user is assigned to the default `Users` group and is logged in at `/account`.
+10. Revisit the same completion URL and confirm it cannot create a second account.
+11. Test a declined card and confirm no Craft user is created.
 
 ## Known Edge Case
 
-If a customer successfully pays but closes the browser before completing the Craft registration step, there may be a successful Stripe payment without a Craft user account.
+If a customer successfully pays but the completion redirect fails before account creation, there may be a successful Stripe payment without a Craft user account.
 
 Possible follow-up solutions:
 
-- Email the completion link after successful payment.
 - Add an admin recovery workflow for paid submissions without matching users.
-- Store a short-lived paid-registration token and resend it on request.
+- Revisit `/register/complete?paymentIntent=pi_...` after the issue is fixed.

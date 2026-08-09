@@ -3,9 +3,6 @@
 namespace modules\registration;
 
 use Craft;
-use craft\events\RegisterUrlRulesEvent;
-use craft\web\UrlManager;
-use yii\base\Event;
 use yii\base\Module;
 
 class RegistrationModule extends Module
@@ -28,12 +25,5 @@ class RegistrationModule extends Module
 
         self::$instance = $this;
 
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['register/create-user'] = 'registration/default/create-user';
-            }
-        );
     }
 }

@@ -83,3 +83,20 @@
 {% endfor %}
 
 {{ form.renderClosingTag }}
+
+<script>
+	document.addEventListener('submit', function (event) {
+		var form = event.target;
+		var password = form.querySelector('[name="password"]');
+		var confirm = form.querySelector('[name="passwordConfirm"]');
+
+		if (!password || !confirm || password.value === confirm.value) {
+			return;
+		}
+
+		event.preventDefault();
+		confirm.setCustomValidity('Passwords must match.');
+		confirm.reportValidity();
+		confirm.setCustomValidity('');
+	});
+</script>
