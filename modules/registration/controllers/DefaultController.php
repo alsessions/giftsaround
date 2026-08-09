@@ -73,7 +73,7 @@ class DefaultController extends Controller
         $password = (string)$request->getBodyParam('password');
 
         $user = new User();
-        $user->username = $username ?: $email;
+        $user->username = $username;
         $user->email = $email;
         $user->fullName = $fullName ?: null;
         $user->newPassword = $password;
@@ -89,7 +89,7 @@ class DefaultController extends Controller
         $transaction = Craft::$app->getDb()->beginTransaction();
 
         try {
-            if (!Craft::$app->getElements()->saveElement($user, false)) {
+            if (!Craft::$app->getElements()->saveElement($user)) {
                 $transaction->rollBack();
                 $this->flashUserErrors($user);
                 return $this->redirect(UrlHelper::url('register/complete', ['paymentIntent' => $paymentIntentId]));
