@@ -85,7 +85,7 @@ class m260809_000001_payment_gated_registration extends Migration
             return;
         }
 
-        $data->behavior->returnUrl = '';
+        $data->behavior->returnUrl = '/register/complete?submissionToken={{ submission.token }}';
 
         $this->update('{{%freeform_forms}}', ['metadata' => json_encode($data)], ['id' => $formId]);
     }
