@@ -51,6 +51,9 @@ class DefaultController extends Controller
                 if ($request->getIsPost()) {
                     $session->setError('Please enter matching passwords.');
                 }
+            } elseif ($passwordErrors = $this->validatePassword($password)) {
+                $needsPassword = true;
+                $session->setError(implode(' ', $passwordErrors));
             } else {
                 $user = $this->createPaidUser($paymentIntentId, $email, $fullName, $password, $submissionId);
 
@@ -141,6 +144,25 @@ class DefaultController extends Controller
         $fullName = trim((string)($values['name'] ?? $customer->name ?? ''));
 
         return [$email, $fullName, $submission?->id];
+    }
+
+    private function validatePassword(string $password): array
+    {
+        $errors = [];
+
+        if (strlen($password) < 7) {
+            $errors[] = 'Password must be at least 7 characters.';
+        }
+
+        if (!preg_match('/[A-Z]/', $password)) {
+            $errors[] = 'Password must include one uppercase letter.';
+        }
+
+        if (!preg_match('/[^A-Za-z0-9]/', $password)) {
+            $errors[] = 'Password must include one special character.';
+        }
+
+        return $errors;
     }
 
     private function createPaidUser(string $paymentIntentId, string $email, ?string $fullName, string $password, ?int $submissionId): ?User
