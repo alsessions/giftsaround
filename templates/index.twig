@@ -2,7 +2,6 @@
 
 {% block title %}Welcome - {{ parent() }}{% endblock %}
 
-{% block header %}{% endblock %}
 {% block footer %}{% endblock %}
 
 {% block content %}
@@ -23,53 +22,6 @@
 
 <div class="min-h-screen bg-[#06101d] text-white">
     <div class="flex w-full flex-col overflow-hidden bg-[#06101d]">
-        <header class="relative border-b border-white/10 bg-[#050d1a]/95" x-data="{ open: false }" @click.away="open = false">
-            <div class="flex h-16 items-center justify-between px-5 sm:px-7 lg:h-[5.25rem] lg:px-16">
-                <a href="/" class="flex items-center">
-                    <img src="/uploads/business/trans_logo.png" alt="Gifts Around" class="h-11 w-auto lg:h-16">
-                </a>
-
-                <nav class="hidden items-center gap-11 text-sm font-semibold text-white lg:flex">
-                    <a href="/business" class="transition-colors hover:text-emerald-300">Browse Deals</a>
-                    <a href="#categories" class="transition-colors hover:text-emerald-300">Categories</a>
-                    <a href="/business" class="transition-colors hover:text-emerald-300">Businesses</a>
-                </nav>
-
-                <div class="hidden items-center gap-5 lg:flex">
-                    {% if currentUser %}
-                        <a href="/account" class="rounded-md bg-emerald-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">My Account</a>
-                        <a href="/logout" class="rounded-md border border-white/25 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5">Sign Out</a>
-                    {% else %}
-                        <a href="/register" class="rounded-md bg-emerald-500 px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">Join Now</a>
-                        <a href="/login" class="rounded-md border border-white/25 px-8 py-3 text-sm font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5">Login</a>
-                    {% endif %}
-                </div>
-
-                <button @click="open = !open" class="text-white lg:hidden" type="button" aria-label="Open menu">
-                    <svg class="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16"></path>
-                        <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div x-show="open" x-transition class="absolute left-4 right-4 top-16 z-50 rounded-md border border-white/10 bg-[#071321] p-3 shadow-2xl shadow-black/40 lg:hidden">
-                <a href="/business" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Browse Deals</a>
-                <a href="#categories" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Categories</a>
-                <a href="/business" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Businesses</a>
-                <a href="/contact" @click="open = false" class="block rounded px-3 py-2 text-sm font-bold text-white hover:bg-white/5">Contact</a>
-                <div class="mt-2 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
-                    {% if currentUser %}
-                        <a href="/account" @click="open = false" class="rounded bg-emerald-500 px-3 py-2 text-center text-sm font-bold text-white">My Account</a>
-                        <a href="/logout" @click="open = false" class="rounded border border-white/25 px-3 py-2 text-center text-sm font-bold text-white">Sign Out</a>
-                    {% else %}
-                        <a href="/register" @click="open = false" class="rounded bg-emerald-500 px-3 py-2 text-center text-sm font-bold text-white">Join Now</a>
-                        <a href="/login" @click="open = false" class="rounded border border-white/25 px-3 py-2 text-center text-sm font-bold text-white">Login</a>
-                    {% endif %}
-                </div>
-            </div>
-        </header>
-
         <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] md:min-h-[420px] lg:min-h-[440px]">
             <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/uploads/_576x381_crop_center-center_82_line/unsplash-hero-glasss.jpg');"></div>
             <div class="absolute inset-0 bg-gradient-to-r from-[#071321] via-[#071321]/82 to-[#071321]/20"></div>
