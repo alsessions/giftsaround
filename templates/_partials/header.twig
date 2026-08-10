@@ -11,8 +11,8 @@
             <!-- Navigation -->
             <nav class="hidden items-center gap-12 text-lg font-semibold text-white lg:flex">
                 <a href="/business" class="transition-colors hover:text-emerald-300">Browse Deals</a>
-                <a href="/#categories" class="transition-colors hover:text-emerald-300">Categories</a>
-                <a href="/business" class="transition-colors hover:text-emerald-300">Businesses</a>
+                <a href="/contact" class="transition-colors hover:text-emerald-300">Contact</a>
+                <a href="/business/signup" class="transition-colors hover:text-emerald-300">Business</a>
                 <div class="relative" x-data="{ open: false }" @click.away="open = false">
                     <button @click="open = !open; if (open) { $nextTick(() => $refs.desktopSearch.focus()) }" class="flex h-12 w-12 items-center justify-center rounded-md text-white/90 transition-colors hover:bg-white/5 hover:text-white" type="button" aria-label="Search">
                         <svg class="h-5 w-5 lg:h-6 lg:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,6 +93,7 @@
                     </div>
 
                     <a href="/contact" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">Contact</a>
+                    <a href="/business/signup" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">Business</a>
 
                     {% if currentUser %}
                         <hr class="my-1.5 border-gray-700">

@@ -5,58 +5,75 @@
 {% block title %}{{ contact.title ?? 'Contact' }} - {{ parent() }}{% endblock %}
 
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <div class="max-w-3xl mx-auto bg-gray-900 rounded-lg shadow-lg p-6 md:p-8 border border-gray-800">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-100 mb-6">{{ contact.title ?? 'Contact' }}</h1>
-
-        <div class="rounded-lg p-6 text-gray-400">
-            <div class="prose md:prose-md prose-invert max-w-none">
-            {{ entry.body }}
+<div class="xs:max-w-none sm:max-w-5xl md:max-w-5xl lg:max-w-6xl xl:max-w-6xl mx-auto mt-8 mb-16 px-2 md:px-4">
+    <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-700">
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-8">
+            <div class="flex items-center">
+                <div class="bg-gray-900/90 rounded-full p-1 border border-white/10">
+                    <div class="w-16 h-16 bg-gray-700 rounded-full flex items-center justify-center">
+                        <svg class="w-8 h-8 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-18 8.5A2.5 2.5 0 005.5 19h13a2.5 2.5 0 002.5-2.5v-9A2.5 2.5 0 0018.5 5h-13A2.5 2.5 0 003 7.5v9z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="ml-6">
+                    <h1 class="text-2xl font-bold text-white">{{ contact.title ?? 'Contact' }}</h1>
+                    <p class="text-blue-100">Get in touch with Gifts Around</p>
+                </div>
             </div>
+        </div>
 
-            <div class="mt-6 bg-gray-900 border border-gray-700 rounded-lg p-6">
-                {% set form = craft.freeform.form('siteContact') %}
-                {% if form %}
-                    {{ form.render({
-                        formattingTemplate: 'tailwind-3',
-                        attributes: {
-                            form: { class: 'freeform-form' },
-                            row: { class: 'mb-5' },
-                            container: { class: 'space-y-5' }
-                        },
-                        buttons: {
+        <div class="p-6">
+            <div class="grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+                <div class="bg-gray-700/55 rounded-lg p-6">
+                    <div class="prose prose-invert max-w-none prose-p:text-gray-300 prose-a:text-blue-400 prose-strong:text-gray-100 md:prose-lg">
+                        {{ contact.body ?? '' }}
+                    </div>
+                </div>
+
+                <div class="bg-gray-700/55 rounded-lg p-6">
+                    {% set form = craft.freeform.form('siteContact') %}
+                    {% if form %}
+                        {{ form.render({
+                            formattingTemplate: 'tailwind-3',
                             attributes: {
-                                container: { class: 'pt-2' },
-                                submit: { class: 'w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors font-medium text-lg border-0' },
-                                back: { class: 'px-4 py-2 rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300' },
-                                save: { class: 'px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700' }
-                            }
-                        },
-                        fields: {
-                            '@global': {
+                                form: { class: 'freeform-form' },
+                                row: { class: 'mb-5' },
+                                container: { class: 'space-y-5' }
+                            },
+                            buttons: {
                                 attributes: {
-                                    label: { class: 'block text-sm font-medium text-gray-200 mb-2' },
-                                    input: { class: 'w-full px-3 py-2 border border-gray-600 bg-gray-800 rounded-lg text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' },
-                                    instructions: { class: 'text-sm text-gray-400 mt-1' },
-                                    error: { class: 'text-sm text-red-400 mt-1' }
+                                    container: { class: 'pt-2' },
+                                    submit: { class: 'w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-colors font-medium text-lg border-0' },
+                                    back: { class: 'px-4 py-2 rounded-md bg-gray-800 text-gray-200 hover:bg-gray-700' },
+                                    save: { class: 'px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700' }
                                 }
                             },
-                            '@file': {
-                                attributes: {
-                                    input: { class: 'w-full text-sm text-gray-300 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border file:border-gray-600 file:bg-gray-800 file:text-gray-200 hover:file:bg-gray-700' }
-                                }
-                            },
-                            '@checkbox': {
-                                attributes: {
-                                    input: { class: 'h-4 w-4 text-blue-600 bg-gray-800 border-gray-500 rounded focus:ring-blue-500' },
-                                    label: { class: 'text-sm text-gray-300' }
+                            fields: {
+                                '@global': {
+                                    attributes: {
+                                        label: { class: 'block text-sm font-medium text-gray-300 mb-2' },
+                                        input: { class: 'w-full px-3 py-2 border border-gray-700 bg-gray-950 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500' },
+                                        instructions: { class: 'text-sm text-gray-400 mt-1' },
+                                        error: { class: 'text-sm text-red-400 mt-1' }
+                                    }
+                                },
+                                '@file': {
+                                    attributes: {
+                                        input: { class: 'w-full text-sm text-gray-300 file:mr-3 file:py-2 file:px-3 file:rounded-md file:border file:border-gray-700 file:bg-gray-950 file:text-gray-200 hover:file:bg-gray-800' }
+                                    }
+                                },
+                                '@checkbox': {
+                                    attributes: {
+                                        input: { class: 'h-4 w-4 text-blue-600 bg-gray-950 border-gray-600 rounded focus:ring-blue-500' },
+                                        label: { class: 'text-sm text-gray-300' }
+                                    }
                                 }
                             }
-                        }
-                    }) }}
-                {% endif %}
+                        }) }}
+                    {% endif %}
+                </div>
             </div>
-
         </div>
     </div>
 </div>
