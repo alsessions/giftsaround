@@ -8,7 +8,7 @@ The desired behavior is:
 
 - No Craft user should be created before successful payment.
 - Declined payments should not create users.
-- The customer should enter their password before payment, confirm it, then land in their account after successful payment.
+- The customer should pay first, then set their password on the verified payment completion page and land in their account.
 
 ## Findings
 
@@ -34,7 +34,8 @@ The safer native workflow is to separate payment collection from account creatio
 
 4. The completion page verifies the payment.
 5. If payment is successful, the registration controller creates the Craft user automatically.
-6. The controller rejects already-consumed PaymentIntent IDs, creates an active Craft user with the submitted password, assigns the default `Users` group, logs the user in, marks the PaymentIntent as consumed, and redirects to `/account`.
+6. The controller renders a password + confirm password form for verified, unconsumed payments.
+7. On password form submission, the controller re-checks the payment, creates an active Craft user with the submitted password, assigns the default `Users` group, logs the user in, marks the PaymentIntent as consumed, and redirects to `/account`.
 
 ## Template Routes
 
@@ -98,10 +99,8 @@ If successful, it uses Freeform submission data first, then Stripe customer data
 
 - `email`
 - `fullName`
-- `password`
-- `passwordConfirm`
 
-Then it creates the user immediately, activates them, logs them in, clears the stored encrypted password fields from the Freeform submission, and redirects to `/account`.
+Then it displays a password + confirm password form. When that form is submitted, it creates the user, activates them, logs them in, and redirects to `/account`.
 
 The final save stores consumed PaymentIntent IDs in:
 
@@ -115,9 +114,9 @@ This prevents a successful payment link from creating more than one account.
 
 For the final workflow, the Freeform User element integration should be disabled or removed from the `userRegistration` form.
 
-The payment form should collect contact/customer data, password, password confirmation, and payment. Username should not be collected. The controller generates a unique internal username from the email address.
+The payment form should collect contact/customer data and payment only. Username and password should not be collected by Freeform. The controller generates a unique internal username from the email address.
 
-Password fields are encrypted Freeform text fields and are cleared from the submission after account creation. The `/register/complete` page should not collect username/password.
+The `/register/complete` page collects password + password confirmation only after payment is verified.
 
 ## Redemption Impact
 
@@ -144,12 +143,13 @@ Preferred production process:
 3. Set the Stripe field success/failed redirects shown above.
 4. Run Craft migrations so the consumed-payment table exists and the local Freeform return URL cleanup is applied.
 5. Test successful payment with a Stripe test card.
-6. Confirm the payment form includes password and confirm password fields before Stripe.
-7. Confirm mismatched passwords are blocked before payment submission.
-8. Confirm the `/register/complete` redirect creates an active Craft user automatically.
-9. Confirm the user is assigned to the default `Users` group and is logged in at `/account`.
-10. Revisit the same completion URL and confirm it cannot create a second account.
-11. Test a declined card and confirm no Craft user is created.
+6. Confirm the payment form does not include username/password fields.
+7. Confirm the `/register/complete` redirect shows password + confirm password fields after a successful payment.
+8. Confirm mismatched passwords are rejected without consuming the payment.
+9. Confirm submitting matching passwords creates an active Craft user.
+10. Confirm the user is assigned to the default `Users` group and is logged in at `/account`.
+11. Revisit the same completion URL and confirm it cannot create a second account.
+12. Test a declined card and confirm no Craft user is created.
 
 ## Known Edge Case
 

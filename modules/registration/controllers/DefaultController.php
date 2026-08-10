@@ -40,15 +40,13 @@ class DefaultController extends Controller
                 return $this->redirect(Craft::$app->getUser()->getIdentity() ? '/account' : '/login');
             }
 
-            [$email, $fullName, $password, $passwordConfirm, $submissionId] = $this->getRegistrationData($paymentRecord, $stripePaymentIntent);
-            if (!$password && $request->getIsPost()) {
-                $password = (string)$request->getBodyParam('password', '');
-                $passwordConfirm = (string)$request->getBodyParam('passwordConfirm', '');
-            }
+            [$email, $fullName, $submissionId] = $this->getRegistrationData($paymentRecord, $stripePaymentIntent);
+            $password = (string)$request->getBodyParam('password', '');
+            $passwordConfirm = (string)$request->getBodyParam('passwordConfirm', '');
 
             if (!$email) {
                 $session->setError('We could not find an email address for this paid registration.');
-            } elseif (!$password || $password !== $passwordConfirm) {
+            } elseif (!$request->getIsPost() || !$password || $password !== $passwordConfirm) {
                 $needsPassword = true;
                 if ($request->getIsPost()) {
                     $session->setError('Please enter matching passwords.');
@@ -141,10 +139,8 @@ class DefaultController extends Controller
 
         $email = trim((string)($values['email'] ?? $customer->email ?? $stripePaymentIntent->receipt_email ?? ''));
         $fullName = trim((string)($values['name'] ?? $customer->name ?? ''));
-        $password = (string)($values['password'] ?? '');
-        $passwordConfirm = (string)($values['passwordConfirm'] ?? '');
 
-        return [$email, $fullName, $password, $passwordConfirm, $submission?->id];
+        return [$email, $fullName, $submission?->id];
     }
 
     private function createPaidUser(string $paymentIntentId, string $email, ?string $fullName, string $password, ?int $submissionId): ?User
@@ -188,7 +184,6 @@ class DefaultController extends Controller
             }
 
             $this->consumePayment($paymentIntentId, $user->id);
-            $this->clearRegistrationPasswordValues($submissionId);
             $transaction->commit();
         } catch (Throwable $e) {
             $transaction->rollBack();
@@ -198,43 +193,6 @@ class DefaultController extends Controller
         }
 
         return $user;
-    }
-
-    private function clearRegistrationPasswordValues(?int $submissionId): void
-    {
-        if (!$submissionId) {
-            return;
-        }
-
-        $formId = (int)(new Query())
-            ->select(['id'])
-            ->from('{{%freeform_forms}}')
-            ->where(['handle' => 'userRegistration'])
-            ->scalar();
-
-        if (!$formId) {
-            return;
-        }
-
-        $fields = (new Query())
-            ->select(['id', "JSON_UNQUOTE(JSON_EXTRACT([[metadata]], '$.handle')) AS [[handle]]"])
-            ->from('{{%freeform_forms_fields}}')
-            ->where(['formId' => $formId])
-            ->andWhere(new \yii\db\Expression("JSON_UNQUOTE(JSON_EXTRACT([[metadata]], '$.handle')) IN ('password', 'passwordConfirm')"))
-            ->all();
-
-        if (!$fields) {
-            return;
-        }
-
-        $values = [];
-        foreach ($fields as $field) {
-            $values[Submission::generateFieldColumnName((int)$field['id'], (string)$field['handle'])] = null;
-        }
-
-        Craft::$app->getDb()->createCommand()
-            ->update('{{%freeform_submissions_user_registration_'.$formId.'}}', $values, ['id' => $submissionId])
-            ->execute();
     }
 
     private function generateUsername(string $email): string
