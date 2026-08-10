@@ -12,10 +12,10 @@
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     {% if success == true %}
         <!-- Success State - Code Successfully Redeemed -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
             <div class="bg-green-600 p-8 text-center">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
-                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-900/90 rounded-full mb-4">
+                    <svg class="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                 </div>
@@ -26,16 +26,16 @@
             <div class="p-8">
                 <!-- Customer Information -->
                 {% if user %}
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
+                    <div class="bg-gray-700/55 border border-gray-700 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-100 mb-4">Customer Information</h2>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label class="text-sm font-medium text-gray-600">Name</label>
-                                <p class="text-gray-900 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
+                                <label class="text-sm font-medium text-gray-200">Name</label>
+                                <p class="text-gray-100 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
                             </div>
                             <div>
-                                <label class="text-sm font-medium text-gray-600">Email</label>
-                                <p class="text-gray-900">{{ user.email }}</p>
+                                <label class="text-sm font-medium text-gray-200">Email</label>
+                                <p class="text-gray-100">{{ user.email }}</p>
                             </div>
                         </div>
                     </div>
@@ -43,20 +43,20 @@
 
                 <!-- Business Information -->
                 {% if business %}
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-                        <h2 class="text-lg font-semibold text-blue-900 mb-4">Business</h2>
-                        <p class="text-blue-800 font-medium text-lg">{{ business.title }}</p>
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-blue-300 mb-4">Business</h2>
+                        <p class="text-blue-200 font-medium text-lg">{{ business.title }}</p>
                     </div>
                 {% endif %}
 
                 <!-- Redemption Details -->
                 {% if token %}
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Redemption Details</h2>
+                    <div class="bg-gray-700/55 border border-gray-700 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-100 mb-4">Redemption Details</h2>
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Offer Type:</span>
-                                <span class="font-medium text-gray-900">
+                                <span class="text-gray-200">Offer Type:</span>
+                                <span class="font-medium text-gray-100">
                                     {% if token.redeemType == 'oneSpecial' %}
                                         One-Time Special
                                     {% elseif token.redeemType == 'monthlySpecial' %}
@@ -65,12 +65,12 @@
                                 </span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Redeemed At:</span>
-                                <span class="font-medium text-gray-900">{{ token.usedAt|date('F j, Y g:i A') }}</span>
+                                <span class="text-gray-200">Redeemed At:</span>
+                                <span class="font-medium text-gray-100">{{ token.usedAt|date('F j, Y g:i A') }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Code:</span>
-                                <span class="font-mono text-xs text-gray-600">{{ token.token|slice(0, 12)|upper }}...</span>
+                                <span class="text-gray-200">Code:</span>
+                                <span class="font-mono text-xs text-gray-200">{{ token.token|slice(0, 12)|upper }}...</span>
                             </div>
                         </div>
                     </div>
@@ -90,10 +90,10 @@
 
     {% elseif success == false %}
         <!-- Error State -->
-        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden border border-gray-700">
             <div class="bg-red-600 p-8 text-center">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-4">
-                    <svg class="w-12 h-12 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-900/90 rounded-full mb-4">
+                    <svg class="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </div>
@@ -107,16 +107,16 @@
 
                     <!-- Customer Information -->
                     {% if user %}
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
+                        <div class="bg-gray-700/55 border border-gray-700 rounded-lg p-6 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-100 mb-4">Customer Information</h2>
                             <div class="grid md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="text-sm font-medium text-gray-600">Name</label>
-                                    <p class="text-gray-900 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
+                                    <label class="text-sm font-medium text-gray-200">Name</label>
+                                    <p class="text-gray-100 font-medium">{{ user.firstName ~ ' ' ~ user.lastName }}</p>
                                 </div>
                                 <div>
-                                    <label class="text-sm font-medium text-gray-600">Email</label>
-                                    <p class="text-gray-900">{{ user.email }}</p>
+                                    <label class="text-sm font-medium text-gray-200">Email</label>
+                                    <p class="text-gray-100">{{ user.email }}</p>
                                 </div>
                             </div>
                         </div>
@@ -124,23 +124,23 @@
 
                     <!-- Business Information -->
                     {% if business %}
-                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-                            <h2 class="text-lg font-semibold text-gray-900 mb-4">Business</h2>
-                            <p class="text-gray-900 font-medium text-lg">{{ business.title }}</p>
+                        <div class="bg-gray-700/55 border border-gray-700 rounded-lg p-6 mb-6">
+                            <h2 class="text-lg font-semibold text-gray-100 mb-4">Business</h2>
+                            <p class="text-gray-100 font-medium text-lg">{{ business.title }}</p>
                         </div>
                     {% endif %}
 
                     <!-- Code Details -->
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-4">Code Details</h2>
+                    <div class="bg-gray-700/55 border border-gray-700 rounded-lg p-6 mb-6">
+                        <h2 class="text-lg font-semibold text-gray-100 mb-4">Code Details</h2>
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Redeemed On:</span>
-                                <span class="font-medium text-gray-900">{{ token.usedAt|date('F j, Y g:i A') }}</span>
+                                <span class="text-gray-200">Redeemed On:</span>
+                                <span class="font-medium text-gray-100">{{ token.usedAt|date('F j, Y g:i A') }}</span>
                             </div>
                             <div class="flex justify-between">
-                                <span class="text-gray-600">Code:</span>
-                                <span class="font-mono text-xs text-gray-600">{{ token.token|slice(0, 12)|upper }}...</span>
+                                <span class="text-gray-200">Code:</span>
+                                <span class="font-mono text-xs text-gray-200">{{ token.token|slice(0, 12)|upper }}...</span>
                             </div>
                         </div>
                     </div>
