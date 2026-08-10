@@ -30,7 +30,7 @@
                         <p class="text-sm text-gray-600 mt-4">Latest redemption token</p>
                         <p class="text-xs text-gray-500 font-mono mt-2">{{ testTokens.token|slice(0, 8)|upper }}...{{ testTokens.token|slice(-8)|upper }}</p>
                         <div class="mt-4 space-x-4">
-                            <a href="/redeem/validate?redeemToken={{ testTokens.token }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <a href="{{ url('redeem/validate', { redeemToken: testTokens.token }) }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
                                 Test Validation Page
                             </a>
                         </div>

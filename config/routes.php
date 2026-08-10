@@ -12,6 +12,10 @@ return [
     'account/redeem-history' => 'redeem/default/history',
     'redeem/qr-code' => 'redeem/default/qr-code',
     'redeem/validate' => 'redeem/default/validate',
+    'redeem/validation' => 'redeem/default/validate',
+    'business/redeem/validate' => 'redeem/default/validate',
+    'business/redeem/validation' => 'redeem/default/validate',
+    'business/redeem/<token:([a-zA-Z0-9_-]{32})>' => 'redeem/default/show-redemption',
     'redeem/test-qr' => 'redeem/default/test-qr',
 
     // Admin redemptions management

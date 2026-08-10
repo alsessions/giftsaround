@@ -5,6 +5,7 @@ namespace modules\redeem\controllers;
 use Craft;
 use craft\elements\Entry;
 use craft\helpers\StringHelper;
+use craft\helpers\UrlHelper;
 use craft\web\Controller;
 use modules\redeem\records\RedeemTokenRecord;
 use yii\web\NotFoundHttpException;
@@ -397,7 +398,7 @@ class DefaultController extends Controller
         }
 
         // Generate validation URL that includes the token
-        $validationUrl = Craft::$app->getSites()->getCurrentSite()->getBaseUrl() . 'redeem/validate?redeemToken=' . $token;
+        $validationUrl = UrlHelper::siteUrl('redeem/validate', ['redeemToken' => $token]);
 
         try {
             // Generate QR code
