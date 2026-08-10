@@ -194,12 +194,12 @@ class DefaultController extends Controller
      * @return Response
      * @throws NotFoundHttpException
      */
-    public function actionShowRedemption(): Response
+    public function actionShowRedemption(?string $token = null): Response
     {
         $this->requireLogin();
 
         $request = Craft::$app->getRequest();
-        $token = $request->getParam('token');
+        $token = $token ?? $request->getParam('token');
 
         if (!$token) {
             return $this->renderTemplate('business/redeem', [
