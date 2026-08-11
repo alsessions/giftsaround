@@ -613,21 +613,21 @@
         },
         {
             "name": "craftcms/ckeditor",
-            "version": "5.6.1",
+            "version": "5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftcms/ckeditor.git",
-                "reference": "a9bcc37d02b069d9ed9a08242f470588d58b1400"
+                "reference": "8d33b8aad2fcebaf5df9a81f5b405127b12fd881"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/a9bcc37d02b069d9ed9a08242f470588d58b1400",
-                "reference": "a9bcc37d02b069d9ed9a08242f470588d58b1400",
+                "url": "https://api.github.com/repos/craftcms/ckeditor/zipball/8d33b8aad2fcebaf5df9a81f5b405127b12fd881",
+                "reference": "8d33b8aad2fcebaf5df9a81f5b405127b12fd881",
                 "shasum": ""
             },
             "require": {
                 "craftcms/cms": "^5.10.0",
-                "craftcms/html-field": "^3.5.0",
+                "craftcms/html-field": "^3.6.0",
                 "embed/embed": "^4.4",
                 "nystudio107/craft-code-editor": ">=1.0.8 <=1.0.13 || ^1.0.16",
                 "php": "^8.2"
@@ -674,7 +674,7 @@
                 "rss": "https://github.com/craftcms/ckeditor/commits/5.x.atom",
                 "source": "https://github.com/craftcms/ckeditor"
             },
-            "time": "2026-05-13T22:11:11+00:00"
+            "time": "2026-08-10T20:50:33+00:00"
         },
         {
             "name": "craftcms/cms",
@@ -808,16 +808,16 @@
         },
         {
             "name": "craftcms/html-field",
-            "version": "3.5.1",
+            "version": "3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftcms/html-field.git",
-                "reference": "b4e1ae3f020d6081cfe3abf653f663da744c4cec"
+                "reference": "8639205370ca671662fdd421ec1df5051d4f179d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftcms/html-field/zipball/b4e1ae3f020d6081cfe3abf653f663da744c4cec",
-                "reference": "b4e1ae3f020d6081cfe3abf653f663da744c4cec",
+                "url": "https://api.github.com/repos/craftcms/html-field/zipball/8639205370ca671662fdd421ec1df5051d4f179d",
+                "reference": "8639205370ca671662fdd421ec1df5051d4f179d",
                 "shasum": ""
             },
             "require": {
@@ -856,7 +856,7 @@
                 "rss": "https://github.com/craftcms/html-field/commits/main.atom",
                 "source": "https://github.com/craftcms/html-field"
             },
-            "time": "2026-03-19T18:11:31+00:00"
+            "time": "2026-08-10T15:57:06+00:00"
         },
         {
             "name": "craftcms/plugin-installer",
@@ -4747,16 +4747,16 @@
         },
         {
             "name": "php-science/textrank",
-            "version": "1.2.3",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DavidBelicza/PHP-Science-TextRank.git",
-                "reference": "d63788f7f7305b8dd726a367a5653cdd5dac7fba"
+                "reference": "3695858236d8ce3a604e9b4b5b7d1bca18a518b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/d63788f7f7305b8dd726a367a5653cdd5dac7fba",
-                "reference": "d63788f7f7305b8dd726a367a5653cdd5dac7fba",
+                "url": "https://api.github.com/repos/DavidBelicza/PHP-Science-TextRank/zipball/3695858236d8ce3a604e9b4b5b7d1bca18a518b9",
+                "reference": "3695858236d8ce3a604e9b4b5b7d1bca18a518b9",
                 "shasum": ""
             },
             "require": {
@@ -4800,9 +4800,9 @@
             ],
             "support": {
                 "issues": "https://github.com/DavidBelicza/PHP-Science-TextRank/issues",
-                "source": "https://github.com/DavidBelicza/PHP-Science-TextRank/tree/1.2.3"
+                "source": "https://github.com/DavidBelicza/PHP-Science-TextRank/tree/1.2.4"
             },
-            "time": "2023-12-29T15:21:30+00:00"
+            "time": "2026-08-11T12:49:33+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -6226,16 +6226,16 @@
         },
         {
             "name": "solspace/craft-freeform",
-            "version": "5.15.23",
+            "version": "5.15.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/solspace/craft-freeform.git",
-                "reference": "14e0f945fc24968727e6d5b6ea7920df0892f212"
+                "reference": "c55733b0dfecca1ba58b625281a56679380485b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/14e0f945fc24968727e6d5b6ea7920df0892f212",
-                "reference": "14e0f945fc24968727e6d5b6ea7920df0892f212",
+                "url": "https://api.github.com/repos/solspace/craft-freeform/zipball/c55733b0dfecca1ba58b625281a56679380485b3",
+                "reference": "c55733b0dfecca1ba58b625281a56679380485b3",
                 "shasum": ""
             },
             "require": {
@@ -6277,7 +6277,7 @@
                 "changelogUrl": "https://raw.githubusercontent.com/solspace/craft-freeform/v5/CHANGELOG.md",
                 "developerUrl": "https://docs.solspace.com/",
                 "hasCpSection": true,
-                "schemaVersion": "5.15.2",
+                "schemaVersion": "5.15.3",
                 "documentationUrl": "https://docs.solspace.com/craft/freeform/v5/"
             },
             "autoload": {
@@ -6295,9 +6295,9 @@
             "description": "The most flexible and user-friendly form building plugin!",
             "support": {
                 "issues": "https://github.com/solspace/craft-freeform/issues",
-                "source": "https://github.com/solspace/craft-freeform/tree/v5.15.23"
+                "source": "https://github.com/solspace/craft-freeform/tree/v5.15.24"
             },
-            "time": "2026-08-06T17:57:06+00:00"
+            "time": "2026-08-11T16:38:56+00:00"
         },
         {
             "name": "spomky-labs/cbor-php",
