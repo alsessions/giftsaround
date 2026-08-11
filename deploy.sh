@@ -8,17 +8,11 @@ BRANCH="main"
 
 echo "--- Starting Git & Craft CMS deployment ---"
 
-# Delete composer.lock and vendor directory BEFORE pulling from Git
-# This prevents conflicts if these files exist in the repository
-echo "Deleting composer.lock file and vendor directory..."
-rm -rf composer.lock
-rm -rf vendor
-
 # Pull the latest code from the configured 'origin' remote on the specified branch.
 echo "Pulling latest code from Git branch '$BRANCH'..."
 git pull origin "$BRANCH"
 
-# Install or update Composer dependencies.
+# Install Composer dependencies from the lock file.
 # The "--no-dev" flag ensures only production dependencies are installed.
 echo "Installing Composer dependencies..."
 composer install --no-interaction --no-progress --no-dev
