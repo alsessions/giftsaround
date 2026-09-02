@@ -1,0 +1,22 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 26d33ed5-cdbb-4972-b480-64c1f13b45ff # Builder
+handle: q518
+maxAuthors: 1
+minAuthors: 1
+name: q518
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around
+    enabledByDefault: true
+    hasUrls: true
+    template: q518.twig
+    uriFormat: q518
+type: single
