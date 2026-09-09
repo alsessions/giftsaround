@@ -6,6 +6,18 @@ window.featuredDealsSlider = function () {
         total: 0,
         scrollTimer: null,
 
+        get pageCount() {
+            return Math.ceil(this.total / this.perPage);
+        },
+
+        get currentPage() {
+            if (this.index >= this.maxIndex) {
+                return Math.max(0, this.pageCount - 1);
+            }
+
+            return Math.min(Math.round(this.index / this.perPage), this.pageCount - 1);
+        },
+
         init() {
             this.$nextTick(() => {
                 this.measure();
@@ -43,6 +55,10 @@ window.featuredDealsSlider = function () {
         goTo(index) {
             this.index = Math.max(0, Math.min(index, this.maxIndex));
             this.scrollToIndex(this.index);
+        },
+
+        goToPage(page) {
+            this.goTo(Math.min(page * this.perPage, this.maxIndex));
         },
 
         scrollToIndex(index, behavior = 'smooth') {

@@ -5,46 +5,47 @@
 {% block content %}
 <div class="xs:max-w-none sm:max-w-5xl md:max-w-5xl lg:max-w-6xl xl:max-w-6xl mx-auto mt-8 mb-16 px-2 md:px-4">
 	<div class="bg-gray-900 rounded-lg shadow-md p-2 md:p-8 border border-gray-800">
+		<div class="grid gap-8 lg:grid-cols-2 lg:gap-14">
+			<section class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 md:p-10 text-gray-200">
+				<p class="text-sm font-semibold uppercase tracking-wide text-green-300">One year of local savings</p>
+				<h1 class="mt-2 text-2xl md:text-3xl lg:text-4xl font-bold text-gray-100">Start saving for $9.99/year</h1>
+				<p class="mt-4 text-lg font-semibold leading-8 text-green-400">Your membership could pay for itself with your first deal.</p>
+				<p class="mt-4 leading-7 text-gray-300">Unlock member-only monthly savings at 100+ local businesses, then keep saving all year.</p>
 
+				<div class="mt-8 rounded-lg border border-green-500/30 bg-green-500/10 p-5">
+					<p class="text-sm font-semibold uppercase tracking-wide text-green-300">The value adds up quickly</p>
+					<div class="mt-4 grid gap-3">
+						<div class="flex items-center justify-between gap-4 border-b border-gray-700 pb-3">
+							<span class="font-semibold text-gray-100">Save $15 once</span>
+							<span class="text-right text-sm text-gray-300">Membership covered + $5.01</span>
+						</div>
+						<div class="flex items-center justify-between gap-4 border-b border-gray-700 pb-3">
+							<span class="font-semibold text-gray-100">Save $25</span>
+							<span class="text-right text-sm text-gray-300">About 2.5× the membership price</span>
+						</div>
+						<div class="flex items-center justify-between gap-4">
+							<span class="font-semibold text-gray-100">Save $50</span>
+							<span class="text-right text-sm text-gray-300">About 5× the membership price</span>
+						</div>
+					</div>
+				</div>
 
-		<div class="bg-gray-800/50 border border-gray-700 rounded-lg p-6 md:p-10 mb-10 text-gray-200 text-base md:text-lg lg:text-xl leading-loose">
+				<p class="mt-8 text-sm leading-6 text-gray-400">One payment unlocks monthly offers on food, shopping, services, entertainment, and more.</p>
+			</section>
 
-			<h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-green-400 mb-6">Welcome to Gifts Around</h2>
-			<p class="mb-6 leading-8 text-lg">Get a year of local monthly specials for one simple membership.</p>
+			<div class="p-4 md:p-6">
+				<h2 class="text-2xl font-bold text-gray-100">Create your membership</h2>
+				<p class="mt-2 mb-6 text-gray-400">Enter your details below to get started.</p>
 
-			<div class="mb-8 rounded-lg border border-green-500/30 bg-green-500/10 p-5">
-				<p class="text-sm font-semibold uppercase tracking-wide text-green-300">Introductory Pricing</p>
-				<p class="mt-2 text-3xl font-bold text-gray-100">
-					<span class="line-through text-gray-500">$19.99</span>
-					<span class="text-green-400">$9.99</span>
-					<span class="text-base font-medium text-gray-300">/ year</span>
-				</p>
+				{# Freeform form with custom dark theme styling #}
+				{{ freeform.form('userRegistration').render({
+					formattingTemplate: 'user-registration.twig',
+				}) }}
+
+				<div class="mt-6 text-center">
+					<p class="text-gray-400">Already have an account? <a href="/login" class="text-blue-400 hover:text-blue-300 font-medium">Sign in</a></p>
+				</div>
 			</div>
-
-			<h2 class="text-base md:text-lg font-semibold text-green-400 mb-4">How it works</h2>
-			<ol class="grid gap-3 text-base md:grid-cols-3 md:text-lg">
-				<li class="rounded-lg border border-gray-700 bg-gray-900/60 p-4">
-					<span class="block text-sm font-semibold uppercase tracking-wide text-blue-300">Step 1</span>
-					Sign up and pay.
-				</li>
-				<li class="rounded-lg border border-gray-700 bg-gray-900/60 p-4">
-					<span class="block text-sm font-semibold uppercase tracking-wide text-blue-300">Step 2</span>
-					Create your login.
-				</li>
-				<li class="rounded-lg border border-gray-700 bg-gray-900/60 p-4">
-					<span class="block text-sm font-semibold uppercase tracking-wide text-blue-300">Step 3</span>
-					Start saving locally.
-				</li>
-			</ol>
-		</div>
-
-		{# Freeform form with custom dark theme styling #}
-		{{ freeform.form('userRegistration').render({
-			formattingTemplate: 'user-registration.twig',
-		}) }}
-
-		<div class="mt-6 text-center">
-			<p class="text-gray-400">Already have an account? <a href="/login" class="text-blue-400 hover:text-blue-300 font-medium">Sign in</a></p>
 		</div>
 	</div>
 </div>

@@ -29,13 +29,12 @@
 
             <div class="relative mx-auto grid w-full max-w-[90rem] gap-7 px-5 py-7 sm:px-7 lg:grid-cols-[1fr_0.95fr] lg:px-8 lg:py-14">
                 <div class="max-w-xl">
+                    <p class="mb-3 text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-400">A full year of local deals for $9.99</p>
                     <h1 class="text-[2rem] font-extrabold leading-[1.05] tracking-normal text-white sm:text-5xl lg:text-[3.35rem]">
-                        Save Money at<br>
-                        100+ Local Businesses
+                        One local deal could pay for your whole year.
                     </h1>
-                    <p class="mt-3 text-2xl font-extrabold leading-tight text-emerald-400 lg:text-[1.95rem]">Only $9.99/year</p>
-                    <p class="mt-4 max-w-sm text-base font-medium leading-6 text-white lg:text-lg">
-                        Save monthly on local deals all year round.
+                    <p class="mt-4 max-w-xl text-base font-medium leading-6 text-white lg:text-lg">
+                        Unlock member-only monthly savings at 100+ local businesses. Join for just $9.99/year, then keep saving all year.
                     </p>
 
                     <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:max-w-[490px]">
@@ -48,13 +47,13 @@
                             </a>
                         {% else %}
                             <a href="/register" class="inline-flex h-12 items-center justify-center rounded-md bg-emerald-500 px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
-                                Join Now
+                                Join for $9.99/year
                                 <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </a>
                         {% endif %}
-                        <a href="/business" class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 px-6 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5">Browse Deals</a>
+                        <a href="#featured-deals" class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 px-6 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5">See This Month’s Deals</a>
                     </div>
                 </div>
 
@@ -148,9 +147,9 @@
                     </div>
 
                     <div class="mt-3 flex items-center justify-center gap-1.5">
-                        {% for business in latestBusinesses %}
-                            <button @click="goTo({{ loop.index0 }})" type="button" aria-label="Go to featured deal {{ loop.index }}" class="h-2 rounded-full transition-all" :class="index === {{ loop.index0 }} ? 'w-6 bg-emerald-400' : 'w-2 bg-white/30 hover:bg-white/50'"></button>
-                        {% endfor %}
+                        <template x-for="page in pageCount" :key="page">
+                            <button @click="goToPage(page - 1)" type="button" :aria-label="`Go to featured deals page ${page}`" class="h-2 rounded-full transition-all" :class="currentPage === page - 1 ? 'w-6 bg-emerald-400' : 'w-2 bg-white/30 hover:bg-white/50'"></button>
+                        </template>
                     </div>
                 </div>
             {% else %}
