@@ -1,0 +1,55 @@
+columnSuffix: null
+handle: valueTier
+instructions: 'Optional. Adds a value badge to this business in the homepage carousel.'
+name: 'Value Tier'
+searchable: false
+settings:
+  customOptions: false
+  options:
+    -
+      __assoc__:
+        -
+          - label
+          - 'No badge'
+        -
+          - value
+          - ''
+        -
+          - default
+          - true
+    -
+      __assoc__:
+        -
+          - label
+          - 'Pays for membership'
+        -
+          - value
+          - coversMembership
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - '2x membership value'
+        -
+          - value
+          - doubleValue
+        -
+          - default
+          - false
+    -
+      __assoc__:
+        -
+          - label
+          - '5x membership value'
+        -
+          - value
+          - fiveTimesValue
+        -
+          - default
+          - false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Dropdown

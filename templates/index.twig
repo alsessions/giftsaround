@@ -2,8 +2,6 @@
 
 {% block title %}Welcome - {{ parent() }}{% endblock %}
 
-{% block footer %}{% endblock %}
-
 {% block content %}
 {% set latestBusinesses = craft.entries()
     .section('business')
@@ -94,8 +92,17 @@
                             {% set currentSpecialRow = business.monthlySpecials[currentMonthIndex] ?? null %}
                             {% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
                             {% set businessCategories = business.category.all() %}
+                            {% set valueTier = business.valueTier.value ?? '' %}
+                            {% set valueBadge = null %}
+                            {% if valueTier == 'coversMembership' %}
+                                {% set valueBadge = { compact: 'Covers year', label: 'Pays for itself' } %}
+                            {% elseif valueTier == 'doubleValue' %}
+                                {% set valueBadge = { compact: '2× value', label: '2× value' } %}
+                            {% elseif valueTier == 'fiveTimesValue' %}
+                                {% set valueBadge = { compact: '5× value', label: '5× value' } %}
+                            {% endif %}
 
-                            <a href="{{ business.url }}" class="group w-[calc((100%_-_1.5rem)_/_4)] shrink-0 snap-start overflow-hidden rounded-md border border-white/10 bg-[#0b1726] shadow-[0_12px_26px_rgba(0,0,0,0.26),0_3px_8px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all hover:border-emerald-300/35 hover:bg-[#0f2033] hover:shadow-[0_16px_34px_rgba(0,0,0,0.3),0_4px_10px_rgba(0,0,0,0.2),0_0_0_1px_rgba(52,211,153,0.08)] sm:w-[44vw] md:w-[30vw] lg:w-[calc((100%_-_3.75rem)_/_4)]">
+                            <a href="{{ business.url }}" class="group w-[calc((100%_-_0.5rem)_/_2)] shrink-0 snap-start overflow-hidden rounded-md border border-white/10 bg-[#0b1726] shadow-[0_12px_26px_rgba(0,0,0,0.26),0_3px_8px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.06)] transition-all hover:border-emerald-300/35 hover:bg-[#0f2033] hover:shadow-[0_16px_34px_rgba(0,0,0,0.3),0_4px_10px_rgba(0,0,0,0.2),0_0_0_1px_rgba(52,211,153,0.08)] sm:w-[44vw] md:w-[30vw] lg:w-[calc((100%_-_3.75rem)_/_4)]">
                                 <div class="relative aspect-square bg-[#111f31] md:aspect-[1.48/1]">
                                     {% if businessImage %}
                                         {% if businessImage.optimizedImage %}
@@ -110,16 +117,19 @@
                                             </svg>
                                         </div>
                                     {% endif %}
+                                    {% if valueBadge %}
+                                        <span aria-label="{{ valueBadge.label }}" class="absolute right-1 top-1 whitespace-nowrap rounded border border-white/50 bg-[#06101d]/95 px-2 py-1 text-sm font-semibold uppercase leading-none text-white shadow-lg sm:right-2 sm:top-2 sm:text-base lg:right-3 lg:top-3 lg:px-3 lg:py-1.5">
+                                            <span class="lg:hidden">{{ valueBadge.compact }}</span>
+                                            <span class="hidden lg:inline">{{ valueBadge.label }}</span>
+                                        </span>
+                                    {% endif %}
                                 </div>
                                 <div class="p-2.5 lg:p-4">
-                                    <div class="hidden items-start justify-between gap-3 lg:flex">
-                                        <h3 class="truncate text-lg font-medium text-white">{{ business.title }}</h3>
-                                        <span class="shrink-0 rounded bg-emerald-400/10 px-2.5 py-1 text-xs font-extrabold uppercase text-emerald-300">Special</span>
-                                    </div>
+                                    <h3 class="mb-1 truncate text-sm font-medium text-white lg:mb-0 lg:text-lg">{{ business.title }}</h3>
                                     {% if currentSpecial %}
-                                        <p class="min-h-[1.5rem] truncate text-base leading-tight text-emerald-300 lg:mt-2 lg:line-clamp-2 lg:min-h-[3.6rem] lg:whitespace-normal lg:text-2xl lg:font-medium">{{ currentSpecial }}</p>
+                                        <p class="line-clamp-2 min-h-[2.5rem] text-base leading-tight text-emerald-300 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl lg:font-medium">{{ currentSpecial }}</p>
                                     {% else %}
-                                        <p class="min-h-[1.5rem] truncate text-base font-bold leading-tight text-emerald-300 lg:mt-2 lg:line-clamp-2 lg:min-h-[3.6rem] lg:whitespace-normal lg:text-2xl lg:font-extrabold">Deal for {{ currentMonthName }}</p>
+                                        <p class="line-clamp-2 min-h-[2.5rem] text-base font-bold leading-tight text-emerald-300 lg:mt-2 lg:min-h-[3.6rem] lg:text-2xl lg:font-extrabold">Deal for {{ currentMonthName }}</p>
                                     {% endif %}
                                     <div class="mt-2 hidden items-center justify-between gap-2 lg:flex">
                                         {% if businessCategories|length %}
@@ -162,14 +172,23 @@
             <div class="mx-auto grid w-full max-w-[90rem] gap-x-8 gap-y-12 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-center lg:gap-x-14 lg:gap-y-0">
                 <div class="max-w-3xl">
                     <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-emerald-400">How it works</p>
-                    <h2 class="mt-2 text-2xl font-extrabold leading-tight text-white lg:text-3xl">Local savings, ready whenever you are.</h2>
+                    <h2 class="mt-2 text-2xl font-extrabold leading-tight text-white lg:text-3xl">Three simple steps. A year of local savings.</h2>
                     <p class="mt-4 text-base font-medium leading-7 text-white/80 lg:text-lg">
-                        Join Gifts Around, browse offers from nearby businesses, then show your active membership when you visit to redeem participating deals.
+                        Find an offer worth using, join Gifts Around, then redeem it locally and keep saving throughout the year.
                     </p>
-                    <div class="mt-5 grid gap-3 text-sm font-semibold text-white/85 sm:grid-cols-3 lg:text-base">
-                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">One affordable membership unlocks local savings all year.</div>
-                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">Find monthly deals on food, shopping, services, and more.</div>
-                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">Shop local, support neighborhood businesses, and keep more money close to home.</div>
+                    <div class="mt-5 grid gap-3 text-sm text-white/85 sm:grid-cols-3 lg:text-base">
+                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">
+                            <span class="block text-xs font-extrabold uppercase tracking-wide text-emerald-400">1. Find a deal you’ll use</span>
+                            <p class="mt-2 font-medium leading-6">Browse monthly offers from 100+ local businesses.</p>
+                        </div>
+                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">
+                            <span class="block text-xs font-extrabold uppercase tracking-wide text-emerald-400">2. Join for $9.99/year</span>
+                            <p class="mt-2 font-medium leading-6">One qualifying deal may cover the entire membership.</p>
+                        </div>
+                        <div class="rounded-md border border-white/10 bg-[#0b1726] p-4">
+                            <span class="block text-xs font-extrabold uppercase tracking-wide text-emerald-400">3. Show your membership</span>
+                            <p class="mt-2 font-medium leading-6">Redeem the offer locally and keep saving all year.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -181,6 +200,33 @@
 
         <section class="bg-[#081522] px-5 pb-10 pt-5 sm:px-7 lg:pb-14 lg:pt-4">
             <div class="mx-auto w-full max-w-[90rem]">
+            <div class="mb-10 rounded-md border border-white/10 bg-[#06101d] px-5 py-7 lg:px-8 lg:py-10">
+                <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-emerald-400">Membership value</p>
+                <h2 class="mt-2 text-2xl font-extrabold leading-tight text-white lg:text-3xl">A small annual price with room to save much more.</h2>
+                <p class="mt-3 max-w-3xl text-base font-medium leading-7 text-white/75 lg:text-lg">Membership costs $9.99. Many individual deals can cover that cost on their own, with more offers waiting throughout the year.</p>
+
+                <div class="mt-6 grid gap-3 sm:grid-cols-3">
+                    <div class="rounded-md border border-white/10 bg-[#0b1726] p-4 text-center">
+                        <svg class="mx-auto mb-3 h-9 w-9 text-emerald-400 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.7 0-3 .9-3 2s1.3 2 3 2 3 .9 3 2-1.3 2-3 2m0-8V6m0 12v-2m9-4a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-sm font-bold leading-snug text-white lg:text-base">One useful deal could cover your $9.99 membership.</p>
+                    </div>
+                    <div class="rounded-md border border-white/10 bg-[#0b1726] p-4 text-center">
+                        <svg class="mx-auto mb-3 h-9 w-9 text-emerald-400 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20v-2a4 4 0 00-4-4h-2a4 4 0 00-4 4v2M12 10a4 4 0 100-8 4 4 0 000 8zM20 20v-2a3 3 0 00-2-2.8M4 20v-2a3 3 0 012-2.8"></path>
+                        </svg>
+                        <p class="text-sm font-bold leading-snug text-white lg:text-base">Monthly savings at 100+ local businesses.</p>
+                    </div>
+                    <div class="rounded-md border border-white/10 bg-[#0b1726] p-4 text-center">
+                        <svg class="mx-auto mb-3 h-9 w-9 text-emerald-400 lg:h-11 lg:w-11" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 2v3m8-3v3M3 9h18M5 4h14a2 2 0 012 2v14H3V6a2 2 0 012-2zM7 13h3m4 0h3m-10 4h3m4 0h3"></path>
+                        </svg>
+                        <p class="text-sm font-bold leading-snug text-white lg:text-base">New offers every month, all year long.</p>
+                    </div>
+                </div>
+            </div>
+
             <div id="categories">
                 <h2 class="mb-3 text-xl font-extrabold text-white lg:text-2xl">Browse by Category</h2>
                 <div class="flex flex-wrap justify-center gap-1.5 lg:gap-2">
@@ -247,66 +293,10 @@
                     </div>
                 </div>
 
-                <div class="mt-5 rounded-md bg-[#06101d] px-4 py-5 lg:px-8 lg:py-7">
-                    <h2 class="mb-5 text-xl font-extrabold text-white lg:text-2xl">Why Join?</h2>
-                    <div class="grid grid-cols-3 divide-x divide-white/15">
-                        <div class="px-2 text-center">
-                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8c-1.7 0-3 .9-3 2s1.3 2 3 2 3 .9 3 2-1.3 2-3 2m0-8V6m0 12v-2m9-4a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <p class="text-xs font-bold leading-snug lg:text-base">Pays for itself<br>in one visit.</p>
-                        </div>
-                        <div class="px-2 text-center">
-                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20v-2a4 4 0 00-4-4h-2a4 4 0 00-4 4v2M12 10a4 4 0 100-8 4 4 0 000 8zM20 20v-2a3 3 0 00-2-2.8M4 20v-2a3 3 0 012-2.8"></path>
-                            </svg>
-                            <p class="text-xs font-bold leading-snug lg:text-base">100+ Local<br>Businesses</p>
-                        </div>
-                        <div class="px-2 text-center">
-                            <svg class="mx-auto mb-2 h-8 w-8 text-emerald-400 lg:h-12 lg:w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 000-7.8z"></path>
-                            </svg>
-                            <p class="text-xs font-bold leading-snug lg:text-base">Support Local<br>Businesses</p>
-                        </div>
-                    </div>
-                </div>
             </div>
             </div>
         </section>
 
-        <footer class="bg-emerald-600 px-5 py-4 sm:px-7 lg:px-16 mt-10">
-            <div class="flex items-center justify-between gap-4">
-                <a href="/" class="flex items-center">
-                    <img src="/uploads/business/trans_logo.png" alt="Gifts Around" class="h-10 w-auto brightness-0 invert">
-                </a>
-                <nav class="hidden items-center gap-12 text-sm font-medium text-white lg:flex">
-                    <a href="/privacy" class="hover:underline">About Us</a>
-                    <a href="/business/signup" class="hover:underline">For Businesses</a>
-                    <a href="/contact" class="hover:underline">Contact</a>
-                </nav>
-                <div class="hidden items-center gap-6 text-white lg:flex">
-                    <a href="/contact" aria-label="Facebook" class="hover:text-white/80">
-                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M14 8h3V4h-3c-3.3 0-5 2-5 5v2H6v4h3v5h4v-5h3.2l.8-4h-4V9c0-.7.3-1 1-1z"></path>
-                        </svg>
-                    </a>
-                    <a href="/contact" aria-label="Instagram" class="hover:text-white/80">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <rect width="16" height="16" x="4" y="4" rx="4" stroke-width="2"></rect>
-                            <path stroke-width="2" d="M9 12a3 3 0 106 0 3 3 0 00-6 0z"></path>
-                            <path stroke-linecap="round" stroke-width="2" d="M17.5 6.5h.01"></path>
-                        </svg>
-                    </a>
-                    <a href="/contact" aria-label="Email" class="hover:text-white/80">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16v12H4z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7l8 6 8-6"></path>
-                        </svg>
-                    </a>
-                </div>
-                <p class="text-sm font-medium text-white">giftsaround.com</p>
-            </div>
-        </footer>
     </div>
 </div>
 {% endblock %}
