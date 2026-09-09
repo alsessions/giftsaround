@@ -13,6 +13,8 @@ use yii\web\Response;
 
 class DefaultController extends Controller
 {
+    private const REGISTRATION_FORM_HANDLES = ['userRegistration', 'mohawkvalley', 'q518'];
+
     protected array|bool|int $allowAnonymous = ['complete'];
 
     public function actionComplete(): Response
@@ -71,7 +73,7 @@ class DefaultController extends Controller
             'stripePaymentIntent' => $stripePaymentIntent,
             'stripeLookupError' => $stripeLookupError,
             'stripeRedirectStatus' => Craft::$app->getRequest()->getParam('redirect_status'),
-            'expectedPaymentAmount' => $this->getExpectedPaymentAmount(),
+            'expectedPaymentAmount' => $this->getExpectedPaymentAmount($paymentRecord, $stripePaymentIntent),
             'needsPassword' => $needsPassword,
         ]);
     }
@@ -106,10 +108,19 @@ class DefaultController extends Controller
     private function getPaymentRecord(string $paymentIntentId): ?array
     {
         $payment = (new Query())
-            ->select(['submissionId', 'status', 'amount', 'currency'])
-            ->from('{{%freeform_payments}}')
-            ->where(['resourceId' => $paymentIntentId])
-            ->orderBy(['id' => SORT_DESC])
+            ->select([
+                'p.submissionId',
+                'p.status',
+                'p.amount',
+                'p.currency',
+                'formHandle' => 'f.handle',
+            ])
+            ->from(['p' => '{{%freeform_payments}}'])
+            ->innerJoin(['s' => '{{%freeform_submissions}}'], '[[s.id]] = [[p.submissionId]]')
+            ->innerJoin(['f' => '{{%freeform_forms}}'], '[[f.id]] = [[s.formId]]')
+            ->where(['p.resourceId' => $paymentIntentId])
+            ->andWhere(['f.handle' => self::REGISTRATION_FORM_HANDLES])
+            ->orderBy(['p.id' => SORT_DESC])
             ->one();
 
         return $payment ?: null;
@@ -118,16 +129,18 @@ class DefaultController extends Controller
     private function paymentRecordIsValid(?array $payment): bool
     {
         return $payment
+            && $this->getPaymentFormHandle($payment)
             && ($payment['status'] ?? null) === 'succeeded'
-            && (float)($payment['amount'] ?? 0) >= $this->getExpectedPaymentAmount()
+            && (float)($payment['amount'] ?? 0) >= $this->getExpectedPaymentAmount($payment)
             && strtolower((string)($payment['currency'] ?? '')) === 'usd';
     }
 
     private function stripePaymentIntentIsValid(?object $paymentIntent): bool
     {
         return $paymentIntent
+            && $this->getStripePaymentFormHandle($paymentIntent)
             && ($paymentIntent->status ?? null) === 'succeeded'
-            && (int)($paymentIntent->amount ?? 0) >= $this->getExpectedPaymentAmount()
+            && (int)($paymentIntent->amount ?? 0) >= $this->getExpectedPaymentAmount(null, $paymentIntent)
             && strtolower((string)($paymentIntent->currency ?? '')) === 'usd';
     }
 
@@ -232,18 +245,45 @@ class DefaultController extends Controller
         return $username;
     }
 
-    private function getExpectedPaymentAmount(): int
+    private function getExpectedPaymentAmount(?array $payment = null, ?object $paymentIntent = null): int
     {
+        $formHandle = $payment
+            ? $this->getPaymentFormHandle($payment)
+            : ($paymentIntent ? $this->getStripePaymentFormHandle($paymentIntent) : null);
+
         $amount = (new Query())
             ->select(["JSON_UNQUOTE(JSON_EXTRACT([[ff.metadata]], '$.amount'))"])
             ->from(['ff' => '{{%freeform_forms_fields}}'])
             ->innerJoin(['f' => '{{%freeform_forms}}'], '[[f.id]] = [[ff.formId]]')
-            ->where(['f.handle' => 'userRegistration'])
+            ->where(['f.handle' => $formHandle ?: 'userRegistration'])
             ->andWhere(['like', 'ff.type', 'StripeField'])
             ->orderBy(['ff.id' => SORT_ASC])
             ->scalar();
 
         return is_numeric($amount) ? (int)round((float)$amount * 100) : 999;
+    }
+
+    private function getPaymentFormHandle(array $payment): ?string
+    {
+        $formHandle = $payment['formHandle'] ?? null;
+
+        return in_array($formHandle, self::REGISTRATION_FORM_HANDLES, true) ? $formHandle : null;
+    }
+
+    private function getStripePaymentFormHandle(object $paymentIntent): ?string
+    {
+        $formName = $paymentIntent->metadata->form ?? null;
+        if (!$formName) {
+            return null;
+        }
+
+        $formHandle = (new Query())
+            ->select(['handle'])
+            ->from('{{%freeform_forms}}')
+            ->where(['name' => (string)$formName, 'handle' => self::REGISTRATION_FORM_HANDLES])
+            ->scalar();
+
+        return $formHandle ?: null;
     }
 
     private function getStripePaymentIntent(string $paymentIntentId, array $expand = []): object
