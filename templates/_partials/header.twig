@@ -51,9 +51,27 @@
                 {% endif %}
             </div>
 
+            <div class="relative ml-auto flex items-center lg:hidden">
+            <div x-data="{ open: false }" @click.away="open = false">
+                <button @click="open = !open; if (open) { $nextTick(() => $refs.mobileSearch.focus()) }" type="button" class="flex h-10 w-10 items-center justify-center text-blue-400 transition-colors hover:text-blue-300" aria-label="Search">
+                    <svg class="h-5 w-5 md:h-6 md:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+
+                <form x-show="open" x-cloak x-transition action="/search" method="get" class="absolute right-0 top-full z-50 mt-2 flex w-64 items-center rounded-md bg-gray-900 shadow-xl md:w-72">
+                    <input x-ref="mobileSearch" type="search" name="q" placeholder="Search businesses..." aria-label="Search businesses" class="h-11 min-w-0 flex-1 appearance-none rounded-l-md border-0 bg-gray-900 px-4 text-sm text-gray-100 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                    <button type="submit" class="flex h-11 w-11 shrink-0 items-center justify-center text-blue-400 transition-colors hover:text-blue-300" aria-label="Submit search">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+
             <!-- Mobile menu button -->
             <div class="lg:hidden" x-data="{ open: false }" @click.away="open = false">
-                <button @click="open = !open" class="text-blue-400 hover:text-blue-300 focus:outline-none focus:text-blue-300">
+                <button @click="open = !open" class="flex h-10 w-10 items-center justify-center text-blue-400 hover:text-blue-300 focus:outline-none focus:text-blue-300">
                     <svg class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -62,18 +80,6 @@
 
                 <!-- Mobile menu -->
                 <div x-show="open" x-transition class="absolute top-14 right-4 bg-gray-800 rounded-lg shadow-xl py-3 w-64 z-50 border border-gray-700 md:top-20 md:w-72">
-                    <!-- Mobile Search -->
-                    <div class="px-4 py-2">
-                        <form action="/search" method="get" class="relative">
-                            <input type="text" name="q" placeholder="Search..." class="w-full px-4 py-2.5 pr-10 bg-gray-900 text-gray-100 text-base border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                            <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-300">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-
                     <!-- Mobile Businesses Dropdown -->
                     <div>
                         <button @click.stop="$refs.mobileBusinessMenu.classList.toggle('hidden')" class="w-full text-left px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700 flex items-center justify-between">
@@ -93,7 +99,6 @@
                     </div>
 
                     <a href="/contact" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">Contact</a>
-                    <a href="/business/signup" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">Business</a>
 
                     {% if currentUser %}
                         <hr class="my-1.5 border-gray-700">
@@ -104,7 +109,10 @@
                         <a href="/login" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">Sign In</a>
                         <a href="/register" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-green-400 hover:bg-green-900/20">Sign Up</a>
                     {% endif %}
+
+                    <a href="/business/signup" @click="open = false" class="block px-4 py-2.5 text-base font-semibold text-blue-400 hover:bg-gray-700">List My Business</a>
                 </div>
+            </div>
             </div>
         </div>
     </div>
