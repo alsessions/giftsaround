@@ -20,49 +20,50 @@
 
 <div class="min-h-screen bg-[#06101d] text-white">
     <div class="flex w-full flex-col overflow-hidden bg-[#06101d]">
-        <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] md:min-h-[420px] lg:min-h-[440px]">
+        <section class="relative overflow-hidden border-b border-white/10 bg-[#071321] md:min-h-[500px] lg:min-h-[540px]">
             <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/uploads/_576x381_crop_center-center_82_line/unsplash-hero-glasss.jpg');"></div>
             <div class="absolute inset-0 bg-gradient-to-r from-[#071321] via-[#071321]/82 to-[#071321]/20"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-[#071321]/75 via-transparent to-[#071321]/10"></div>
 
-            <div class="relative mx-auto grid w-full max-w-[90rem] gap-7 px-5 py-7 sm:px-7 lg:grid-cols-[1fr_0.95fr] lg:px-8 lg:py-14">
+            <div class="relative mx-auto grid w-full max-w-[90rem] gap-9 px-5 py-12 sm:px-7 sm:py-16 lg:grid-cols-[1fr_0.95fr] lg:px-8 lg:py-20">
                 <div class="max-w-xl">
-                    <p class="mb-3 text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-400">A full year of local deals for $9.99</p>
-                    <h1 class="text-[2rem] font-extrabold leading-[1.05] tracking-normal text-white sm:text-5xl lg:text-[3.35rem]">
+                    <p class="mb-4 text-sm font-extrabold uppercase tracking-[0.16em] text-emerald-400">A full year of local deals for $9.99</p>
+                    <h1 class="text-[2rem] font-extrabold leading-[1.12] tracking-normal text-white sm:text-5xl lg:text-[3.35rem]">
                         One local deal could pay for your whole year.
                     </h1>
-                    <p class="mt-4 max-w-xl text-base font-medium leading-6 text-white lg:text-lg">
-                        Unlock member-only monthly savings at 100+ local businesses. Join for just $9.99/year, then keep saving all year.
+                    <p class="mt-6 max-w-xl text-lg font-semibold leading-8 text-white lg:text-xl lg:leading-9 mb-4 md:mb-10">
+                        Unlock member-only monthly savings at 100+ local businesses.</p>
+                                            <p class="mt-6 max-w-xl text-lg font-semibold leading-8 text-white lg:text-xl lg:leading-9 mb-10">Join for just $9.99/year, then keep saving all year.
                     </p>
 
-                    <div class="mt-7 grid gap-3 sm:grid-cols-2 lg:max-w-[490px]">
+                    <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:max-w-[540px]">
                         {% if currentUser %}
-                            <a href="/account" class="inline-flex h-12 items-center justify-center rounded-md bg-emerald-500 px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
+                            <a href="/account" class="inline-flex h-14 items-center justify-center rounded-md bg-emerald-500 px-7 text-base font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
                                 My Account
                                 <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </a>
                         {% else %}
-                            <a href="/register" class="inline-flex h-12 items-center justify-center rounded-md bg-emerald-500 px-6 text-sm font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
+                            <a href="/register" class="inline-flex h-14 items-center justify-center rounded-md bg-emerald-500 px-7 text-base font-semibold text-white shadow-lg shadow-emerald-500/20 transition-colors hover:bg-emerald-400">
                                 Join for $9.99/year
                                 <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                                 </svg>
                             </a>
                         {% endif %}
-                        <a href="/business" class="inline-flex h-12 items-center justify-center rounded-md border border-white/50 px-6 text-sm font-semibold text-white transition-colors hover:border-white hover:bg-white/5">See This Month’s Deals</a>
+                        <a href="/business" class="inline-flex h-14 items-center justify-center rounded-md border border-white/50 px-7 text-base font-semibold text-white transition-colors hover:border-white hover:bg-white/5">See This Month’s Deals</a>
                     </div>
                 </div>
 
                 <div class="hidden items-center justify-end pr-5 lg:flex">
-                    <div class="flex h-44 w-44 -translate-x-5 translate-y-[52px] rotate-[-10deg] items-center justify-center rounded-full border-4 border-emerald-400 bg-[#0b1726]/90 p-4 text-center shadow-2xl shadow-black/40">
+                    <div class="flex h-48 w-48 -translate-x-5 translate-y-[52px] rotate-[-10deg] items-center justify-center rounded-full border-4 border-emerald-400 bg-[#0b1726]/90 p-5 text-center shadow-2xl shadow-black/40">
                         <div class="rotate-[10deg]">
-                            <p class="whitespace-nowrap text-xs font-extrabold uppercase tracking-[0.16em] text-emerald-300">Support Local</p>
-                            <svg class="mx-auto my-3 h-14 w-14 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <p class="whitespace-nowrap text-sm font-extrabold uppercase tracking-[0.16em] text-emerald-300">Support Local</p>
+                            <svg class="mx-auto my-4 h-16 w-16 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
                             </svg>
-                            <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-emerald-300">Save Big</p>
+                            <p class="text-sm font-extrabold uppercase tracking-[0.22em] text-emerald-300">Save Big</p>
                         </div>
                     </div>
                 </div>
