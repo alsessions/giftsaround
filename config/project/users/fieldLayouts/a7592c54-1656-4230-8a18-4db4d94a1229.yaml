@@ -117,6 +117,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -133,6 +134,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -149,6 +151,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -165,6 +168,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -181,6 +185,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -197,6 +202,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -213,6 +219,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
@@ -229,6 +236,7 @@ tabs:
         handle: null
         instructions: null
         label: null
+        oldFieldUid: null
         required: false
         tip: null
         type: craft\fieldlayoutelements\CustomField
