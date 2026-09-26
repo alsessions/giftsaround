@@ -6,7 +6,7 @@ entryTypes:
 handle: q518
 maxAuthors: 1
 minAuthors: 1
-name: q518
+name: j315
 previewTargets:
   -
     label: 'Primary entry page'
@@ -18,5 +18,5 @@ siteSettings:
     enabledByDefault: true
     hasUrls: true
     template: q518.twig
-    uriFormat: q518
+    uriFormat: j315
 type: single
