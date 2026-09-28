@@ -1,0 +1,22 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: c7d82e53-d650-40bf-b64c-1736083f0d3d # Blog Post
+handle: blog
+maxAuthors: 1
+minAuthors: 1
+name: Blog
+previewTargets:
+  -
+    label: 'Primary entry page'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  c06bf154-ba2d-40f9-9acc-9b0eb650ed25: # Gifts Around
+    enabledByDefault: true
+    hasUrls: true
+    template: blog/_entry.twig
+    uriFormat: 'blog/{slug}'
+type: channel
