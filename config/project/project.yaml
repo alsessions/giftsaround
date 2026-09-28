@@ -1,4 +1,4 @@
-dateModified: 1790628635
+dateModified: 1790630033
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -39,6 +39,7 @@ meta:
     937faf23-8b1b-469b-9235-401505a750f2: 'Business Address' # Business Address
     1681a684-620d-404c-a918-6af20caa8b8b: 'Business Email' # Business Email
     2319d72c-7b5d-4372-94f5-47aaec93dc3b: Clients # Clients
+    072377cd-8989-4cfa-847a-6ae7cf130fde: Sipe # Sipe
     56699230-c9fb-4962-9d9b-36f4224b5a07: Business # Business
     a1b2c3d4-e5f6-4a5b-8c7d-9e0f1a2b3c4d: 'Business Hours' # Business Hours
     abca8568-b497-484e-b4d3-5fe77d0d18dd: Category # Category
