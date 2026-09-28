@@ -1,0 +1,29 @@
+{% set businessImage = entry.businessImages.one() %}
+{% set currentSpecialRow = entry.monthlySpecials['now'|date('n') - 1] ?? null %}
+{% set currentSpecial = (currentSpecialRow and currentSpecialRow.special|length) ? currentSpecialRow.special : null %}
+{% set special = currentSpecial ?: (entry.oneSpecial|length ? entry.oneSpecial : null) %}
+
+<article class="flex w-72 max-w-[75vw] overflow-hidden rounded bg-white">
+    {% if businessImage %}
+        <div class="w-24 shrink-0 overflow-hidden bg-gray-100">
+            {{ businessImage.optimizedImage.pictureTag()
+                .pictureAttrs({'class': 'block h-full w-full'})
+                .imgAttrs({
+                    'alt': businessImage.title ?: entry.title,
+                    'class': 'h-full w-full object-cover',
+                    'loading': 'lazy'
+                })
+                .render() }}
+        </div>
+    {% endif %}
+    <div class="min-w-0 flex-1 p-2.5">
+        <h3 class="line-clamp-2 text-sm font-extrabold leading-tight text-gray-900">{{ entry.title }}</h3>
+        {% if special %}
+            <p class="mt-1 line-clamp-3 text-xs font-medium leading-snug text-gray-600">{{ special }}</p>
+        {% endif %}
+        <a href="{{ entry.url }}" class="mt-2 inline-flex items-center text-xs font-bold text-emerald-700 underline underline-offset-2 hover:text-emerald-900">
+            View business
+            <span aria-hidden="true" class="ml-1">&rarr;</span>
+        </a>
+    </div>
+</article>

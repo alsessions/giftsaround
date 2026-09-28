@@ -9,6 +9,10 @@
     .limit(20)
     .all() %}
 
+{% set mapBusinesses = craft.entries()
+    .section('business')
+    .all() %}
+
 {% set categories = [
     { title: 'Health', fullTitle: 'Health & Beauty', url: '/category/health-beauty', icon: 'heart' },
     { title: 'Retail', fullTitle: 'Retail', url: '/category/retail', icon: 'retail' },
@@ -227,6 +231,30 @@
                     </div>
                 </div>
             </div>
+
+            {% if mapBusinesses|length %}
+                <div class="mb-10 overflow-hidden rounded-md border border-white/10 bg-[#06101d] shadow-[0_18px_40px_rgba(0,0,0,0.28)] [&_.gm-style-iw-d]:!overflow-hidden [&_.gm-style-iw-chr]:!h-8 [&_.gm-style-iw-chr_button]:!h-8 [&_.gm-style-iw-chr_button]:!w-8 [&_.gm-style-iw-chr_button]:!p-0">
+                    <div class="px-5 py-6 lg:px-8">
+                        <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-emerald-400">Explore local deals</p>
+                        <h2 class="mt-2 text-2xl font-extrabold leading-tight text-white lg:text-3xl">Find participating businesses near you.</h2>
+                    </div>
+                    {{ googleMaps.map(mapBusinesses, {
+                        id: 'business-map',
+                        field: 'address',
+                        height: 500,
+                        cluster: true,
+                        infoWindowTemplate: '_partials/business-map-info-window',
+                        infoWindowOptions: {
+                            maxWidth: 320
+                        },
+                        mapOptions: {
+                            gestureHandling: 'cooperative',
+                            mapTypeControl: false,
+                            streetViewControl: false
+                        }
+                    }).tag() }}
+                </div>
+            {% endif %}
 
             <div id="categories">
                 <h2 class="mb-3 text-xl font-extrabold text-white lg:text-2xl">Browse by Category</h2>
