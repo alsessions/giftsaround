@@ -86,16 +86,29 @@
                     </div>
 
                     <!-- Address -->
-                    {% set businessAddress = entry.businessAddress.one() %}
-                    {% if businessAddress %}
-                        <div class="flex items-start rounded-lg border border-gray-800 bg-gray-950/50 p-4">
-                            <svg class="w-5 h-5 text-blue-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            </svg>
-                            <span class="text-gray-200 font-medium leading-relaxed md:text-lg lg:text-xl">
-                                {{ businessAddress.addressLine1 }}{% if businessAddress.addressLine2 %}<br>{{ businessAddress.addressLine2 }}{% endif %}<br>{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}
-                            </span>
+                    {% set googleAddress = entry.address %}
+                    {% set hasGoogleAddress = googleAddress and not googleAddress.isEmpty() %}
+                    {% set businessAddress = hasGoogleAddress ? null : entry.businessAddress.one() %}
+                    {% if hasGoogleAddress or businessAddress %}
+                        <div class="overflow-hidden rounded-lg border border-gray-800 bg-gray-950/50">
+                            <div class="flex items-start p-4">
+                                <svg class="w-5 h-5 text-blue-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-gray-200 font-medium leading-relaxed md:text-lg lg:text-xl">
+                                    {% if hasGoogleAddress %}
+                                        {{ googleAddress.multiline() }}
+                                    {% else %}
+                                        {{ businessAddress.addressLine1 }}{% if businessAddress.addressLine2 %}<br>{{ businessAddress.addressLine2 }}{% endif %}<br>{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                            {% if hasGoogleAddress %}
+                                <div class="border-t border-gray-800">
+                                    {{ googleMaps.map(googleAddress, {zoom: 16, height: 256}).tag() }}
+                                </div>
+                            {% endif %}
                         </div>
                     {% endif %}
                 </div>

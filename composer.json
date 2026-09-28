@@ -4,6 +4,7 @@
     "require": {
         "craftcms/ckeditor": "^5.0",
         "craftcms/cms": "^5.0.0",
+        "doublesecretagency/craft-googlemaps": "^5.2.3",
         "endroid/qr-code": "^5.0",
         "mmikkel/cp-clearcache": "^2.0.1",
         "nystudio107/craft-imageoptimize": "^5.0.7",

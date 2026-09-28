@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8433baeb1cddfe6e91bc15566fdbbcdd",
+    "content-hash": "beb81ca8e4932281fc231bde46bdbeb5",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1694,6 +1694,76 @@
                 "source": "https://github.com/dompdf/php-svg-lib/tree/1.0.2"
             },
             "time": "2026-01-02T16:01:13+00:00"
+        },
+        {
+            "name": "doublesecretagency/craft-googlemaps",
+            "version": "5.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doublesecretagency/craft-googlemaps.git",
+                "reference": "ad1221838566da4b44177ea1ce585d4bb1330db4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doublesecretagency/craft-googlemaps/zipball/ad1221838566da4b44177ea1ce585d4bb1330db4",
+                "reference": "ad1221838566da4b44177ea1ce585d4bb1330db4",
+                "shasum": ""
+            },
+            "require": {
+                "craftcms/cms": "^5.0.0"
+            },
+            "replace": {
+                "doublesecretagency/craft-smartmap": "3.*"
+            },
+            "require-dev": {
+                "craftcms/wp-import": "dev-main",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "craft-plugin",
+            "extra": {
+                "name": "Google Maps",
+                "class": "doublesecretagency\\googlemaps\\GoogleMapsPlugin",
+                "handle": "google-maps"
+            },
+            "autoload": {
+                "psr-4": {
+                    "doublesecretagency\\smartmap\\": "legacy/",
+                    "doublesecretagency\\googlemaps\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Double Secret Agency",
+                    "homepage": "https://plugins.doublesecretagency.com"
+                }
+            ],
+            "description": "Maps in minutes. Powered by the Google Maps API.",
+            "keywords": [
+                "Craft",
+                "address",
+                "cms",
+                "craft-plugin",
+                "craftcms",
+                "geocoding",
+                "geolocation",
+                "google-maps",
+                "google-maps-api",
+                "locations",
+                "map",
+                "proximity-search",
+                "smart-map",
+                "smartmap"
+            ],
+            "support": {
+                "docs": "https://plugins.doublesecretagency.com/google-maps",
+                "issues": "https://github.com/doublesecretagency/craft-googlemaps/issues",
+                "source": "https://github.com/doublesecretagency/craft-googlemaps/tree/5.2.3"
+            },
+            "time": "2026-09-18T19:10:16+00:00"
         },
         {
             "name": "egulias/email-validator",

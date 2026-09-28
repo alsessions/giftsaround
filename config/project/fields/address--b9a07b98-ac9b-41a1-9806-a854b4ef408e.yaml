@@ -1,0 +1,252 @@
+columnSuffix: null
+handle: address
+instructions: null
+name: Address
+searchable: false
+settings:
+  coordinatesDefault:
+    __assoc__:
+      -
+        - lat
+        - '32.3113966'
+      -
+        - lng
+        - '-64.7527469'
+      -
+        - zoom
+        - '6'
+  coordinatesMode: readOnly
+  dragPinDefault: null
+  dragPinLatitude: null
+  dragPinLongitude: null
+  dragPinZoom: null
+  layout: null
+  mapOnSearch: open
+  mapOnStart: default
+  requireCoordinates: true
+  showMap: false
+  subfieldConfig:
+    -
+      __assoc__:
+        -
+          - handle
+          - name
+        -
+          - label
+          - Name
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - street1
+        -
+          - label
+          - 'Street Address'
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - true
+        -
+          - autocomplete
+          - true
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - street2
+        -
+          - label
+          - 'Apartment or Suite'
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - true
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - city
+        -
+          - label
+          - City
+        -
+          - width
+          - 50
+        -
+          - enabled
+          - true
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - state
+        -
+          - label
+          - State
+        -
+          - width
+          - 15
+        -
+          - enabled
+          - true
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - zip
+        -
+          - label
+          - 'Zip Code'
+        -
+          - width
+          - 35
+        -
+          - enabled
+          - true
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - neighborhood
+        -
+          - label
+          - Neighborhood
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - county
+        -
+          - label
+          - 'County or District'
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - country
+        -
+          - label
+          - Country
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - countryCode
+        -
+          - label
+          - 'Country Code'
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+    -
+      __assoc__:
+        -
+          - handle
+          - placeId
+        -
+          - label
+          - 'Place ID'
+        -
+          - width
+          - 100
+        -
+          - enabled
+          - false
+        -
+          - autocomplete
+          - false
+        -
+          - required
+          - false
+  visibilityToggle: both
+translationKeyFormat: null
+translationMethod: none
+type: doublesecretagency\googlemaps\fields\AddressField
