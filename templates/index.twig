@@ -7,10 +7,7 @@
     .section('business')
     .orderBy('postDate DESC')
     .limit(20)
-    .all() %}
-
-{% set mapBusinesses = craft.entries()
-    .section('business')
+    .with(['businessImages'])
     .all() %}
 
 {% set categories = [
@@ -232,6 +229,12 @@
                 </div>
             </div>
 
+            {% cache globally using key 'homepage-business-map-' ~ now|date('Y-m') for 1 day %}
+            {% set mapBusinesses = craft.entries()
+                .section('business')
+                .with(['businessImages'])
+                .all() %}
+
             {% if mapBusinesses|length %}
                 <div class="mb-10 overflow-hidden rounded-md border border-white/10 bg-[#06101d] shadow-[0_18px_40px_rgba(0,0,0,0.28)] [&_.gm-style-iw-d]:!overflow-hidden [&_.gm-style-iw-chr]:!h-8 [&_.gm-style-iw-chr_button]:!h-8 [&_.gm-style-iw-chr_button]:!w-8 [&_.gm-style-iw-chr_button]:!p-0">
                     <div class="px-5 py-6 lg:px-8">
@@ -255,6 +258,7 @@
                     }).tag() }}
                 </div>
             {% endif %}
+            {% endcache %}
 
             <div id="categories">
                 <h2 class="mb-3 text-xl font-extrabold text-white lg:text-2xl">Browse by Category</h2>

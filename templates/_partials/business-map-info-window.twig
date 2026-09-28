@@ -6,14 +6,13 @@
 <article class="flex w-72 max-w-[75vw] overflow-hidden rounded bg-white">
     {% if businessImage %}
         <div class="w-24 shrink-0 overflow-hidden bg-gray-100">
-            {{ businessImage.optimizedImage.pictureTag()
-                .pictureAttrs({'class': 'block h-full w-full'})
-                .imgAttrs({
-                    'alt': businessImage.title ?: entry.title,
-                    'class': 'h-full w-full object-cover',
-                    'loading': 'lazy'
-                })
-                .render() }}
+            <img
+                src="{{ businessImage.optimizedImage ? businessImage.optimizedImage.src() : businessImage.url }}"
+                alt="{{ businessImage.title ?: entry.title }}"
+                class="h-full w-full object-cover"
+                loading="lazy"
+                decoding="async"
+            >
         </div>
     {% endif %}
     <div class="min-w-0 flex-1 p-2.5">
