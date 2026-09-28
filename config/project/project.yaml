@@ -1,4 +1,4 @@
-dateModified: 1790613119
+dateModified: 1790614386
 email:
   fromEmail: info@giftsaround.com
   fromName: 'Gifts Around'
@@ -6,7 +6,7 @@ email:
   template: ''
   transportSettings:
     host: smtppro.zoho.com
-    password: OwlLawn4200!
+    password: $SMTP_PASSWORD
     port: '465'
     useAuthentication: '1'
     username: info@giftsaround.com
