@@ -2,7 +2,7 @@ columnSuffix: null
 handle: address
 instructions: null
 name: Address
-searchable: false
+searchable: true
 settings:
   coordinatesDefault:
     __assoc__:
