@@ -1,4 +1,5 @@
 {% extends "_layouts/base.twig" %}
+{% from "_macros/phone.twig" import number as phoneNumber %}
 
 {% block title %}
     {% if entry %}
@@ -146,10 +147,8 @@
                 <h3 class="text-lg font-semibold text-gray-100 mb-4">Business Details</h3>
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Address -->
-                    {% set googleAddress = entry.address %}
-                    {% set hasGoogleAddress = googleAddress and not googleAddress.isEmpty() %}
-                    {% set businessAddress = hasGoogleAddress ? null : entry.businessAddress.one() %}
-                    {% if hasGoogleAddress or businessAddress %}
+                    {% set address = entry.address %}
+                    {% if address and not address.isEmpty() %}
                         <div class="flex items-start space-x-3">
                             <svg class="w-6 h-6 text-gray-200 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -157,15 +156,7 @@
                             </svg>
                             <div>
                                 <h4 class="font-semibold text-gray-100 mb-1">Address</h4>
-                                {% if hasGoogleAddress %}
-                                    <p class="text-gray-200">{{ googleAddress.multiline() }}</p>
-                                {% else %}
-                                    <p class="text-gray-200">{{ businessAddress.addressLine1 }}</p>
-                                    {% if businessAddress.addressLine2 %}
-                                        <p class="text-gray-200">{{ businessAddress.addressLine2 }}</p>
-                                    {% endif %}
-                                    <p class="text-gray-200">{{ businessAddress.locality }}, {{ businessAddress.administrativeArea }} {{ businessAddress.postalCode }}</p>
-                                {% endif %}
+                                <p class="text-gray-200">{{ address.multiline(3) }}</p>
                             </div>
                         </div>
                     {% endif %}
@@ -181,7 +172,7 @@
                                 <h4 class="font-medium text-gray-100">Phone</h4>
                                 <a href="{{ businessPhone.url }}"
                                    class="text-blue-400 hover:text-blue-200 transition-colors">
-                                    {{ businessPhone.label }}
+                                    {{ phoneNumber(businessPhone) }}
                                 </a>
                             </div>
                         </div>

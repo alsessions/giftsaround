@@ -1,0 +1,17 @@
+{% macro number(phone) -%}
+    {%- set digits = phone.url|replace({
+        'tel:': '',
+        '+': '',
+        '(': '',
+        ')': '',
+        '-': '',
+        ' ': '',
+        '.': ''
+    }) -%}
+    {%- if digits|length == 11 and digits|slice(0, 1) == '1' -%}
+        {%- set digits = digits|slice(1) -%}
+    {%- endif -%}
+    {{- digits|length == 10
+        ? '(' ~ digits|slice(0, 3) ~ ') ' ~ digits|slice(3, 3) ~ '-' ~ digits|slice(6, 4)
+        : phone.label -}}
+{%- endmacro %}
