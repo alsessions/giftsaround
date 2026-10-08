@@ -229,7 +229,7 @@
                 </div>
             </div>
 
-            {% cache globally using key 'homepage-business-map-' ~ now|date('Y-m') for 1 day %}
+            {% cache globally using key 'homepage-business-map-v2-' ~ now|date('Y-m') for 1 day %}
             {% set mapBusinesses = craft.entries()
                 .section('business')
                 .with(['businessImages'])

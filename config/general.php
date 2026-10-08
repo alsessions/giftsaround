@@ -27,8 +27,9 @@ return GeneralConfig::create()
     ->autoLoginAfterAccountActivation(true)
     // Send verified users to their account page
     ->activateAccountSuccessPath('account')
-    // Set the @webroot alias so the clear-caches command knows where to find CP resources
+    // Keep generated resource URLs on the configured site origin
     ->aliases([
+        '@web' => App::env('PRIMARY_SITE_URL'),
         '@webroot' => dirname(__DIR__) . '/web',
     ])
 ;
